@@ -19,7 +19,7 @@ swordbots=False
 vocabwords=False
 crucible=False
 difficulty=1
-workout=False
+workout=0
 gymevent=False
 studentathlete=False
 keyloc=random.randint(1,4)
@@ -67,7 +67,6 @@ def save():
         invsave.append(x)
     for y in inventory:
         inventorysave.append(y)
-
 
 
 def load():
@@ -554,7 +553,32 @@ def whereAmI():
             print("1. Leave room\n2. Spin in a chair\n3. Item")
             if terrycad==False:
                 print("4. Take flash drive")
-
+                position=chose(4)
+            else:
+                position=chose(3)
+        if position==20:
+            print("You are in Mr. Liu's room. You reminisce about his old room, and the daily Rukkus games.")
+            things(20)
+            print("1. Leave room\n2. Item")
+            if table==False:
+                print("3. Investigate Table")
+                position=chose(3)
+            else:
+                position=chose(2)
+        if position==32:
+            print("You are in Mr. Raite's room. You see a door leading to a closet with a sign labeled 'DANGER'.")
+            things(32)
+            print("1. Leave room\n2. Enter chemical storage\n3. Item")
+            if lighter==False:
+                print("4. Take lighter")
+                position=chose(4)
+            else:
+                position=chose(3)
+        if position==19:
+            print("You are in Mr. Straut's room. While some people liked him, you kind of hated him.")
+            things(19)
+            print("1. Leave room\n2. Item")
+            position=chose(2)
 
 
 
@@ -932,7 +956,7 @@ def option (instruct):
             return 10
         if instruct==2:
             return item()
-        if instruct==3 and workout==False:
+        if instruct==3 and workout==0:
             print("You pump iron for several minutes, and thereby become 'swoll' as Mr. Stanko")
             inventory.append("Strength of Stanko")
             workout=1
@@ -940,6 +964,7 @@ def option (instruct):
         elif instruct==3 and workout==1:
             print("You continue to work out, and eventually become as strong as Mrs. Lebrun")
             inventory.append("Legs of LeBrun")
+            inventory.remove("Strength of Stanko")
             workout=2
             return "retry"
         elif instruct==3 and workout<100:
@@ -949,6 +974,7 @@ def option (instruct):
         elif instruct==3 and workout==100:
             print("All that training, all that dedication, has culminated in this one beautiful moment. You have become as strong as Mrs. Valley. You briefly ponder pulverizing a mountain.")
             inventory.append("Mrs. Valley's Raw Power")
+            inventory.remove("Legs of LeBrun")
             stress(-2)
             workout+=1
             return "retry"
@@ -1067,8 +1093,90 @@ def option (instruct):
                 return "retry"
         if instruct==6:
             return item()
-
-
+    if position==21:
+        if instruct==1:
+            print("You leave the room")
+            return 18
+        if instruct==2:
+            spinner=random.randint(1,10)
+            for x in spinner:
+                print("You spin in the chair")
+                stress(-0.1)
+            if spinner==9:
+                print("You fall out of the chair, and hit your head. You get up, fairly dizzy, and quite disoriented.")
+                stress(1)
+            if spinner==10:
+                print("You spin too fast and knock a computer on to the floor. It shatters, spraying shards of plastic and glass everywhere. Your legs are now bleeding, and you are going to have to pay some hefty fines.")
+                stress(3)
+                global difficulty
+                difficulty+=0.2
+            return "retry"
+        if instruct==3:
+            return item()
+        if instruct==4:
+            if terrycad==False:
+                print("You pick up Mrs. OConnor's flash drive, wondering what designs she might have worked on while you were doing busywork.")
+                inventory.append("Mrs. OConnor's flash drive")
+                return "retry"
+            else:
+                print("You try to pick up the flash drive, but realize that it is already in your pocket. What an idiot!")
+                return "retry"
+    if position==20:
+        if instruct==1:
+            print("You leave the room")
+            return 18
+        if instruct==2:
+            return item()
+        if instruct==3:
+            if table==False:
+                if workout>=2:
+                    print("You wrench the leg cover free from the table. You get Table, the Table Leg.")
+                    inventory.append("Table, the Table Leg")
+                    table=True
+                    return "retry"
+                else:
+                    print("You try to remove the leg, but can't manage to wrench it free.")
+                    return "retry"
+            else:
+                print("You see the broken table. You feel kind of badly to be honest.")
+                stress(0.1)
+                return "retry"
+    if position==32:
+        if instruct==1:
+            print("You leave the room")
+            return 29
+        if instruct==2:
+            if lockpick==True:
+                print("You open the door, and enter the hazardous chemical storage.")
+                return 33
+            else:
+                print("The door has a lock on it that doesn't match any key that you've seen so far.")
+                return "retry"
+        if instruct==3:
+            return item()
+        if instruct==4:
+            if lighter==False:
+                print("You take the lighter, and give it a few good twirls before putting it in your pocket. You slightly burn yourself in the process.")
+                inventory.append("Lighter")
+                stress(0.2)
+                return "retry"
+    if position==19:
+        global papers
+        global mathprobs
+        if instruct==1:
+            print("You leave the room.")
+            return 18
+        if instruct==2:
+            ituse=eventitem()
+            if ituse=="Lighter" and papers==False:
+                print("You take out your lighter and touch it to Mr. Straut's papers, laughing maniacally as they go up in smoke. You feel much better")
+                stress(-4)
+            if ituse=="Mr. McMenamin's Lucky Eraser" and mathprobs==False:
+                print("You wipe away the problems and homework clearly labeled 'DNE'. You feel satisfied.")
+                stress(-2.5)
+            else:
+                print("You don't know how to use that right now")
+            return "retry"
 
 
 def startup():
