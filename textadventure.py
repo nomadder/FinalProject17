@@ -1,4 +1,5 @@
 import random
+import sys
 inventory=[]
 position=0
 invsave=[0]
@@ -24,12 +25,25 @@ gymevent=False
 studentathlete=False
 keyloc=random.randint(1,4)
 floortwokey=False
+fangevent=False
+yearbook=False
+terrycad=False
+kippcad=False
+kippevent=False
+table=False
+lockpick=False
+lighter=False
+papers=False
+mathprobs=False
+mathevent=False
+table=False
 name="default"
-itemlist=[position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name]
+password=0
+itemlist=[position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs]
 inventorysave=[]
 def stress(change):
     global stresslvl
-    stresslvl=stresslvl+change
+    stresslvl+=change
     if stresslvl<0:
         stresslvl=0
     if stresslvl>=5 and stresslvl-change<5 and stresslvl<10:
@@ -54,13 +68,15 @@ def stress(change):
         print("The noises stop suddenly. You wonder if you truly did imagine them.")
     if stresslvl<0:
         stresslvl=0
+    global password
+    password=str(int(password)+42)
 
 def save():
     print("SAVING...DO NOT TURN OFF THE POWER")
     global itemlist
     global invsave
     global inventorysave
-    itemlist=[position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, gymevent, workout, studentathlete]
+    itemlist=[position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, gymevent, workout, studentathlete, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs, floortwokey]
     invsave=[]
     inventorysave=[]
     for x in itemlist:
@@ -71,37 +87,16 @@ def save():
 
 def load():
     global inventory
-    print("Loading...") #don't judge me for my brute force code please
-    global position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, name, workout, gymevent, studentathlete, floortwokey
-    position=invsave[0]
-    window=invsave[1]
-    rafid=invsave[2]
-    sounds=invsave[3]
-    patrys=invsave[4]
-    stresslvl=invsave[5]
-    broom=invsave[6]
-    flooronekey=invsave[7]
-    searcher=invsave[8]
-    magnetman=invsave[9]
-    nowboard=invsave[10]
-    nowbook=invsave[11]
-    popquiz=invsave[12]
-    eraser=invsave[13]
-    swordbots=invsave[14]
-    vocabwords=invsave[15]
-    crucible=invsave[16]
-    difficulty=invsave[17]
-    floortwokey=invsave[18]
-    name=invsave[19]
-    gymevent=invsave[20]
-    workout=invsave[21]
-    studentathlete=invsave[21]
+    print("Loading...")
+    global position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, name, workout, gymevent, studentathlete, floortwokey, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs
+    position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, gymevent, workout, studentathlete, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs, floortwokey=invsave
     inventory=inventorysave
     whereAmI()
 def encounter():
     global position
     retry=True
     while retry==True:
+        global position
         retry=False
         if position==13:
             print("As you enter the makerspace, bladed robotic arms whir to life around you. Apparently some senior made a sword-fighting army to defend team 1257.\nNot for the first time, you mutter curses at the seniors.\n1. Try to fight them\n2. Run\n3. Item")
@@ -188,9 +183,9 @@ def encounter():
                     print("You pull the book from your pocket, and the jock is nearly stunned by the prospect of reading. He recovers fairly quickly, and is enraged at your attempt to educate him. You are now cornered by an angry jock. Only a miracle could save you now.\n1. Pray for a miracle\n2. Item")
                     choice=eventchoose(2)
                     if choice==1:
-                        prayer=random.randint(1,20)
-                        if prayer==20:
-                            print("By some miracle, some god actually seems to hear your prayer, and intervenes. As the jock raises his fists a pile of bread and fish falls on to him from out of thin air. After a few minutes of praising the gods of magnet, you take a loaf and a fish, as proof that miracles are real.")
+                        prayer=random.randint(1,10)
+                        if prayer==10:
+                            print("By some miracle, q god actually seems to hear your prayer, and intervenes. As the jock raises his fists a pile of bread and fish falls on to him from out of thin air. After a few minutes of praising the gods of magnet, you take a loaf and a fish, as proof that miracles are real.")
                             inventory.append("Loaf of Bread", "Slightly Smelly Fish (Trout?)")
                         else:
                             print("The gods are deaf to your pleas for mercy, and the jock kills you with a swift blow to the head, then goes back to working out.")
@@ -234,6 +229,69 @@ def encounter():
                     else:
                         print(f"You take {ituse} from your pocket, but don't have time to use it before the impact severs your student head from your athletic body.")
                         dead(2)
+        if position==24:
+            global mathevent
+            a=random.randint(2,10)
+            b=random.randint(2,10)
+            b=random.randint(2,10)
+            c=random.randint(2,10)
+            d=random.randint(2,10)
+            e=random.randint(2,7)
+            print("You enter the classroom, and immediately see a table in front of the door. There is a piece of paper with a single math problem on it. You could try to climb over the table, but that seems like a bad idea.")
+            print("1. Climb over the desk\n2. Look at the problem")
+            choice=eventchoose(2)
+            if choice==1:
+                print("You try to climb over the desk. Before you can, Dr. Jiderian materializes in front of you. 'SHOW YOUR WORK!' he yells, and throws a marker at you. It knocks you out cold, and the fall to the ground kills you.")
+                dead(2)
+            if choice==2:
+                print(f"You read the problem. It says {a}*{b}+({c}*{d})^{e}. What is your answer? (Pencil and paper only, no calculator!)")
+                answer=eventchoose(10000000000000000000000000000000000000000000000)
+                rightans=(a*b)+((c*d)**e)
+                if answer==rightans:
+                    print("With a flurry of brilliance, you solve the 'calculus' problem. You feel very intelligent.")
+                    mathevent=True
+                    stress(-5)
+                    save()
+                else:
+                    print("You put the wrong answer, and know it immediately after you write it. Dr. J appears in front of you, but instead of killing you, he just fails you and judo flips you. Instead of dying, you wake up outside of his door, with the ignominy of your failure still stinging.")
+                    stress(5)
+                    position=22
+                    whereAmI()
+        if position==31:
+            global kippevent
+            print("""You enter Mrs. Kipp's classroom,and immediately feel a chill run down your spine. A laser specter looms from the shadows and whispers "Swipe in...now..." """)
+            stress(2)
+            print("1. Explain yourself\n2. Run\n3. Item")
+            choice=eventchoose(3)
+            if choice==1:
+                explanation=input("You take a deep breath and try to recall the magic words: ")
+                if explanation=="XYZZY":
+                    print("You use a cheat code, and destroy the laser specter in a torrent of magic. You feel powerful. Is this how the creator always feels?")
+                    stress(-5)
+                    kippevent=True
+                else:
+                    print("Those were not the magic words. Those were just regular words. Those don't work on specters, much less ones made of lasers. The laser specter takes the remnants of your soul.")
+                    dead(2)
+            if choice==2:
+                ituse=eventitem()
+                if ituse=="Mr. Rafalowski's ID Card":
+                    print("You swipe Mr. Rafalowski's ID across the laser specter, which screams in anguish. Somewhere in the scream, you hear a faint beep. You are victorious.")
+                    stress(-4)
+                    kippevent=True
+                else:
+                    print("You really don't know how to use that against a laser specter. You die. Painfully. With lasers. And ghosts. You should have just swiped in.")
+                    dead(2)
+        if position==23:
+            print("With your hand on the handle, you feel a presence just beyond it. This could be a difficult fight, and will require all your skill and ingenuity.\n1. Back away\n2. Press onward")
+            choice=eventchoose(2)
+            if choice==1:
+                print("You back away. Wisely.")
+                position==22
+            if choice==2:
+                print("""You enter the room\n\nYou see before you Mr. Capodice himself. Upon seeing you, he laughs. "You cannot possibly defeat me, he says, "You are nothing but a student." You ready yourself to prove him wrong.\n1. Explain that students are important too\n2. Run before you anger him\n3. Item""")
+                choice=eventchoose(3)
+                if choice==1:
+                    print("You start to protest your importance. Mr. Capodice laughs, smites you with a stack of denied ")
 
 def eventitem():
     global inventory
@@ -336,8 +394,13 @@ def things(room):
         print("You see a flash drive on Theresa 'Terry' OConnor's desk")
     if room==31 and kippcad==False:
         print("You see a flash drive on Mrs. Kipp's desk")
-
-
+    if room==24 and floortwokey==False:
+        print("You see a set of keys on Dr. J's desk.")
+    if room==19:
+        if papers==False:
+            print("You see a stack of flammable papers on the desk")
+        if mathprobs==False:
+            print("You see problems on the board, clearly labeled 'DNE'")
 
 def item():
     global inventory
@@ -579,7 +642,27 @@ def whereAmI():
             things(19)
             print("1. Leave room\n2. Item")
             position=chose(2)
-
+        if position==24:
+            if mathevent==False:
+                encounter()
+            print("You are in Dr. Jiderian's room. You feel simultaneously stressed and relaxed. You hope that you don't find another GA.")
+            things(24)
+            print("1. Leave room\n2. Look for another GA\n3. Item")
+            if floortwokey==False:
+                print("4. Take keys")
+                position=chose(4)
+            else:
+                position=chose(3)
+        if position==31:
+            if kippevent==False:
+                encounter()
+            print("You are in Mrs. Kipp's room. Rows of monitors blink to life as you look around. You wonder why ctrl+alt+delete is a command.\n1. Leave room\n2. Ctrl alt delete\n3. Ctrl+c\n4. Item")
+            things(31)
+            if kippcad==False:
+                print("5. Take flash drive")
+                position=chose(5)
+            else:
+                position=chose(4)
 
 
 
@@ -595,6 +678,8 @@ def option (instruct):
     global searcher
     global popquiz
     global eraser
+    global floortwokey
+    global table
     if position==0:
         if instruct==1:
             print("You enter the hallway to the north.")
@@ -1078,11 +1163,11 @@ def option (instruct):
             print("You enter Mr. Raite's room")
             return 32
         if instruct==4:
-            if flooronekey==True:
+            if floortwokey==True:
                 print("You enter Mrs. Kipp's room")
                 return 31
             else:
-                print("THe door is locked")
+                print("The door is locked")
                 return "retry"
         if instruct==5:
             if flooronekey==True:
@@ -1099,7 +1184,7 @@ def option (instruct):
             return 18
         if instruct==2:
             spinner=random.randint(1,10)
-            for x in spinner:
+            for x in range(0,spinner):
                 print("You spin in the chair")
                 stress(-0.1)
             if spinner==9:
@@ -1108,7 +1193,6 @@ def option (instruct):
             if spinner==10:
                 print("You spin too fast and knock a computer on to the floor. It shatters, spraying shards of plastic and glass everywhere. Your legs are now bleeding, and you are going to have to pay some hefty fines.")
                 stress(3)
-                global difficulty
                 difficulty+=0.2
             return "retry"
         if instruct==3:
@@ -1171,12 +1255,86 @@ def option (instruct):
             if ituse=="Lighter" and papers==False:
                 print("You take out your lighter and touch it to Mr. Straut's papers, laughing maniacally as they go up in smoke. You feel much better")
                 stress(-4)
-            if ituse=="Mr. McMenamin's Lucky Eraser" and mathprobs==False:
+                papers=True
+            elif ituse=="Mr. McMenamin's Lucky Eraser" and mathprobs==False:
                 print("You wipe away the problems and homework clearly labeled 'DNE'. You feel satisfied.")
                 stress(-2.5)
+                mathprobs=True
             else:
                 print("You don't know how to use that right now")
             return "retry"
+    if position==24:
+        if instruct==1:
+            print("You leave the room.")
+            return 22
+        if instruct==2:
+            search=random.randint(1,3)
+            if search==3:
+                print("You find another GA.")
+                a=random.randint(2,10)
+                b=random.randint(2,10)
+                b=random.randint(2,10)
+                c=random.randint(2,10)
+                d=random.randint(2,10)
+                e=random.randint(2,7)
+                print(f"You read the problem. It says {a}*{b}+({c}*{d})^{e}. What is your answer? (Pencil and paper only, no calculator!)")
+                answer=eventchoose(10000000000000000000000000000000000000000000000)
+                rightans=(a*b)+((c*d)**e)
+                if answer==rightans:
+                    print("You solve another problem, feeling satisfied. Unless you used a calculator, in which case you are an AHP violator.")
+                    stress(-2)
+                    return "retry"
+                else:
+                    print("You thought that you were prepared, but you were wrong. Dr. J's 'easy test' just killed your soul.")
+                    stress(4)
+                    return "retry"
+            else:
+                print("You find nothing, and are slightly relieved")
+                return "retry"
+        if instruct==3:
+            return item()
+        if instruct==4:
+            if floortwokey==False:
+                print("You take the keys, wondering why Dr. J had them.")
+                inventory.append("Floor two keys")
+                floortwokey=True
+                return "retry"
+            else:
+                print("You try to take the keys, but realize that you already have them. You feel stupid.")
+                return "retry"
+    if position==26:
+        if instruct==1:
+            print("You leave the room")
+            return 27
+        if instruct==2:
+            return item()
+        if instruct==3:
+            global yearbook
+            if yearbook==False:
+                print("You take the yearbook")
+                inventory.append("Yearbook")
+                yearbook=True
+                return "retry"
+            else:
+                print("You try to take another yearbook, but your conscience stops you.")
+                return "retry"
+    if position==31:
+        if instruct==1:
+            print("You leave the room")
+            return 29
+        if instruct==2:
+            print("You press ctrl, alt, and delete on one of the computers. Nothing happens. You contemplate pressing them at the same time, but decide against it")
+            return "retry"
+        if instruct==3:
+            yn=input("...you do know what ctrl+c does, right? It's not 'copy' in the context of python. Are you sure? Y/N: ")
+            if yn=="y" or "Y":
+                yn=input("You should definitely look up what that command does in python before doing it, because it's pretty common knowledge. Are you sure you're sure? Y/N: ")
+                if yn=="y" or "Y":
+                    print("Well if you say so")
+                    exit()
+            if yn!="y" or "Y":
+                print("That's the right choice")
+                return "retry"
 
 
 def startup():
@@ -1189,13 +1347,45 @@ def startup():
     print("What kind of person are you? Be honest.\n1. Total Wuss\n2. Amateur\n3. Student Athlete\n4. The Creator Himself")
     answer=eventchoose(4)
     if answer==4:
+        global password
         password=input("Oh, really? What's the magic number then? ")
+        try:
+            int(password)
+        except ValueError:
+            print("That's not the magic number. That's not even a number. You aren't solving this with a mind like that.")
+            dead(2)
+        password=int(password)
+        numb=0
+        numbo=3
+        numbos=password
+        global numbon
+        numbon=0
+        ranger_rick=password**0.4
+        ranger_rick=int(round(ranger_rick,0))
         password=str(password)
-        numbo=0
-        for x in password:
-            numbo=numbo+(int(x)+13745)**2
-        numbo=numbo*8573146
-        if numbo==9719740776207578:  #if you use this password, then shame on you. This is for me.
+        if numbon>=1:
+            quit()
+        numbon+=1
+        for break_this in range(0,ranger_rick):
+            password=str(int(password)-42)
+            if numbon<1:
+                exit()
+            numb=int(numb)
+            numbo=int(numbo)
+            stress(0.5)
+            for x in password:
+                numb=((int(x)+87)*(int(x)-94))**((int(x)+5)**3)
+            if numb<0:
+                numb=-numb
+            numb=str(numb)
+            for y in numb:
+                numbo+=int(password)**2+(int(y)+1)**4
+            numbo=str(numbo)
+            for z in numbo:
+                numbos*=(int(z)+int(password))**2
+            stress(-0.5)
+            password=str(int(password)-42)
+        if numbos==133913151502626336183088446999206024774305557443382677357415561148792266425305710134211432673444656435441655751384220364525154532523876134105510523144703101160132721487776112642158663622061954147464428321511189405321149379629009361340742971022602761825097477626524272903566145920349000041223676324121470044839099731330039273198311834819276927366125563222052683832292873332813645869072554394072381509460213476336202818476375040740037462601564624995038157200659444574672135543143518531027914473735732049036894590960502068934136904804038776841256146071517228119961693182272763652049986750811443973737042788218200059265492336612798355175929797640857476425165819851572410181057163999361929147649820884649383708741894804240190204720728172373632496280150691064980493598448500436241271884783040672832387531198281384842741510350396028595354864694500260647767203585647744959572424771827032496865842586006414956492010436058620405682736957013752687834619598549859187808329654813808412719568353307308485997989037155512569309828326726881699733782702938340583374116110922732645183954071269211160778729739712814522497500232904528780619667760495850960755318716984195402564525850722093474405754415664765879516040383348404236322128555987294169188820107820547911472984747453194477657657205529363080582299986857414425272184140607235492056820078222838564882105170139151868117985835057772255661963834632582172699486495567927174209779858202907886941670941232260068711898987387883087735772024134709800846178248145402305685512638600048002086808937397478609986148817369347099321635844061435051649134668222949412582143409326893966480389500563703249403542366933926781162836322669604687940450625913083632710040889119917196862183036812155443531260293206996876038685858571043779319087942517430246400717873429014578965228911466003364467545153779595847440311271807026072098420882636564775158740986013487244589506491392721146116796034719407711921205558089171582982982489292145405477210309400472120662793454977992128546351642998931628447562230377166861062776912749380765617727415043191683436168425234872198780373107715768346902357342148463236373439759649892476205574975587582735570304752727427941578681887522195883177390974775959449270576308326361087400549642796335239355722491134361026936412625051971368106455772931085408979372372919890462485224727149307873386715024790256076254806302524836584206079154813914140202080665686873081538780440452142979216134120794823640672170218921470948099089995069845176124392705642598690541041923813547834463114381436459196673742498435863563956952031727167834134391939387331420961141209882271910707010772445737507537044954343458142991410037530243571370202316869990391499906824561599873132980994758503196792714557335239399409627616277286633037052239557735898515224057927710214894986495040917761996894697391567138933268343558504039887750633714351548660918302518032568875877958830426369578247009762790459132288647208809827720069061413632882883304850319598314871311525766259903340485321475034362138938054226729953664363073623312295569963577418244860221084866997227006380686031893378776342997378117493596825007154936867020751972178431897504564447985954508515757879376487956977058633091162193917310917088380428743734768028769026395310728473041686049926572801556984140008373528444836692434683795436754334730656584456601926704016958858455140939528454887415087549248761680661528852351304046526710648635625713765754775702287339930226844574124224524685717071499842826577660395585617141994013696385693696824474306895260566481879235874634120826438161636970740406246483269632967187004685801027209638124288169188310291784823322914880593104060730847882402816151437063688304400696558867681980200119515293719090366575508295774499115709345204541244218303122253427486024788534595488410086958565653763111610756434744630479741667869797978329820186616888556115508908776754748808801671298338565900894866857345125574652947116364580690809035729649287242331751505923546530150328933561945205071735837597543358325093527990431910933009049817676516125661131348117868928691625081390135323059688767411827502621105841335604674161167940118634963360620403344244994990467559307511095629120784630374337213110508036950032374484882914027027589111569325445154992791452961130311024144885789500134783737974353294904610039128449672932159771529682373438294301773782463502654167297193868363114852070193683021927178518548511324535756042724954855009825720463142253780781708593732900407663779518928001482232210661853200467543481119114233874340404108348961458584130191749478323207731636039059334653621845826407282568064010692416892401948256205458357708564584530478328422601324831092888438934986750311656126763244725230276751349232652927402068698178753166247372028764099652714548894450370691444321177080226061051142146888855338944795639066378580576100040857822563170039513824784106558905153487014197226569418909323669790038030123244764046423311032339352327445490944121223551043446650700692051017180042118448901674912726822210031675474545859503083536865947090304858818732097800261545865111234249275980296245588310846278056609877140259664104637736099966450671314362739570424992975871030876020282357196462643972994606533658475873273402432116690616188922396855665480460942054183181702718056968667093751239428739472373119670694809252781961781735402195794654659114837461296913000225192375537808486878608031727353204935756428165189168025265133952526190160569817638761393032775635258322769248807205359901036212419063630139226550472790512349797446426877768955819540337950283647786492080218803949825714339247928025290637954885689954237252784243286333885598592973945140163155552069922159282219387247339915452853120475927598160340647633350666887051796403824686505821372128529842023777142870672573029116749186687712502010103667340749396363055446780168797233499190986932465877689494131499681294166903353776021100533626420242218342747105009876030154326723448604612355344014568663296508949436201379963123017360420516088057949197530986060298023333177435807947635212300148008692893294061190366912473971122566697936349860749711877990530189438604563750057878934321995172271416361984515005948683431059184001383947449062584618862903208252068647227466111588081520963658805023726991844859694748859411604264764497228499754014308641564624086542835694712513812202406724338823411284811196578119038935185695522709517302301072172011185712889486370801924347269488922588671323065184704813782440929771421934211475632184045133542134752254153905853452269135435283333560847341764993484692117263166952983379910812218109550577719051020109866324238252255225585075361969407269574374124283326586107683101972818346345547212093357863501894635107330621482303487710622062514931050312619005947604645230986293793165976178033959330316436064648232032295947476413724865912406976334031860923470129228570449541680977150671370719857874291060077805029805824515189689495803389023226239931309624580775355613585191791045405617634263596357742356451829986242841902953923914257905803310290865689861588125913522187490813174232716741521764345770618247577732335315530430279540944320023143225479057902301054997166577729299626713574422175554180166434857462330511963514912875989500542793469328300205808934782173158826933783838079755876498188619802264510207802575704485456586211354131212819778549329655391543024753839286444746473366917829283913851626477759266468700715188915640250898753468901669208755620481415300090467364398451280323523785307444362016169696405767801733900478399264210094964856444563504716572553532934351830307127733842289731835001117863342864958782113324899966388357524066834903610312304952525130696286403630418812695987833583972020193898086009579741491256183688131421986326080078529105183536210207146490070647416784186581640027141399441745179521582978544876077688110358626116005671296462695634670135926911700534369993961564049309966092626070778476646693312256900175002284388037747513023120183754628098263604471123231139157569963245219921900971589389761869888651323696180091635017277628909915240936626366330015537182856945620100674777317343963495008078671790579233601494288138767380569019941176726126178505491976353006545823123784432033936096553267759227104166135639569837099554712077892007812506011482334620220968404323403671288675041409390047115978784673706310906566168589563614647101543862093561386906340088932609109804137830195903841389970406157399812424261837412997468806652280760258071098023377155831430831062965784063555970590792485745421348897170346371316420332954790335843149309819257145318716644150948884182946507835853746640116358298858273305713160137009892088288202531056379714318878351742017186161245938787457236207535561855005620466451594896415180588332089989748249703534707387359873898234475818036160242250362694892902134145958526045601127418497925867554418632141460167468511904862241156741719697778997653435083565882520963447347555137617233957943509116846426230286901216136274394934171094170075127957561312276169886125300202851253230133916525542881050207689050588381861640110403689592350225672716952005449636260303783794197944533534330649811702163525494605231667780840749525738600182529343179755446052295271738240836401646323746734765055651206678814471105056413154673437450780666593258124296383860272136822618821929918380273715056854588273071672328161113657061731912959082204259090186984471201886199885519752369093966742021486498684985621601665881072858942239491290452365820513759818182237255325852210174355110416652378060261467667888169028919665659854625122522644938009870530756207128055696106358141018223429680460853385463654249255879881718217889029143099215709538418249976012229362204698792631880927203556867298648101744135168249550840046727148196228012413635360046340471336555383281262482691152960067483796455290607522735175958751154709258516894668367337361582583938837445119177281635266179114515438256878532510102115077042919478548625964630572354891670116732607303682981849116167214937197275690718319089001520011765788458582821126164065657028669185829061367122590300377837293571984976937320934352357633991860494214209803183886113245747438583716198671751861865271666481364852685224260875733503118786511768701340625458664758106231809037135696173528989636861874492682233290710802286849889715151163071331913838644350455303159219735755127239346513531860585719219129041997532918021557677389026275205433769482689805991033709391167674894127401558534508919773855967270618866706032131564219385822803656644887845704306344403575031396222954690093436977272398751729571732453596869193168823075793950210956828355028295390375428056281072499086460009317096822665067251741960479587913258846325170660952697628289665618455257527795872801453550748748902172969600705134215353311603413272599214335683355968672144273509049453348496964291596787381821256717699744115107100758945951637785934971152603866634781119083349069335993697713318805023145882478890201873514084805690465979538878178487643202651069705183653563377228357915844179013869123874619254138042799470526323357322120740273410752613026760008112313455593037883122660862447319575328167587221210799192241604897061089556278918231084464953796155313486109984591309657110455656600972912481710738797522259873140603573117168457311828061133060988283605011860019938164898373589984243633950438750003623498952301880041260542777188817575037011837894344449357120732477900991353470981112978979015642871470713420600997897140606290247184965881480193898669806956552842118571786306768224313814269163957734204444283534416977503216421473322507507361807553445954216206545543201182260554158799136968726256502506183238716433057594358097999517661105815182051309304711876730241266776260304712655910305739522493883868802256010821419984437935488294285579189669199949724496584992720640999123242386632886260359760015650985590945128424567684800510436576259948576206845891700147837380246596170454802594721327610712871776681836176948008491494386258585136653133475123762038274651733049630018986688255719613841608852509365692951453346989871443342762197600107571570521045268711445227358482739062279527742756317944871378359124226922674559514614476007892268691526060043676617472488924523381755587636961130343359031476308668395704525422909620434125653466519783512233797173019081313249015624641457095554617923321475194108359877553967637159761803062725783418127048651705524077401797449607608856438654754049294379628222123656679552606778098852990190058162236302435004569724761933538298795910452867491074246687316468507233562475817780377501626842553709706708034785577417292530182283373922847973388761811045687385982972343799561894893954754969499425499996622751051863810704801309191356943481472398202799356971233367008181061158790742757263874774416502864256403192755737774987085756919791965872982911263131977935646795410541897890083999563917643935679360598805189392012603088375375778156029468479118247918244795673326759478862676152405480471479173816914694578677327608149513797511753310273126186568275293738678125372909384396939576029643149104587427951120657840875647896059560637137224993013319973130246179791308352050113821160518641530680367840678383315428661274591675370965708396070045150039229776775059914461048927966634489026960158620811774102902342930054045637974006408714906293314621210835652936303492213089811120318199879436355960469516282910447732968518258336785413652333400843326090828226895840877146007408396257422122504057776878252120186771952321602934110356895189902705147845375303503274416255037382577012088879079946702500084853430852028524375107905905924979615571248695388157433304009449716552010466141272613876980411878775351556245174094749240705391690965305391167729382426050496951259142447553804088366775405637286631595588876715844795506092401321861753766735209087847379687847715936414410514126609182309366207857773798832106660374530709493357115156810852005923104605839866043015238475935479079673659400997179666757484202607656300674537797297364368682525708389029694269969348089307734768224822633450487379269546537677623588036406572721774536759802005982576037656735159518501815363031355025459757653054084966924829674689016140741217325003442734982735476594562596083026201727704658017236480595886890184406518325506981626403542988342021174430244016160317508678038629163151623497991773833959434448518809368796686519893568917248455532900912550000939368493150817612923819011518171645666645150469853071229736551308675389205170186962151584470559798308265544133865501824605372702337257412869949071252449531226491401565155205113184476452907439946058345925342296664013397024055355147143016400430621232476646556715705246567247064969516035456255170707526933160735841484952206473705085359893092138085936847670958102300978122093110110417843042830958751185096572218256411157531418389072283643926707794126701983549738829489353819485479834304412768753066338206034280840961867328106002938179404352018060743450701527435307437279276302266181845557070549345213953809834798422555827031927040537209934925924970248872138162095995072571212348281560865460931933591293480587852220520057942058466131740067094678784842014973559927260427822132805746090809688526518945259944666079829818831735188937317552996535818809582402585481560849916280376834569505437202947120958383221218255267699359044915259985622671782380790664362804987651389614936357896366451637144072405679071835484574536412723316275997011084878515364627436871494292614551031738026983439734711040513763141497330049964384999029590562727503324051227961112096558478760751736506064870015037675647406361399219522457246417745564033241558199616873156525307482296862186875081904936566789753118812573213676113214986316856485493327000672628366562467958825541138012890991952287570689134217856871925298814270733743006616295614163844726674421167095149683299205720607808333869973801505097357062470091628378393996347714828557221524087506882134553193571665490517222953643689305810487904565496093474711310449655719059749910651581328788668543003677437084487167133563358781506374877205855553526697745657562682227962795096316693105612072742036006117412759954487120300564854838123546000402703606947143278305554507054939983515401422289287451390135310836951464102542349684860514179192403351997756419329848887604153197926964762931388103979926871545218193760644486609390601341435778343751003872575671090777348105240762655953150063004298796975448435844066317935420037642015907920931873945183552936287512907801197264244422761706616466055097464898557380551734165560841107328099103539200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000:  #if you use this password, then shame on you. This is for me.
             for x in range(100):
                 print()
             difficulty=float(input("Great to see you then, sir. Set the difficulty as you see fit: "))
@@ -1208,37 +1398,39 @@ def startup():
             else:
                 print("Probably for the best sir.")
             while give<13:
-                print("Would you like some items sir?\n1. Searcher\n2. Floor one keys\n3. Rafalowski's ID\n4. Eraser\n5. Bruce's broom\n6. Holy Book\n7. Mr. Sanservino's Test\n8. The Crucible\n9. Magnet Man\n10. Strength of Stanko\n11. Legs of LeBrun\n12. Mrs. Valley's Raw Power\n13. All\n14. Nope")
-                give=eventchoose(14)
-                if give==1 or give==13:
+                print("Would you like some items sir?\n1. Searcher\n2. Floor one keys\n3. Rafalowski's ID\n4. Eraser\n5. Bruce's broom\n6. Holy Book\n7. Mr. Sanservino's Test\n8. The Crucible\n9. Magnet Man\n10. Strength of Stanko\n11. Legs of LeBrun\n12. Mrs. Valley's Raw Power\n100. All\n1000. Nope")
+                give=eventchoose(1000)
+                global workout
+                if give==1 or give==100:
                     inventory.append("Mrs. Gerstein's Searcher of Seeking")
                     global searcher
                     searcher=True
-                if give==2 or give==13:
+                if give==2 or give==100:
                     inventory.append("Floor one keys")
                     global flooronekey
                     flooronekey=True
-                if give==3 or give==13:
+                if give==3 or give==100:
                     inventory.append("Mr. Rafalowski's ID Card")
-                if give==4 or give==13:
+                if give==4 or give==100:
                     inventory.append("Mr. McMenamin's Lucky Eraser")
-                if give==5 or give==13:
+                if give==5 or give==100:
                     inventory.append("Bruce's broom")
-                if give==6 or give==13:
+                if give==6 or give==100:
                     inventory.append("The Holy Book of Mr. Nowakoski")
-                if give==7 or give==13:
+                if give==7 or give==100:
                     inventory.append("Mr. Sanservino's Test")
-                if give==8 or give==13:
+                if give==8 or give==100:
                     inventory.append("The Crucible")
-                if give==9 or give==13:
+                if give==9 or give==100:
                     inventory.append("The Magnet Man")
-                if give==10 or give==13:
+                if give==10:
                     inventory.append("Strength of Stanko")
-                if give==11 or give==13:
+                    workout=1
+                if give==11:
                     inventory.append("Legs of LeBrun")
-                if give==12 or give==13:
+                    workout=2
+                if give==12 or give==100:
                     inventory.append("Mrs. Valley's Raw Power")
-                    global workout
                     workout=101
         else:
             print("Liars have no place in this game. You hadn't even gotten past your character creation, and now you're dead.")
@@ -1260,25 +1452,75 @@ def startup():
     print("There is a pretty good chance that you are laughing at the previous line, but I'll let it go.")
     whereAmI()
 
+
+
+def textbox(text):
+    leng=len(text)
+    brek=0
+    sys.stdout.write("_____________________________________\n|")
+    for x in text:
+        sys.stdout.write(x)
+        brek+=1
+        if brek==35:
+            sys.stdout.write("|\n|")
+    if leng<=35:
+        left=35-leng
+    if leng>35:
+        left=70-leng
+    for y in range(left):
+        sys.stdout.write(" ")
+    print("|\n|___________________________________|")
+def fbr():
+    print("""
+_____________________________________
+|    1. Fight          2. Bag       |
+|       POKeMON        3. Run       |
+|___________________________________|""")
+    return eventchoose(3)
+
+def bossbattle(phealth, bhealth):
+    print("""
+  _____________________
+ | MR. CAPODICE   Lv100|""")
+    sys.stdout.write(" |   HP ")
+    pblank=15-phealth
+    bblank=15-bhealth
+    for x in range(bhealth):
+        sys.stdout.write("|")
+    for y in range(bblank):
+        sys.stdout.write(" ")
+    sys.stdout.write("""|
+ |_____________________|                             ____
+                                                    /.  .\ \n                                                    \ mm /
+                                                  ---    ---
+                                                | |   ||   | |
+                                                | |   ||   | |
+                                                | |   ||   | |
+                                                \ |   \/   | /
+                                               , -|--------| - ,
+                                           , '    |   /\   |     ' ,
+                                         ,        |  /  \  |         ,
+                                        ,         | |    | |          ,
+               ,_----                  ,         _| |    | |_          ,
+            ----------|__,             ,        |___|    |___|         ,
+         ------------/|                ,                               ,
+       ,------------,,,~ ,             ,                               ,
+     ,   ,,,,,,,,,,,,,    ,             ',                           ,'
+   ,     ,,,,,,,,,,,,,     ,               ,                       ,
+  ,      ,,,,,,,,,,,,        ,               '- , _ _ _ _ _ _ , -'
+ ,    ---           ---       ,
+ ,   |IWANNABETHEVERYBE|      ,
+ ,   |STLIKENOONEEVERWA|     ,              ______________________
+  ,  |STOCATCHTHEMISMYR|    ,              | AVERAGE STUDENT  Lv1 |
+   , |EALTESTTOTRAINTHE|   ,               |    HP """)
+    for x in range(phealth):
+        sys.stdout.write("|")
+    for y in range(pblank):
+        sys.stdout.write(" ")
+    print("""|
+     ,MISMYCAUSEPOKEMON! '                |______________________|
+       ' - , _ _ _ ,  '""")
+
 startup()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
