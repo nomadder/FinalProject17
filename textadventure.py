@@ -1,6 +1,11 @@
 import random
 import sys
 import time
+global burned
+global poisoned
+global pcrit
+burned=False
+poisoned=False
 inventory=[]
 position=0
 invsave=[0]
@@ -41,6 +46,8 @@ table=False
 name="default"
 password=0
 hairspray=False
+physbook=False
+itemdic={1: "Mrs. Gerstein's Searcher of Seeking", 2: "Floor one keys",3: "Mr. Rafalowski's ID Card",4: "Mr. McMenamin's Lucky Eraser", 5: "Bruce's broom",6: "The Holy Book of Mr. Nowakoski",7: "Mr. Sanservino's Test",8: "The Crucible",9: "Magnet Man",10: "Strength of Stanko",11: "Legs of LeBrun",12: "Mrs. Valley's Raw Power",13: "Floor two keys",14: "Lighter",15: "Hair spray",16: "Table, the Table Leg",17: "Loaf of bread",18: "Slightly Smelly Fish (Trout?)",19: "Yearbook",20: "Mrs. OConnor's Flash Drive",21:"The Physics Textbook"}
 itemlist=[position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs]
 inventorysave=[]
 def stress(change):
@@ -78,7 +85,7 @@ def save():
     global itemlist
     global invsave
     global inventorysave
-    itemlist=[position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, gymevent, workout, studentathlete, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs, floortwokey]
+    itemlist=[position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, gymevent, workout, studentathlete, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs, floortwokey, hairspray, physbook]
     invsave=[]
     inventorysave=[]
     for x in itemlist:
@@ -88,12 +95,15 @@ def save():
 
 
 def load():
-    global inventory
+    global inventory, itemlist, invsave, inventorysave
     print("Loading...")
-    global position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, name, workout, gymevent, studentathlete, floortwokey, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs
-    position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, gymevent, workout, studentathlete, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs, floortwokey=invsave
+    global position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, gymevent, workout, studentathlete, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs, floortwokey, hairspray, physbook
+    for it in itemlist:
+        pos=itemlist.index(it)
+        it=invsave[pos]
     inventory=inventorysave
     whereAmI()
+
 def encounter():
     global position
     retry=True
@@ -275,6 +285,9 @@ def encounter():
                     print("Those were not the magic words. Those were just regular words. Those don't work on specters, much less ones made of lasers. The laser specter takes the remnants of your soul.")
                     dead(2)
             if choice==2:
+                print("You manage to outrun the laser specter, and shut the door behind you.")
+                position=31
+            if choice==3:
                 ituse=eventitem()
                 if ituse=="Mr. Rafalowski's ID Card":
                     print("You swipe Mr. Rafalowski's ID across the laser specter, which screams in anguish. Somewhere in the scream, you hear a faint beep. You are victorious.")
@@ -291,7 +304,14 @@ def encounter():
                 position=22
             if choice==2:
                 print("""You enter the room\n\nYou see before you Mr. Capodice himself. Upon seeing you, he laughs. "You cannot possibly defeat me," he laughs. The door slams behind you, and from somewhere, POKeMON music starts to play.""")
-                bossbattle()
+                tho=input("Fight!")
+                if bossbattle()==False:
+                    position=22
+                else:
+                    global fangevent
+                    fangevent=True
+                    save()
+
 
 def eventitem():
     global inventory
@@ -401,6 +421,8 @@ def things(room):
             print("You see a stack of flammable papers on the desk")
         if mathprobs==False:
             print("You see problems on the board, clearly labeled 'DNE'")
+    if room==23 and physbook==False:
+        print("You see, one textbook that seems to stand out from the rest.")
 
 def item():
     global inventory
@@ -666,6 +688,8 @@ def whereAmI():
         if position==23:
             if fangevent==False:
                 encounter()
+            else:
+                print("You stand in Dr. Fang's room. Mr. Capodice's unconscious (or possibly dead) body lies at the front of the room.")
 
 
 
@@ -674,15 +698,7 @@ def whereAmI():
 
 
 def option (instruct):
-    global difficulty
-    global itemlist
-    global position
-    global rafid
-    global searcher
-    global popquiz
-    global eraser
-    global floortwokey
-    global table
+    global difficulty, itemlist, position, rafid, searcher, popquiz, eraser, floortwokey, table, hairspray
     if position==0:
         if instruct==1:
             print("You enter the hallway to the north.")
@@ -1302,6 +1318,8 @@ def option (instruct):
             if yn!="y" or "Y":
                 print("That's the right choice")
         return "retry"
+    if position==23:
+        pass
 
 
 
@@ -1367,41 +1385,23 @@ def startup():
                 studentathlete==True
             else:
                 print("Probably for the best sir.")
-            while give<13:
-                print("Would you like some items sir?\n1. Searcher\n2. Floor one keys\n3. Rafalowski's ID\n4. Eraser\n5. Bruce's broom\n6. Holy Book\n7. Mr. Sanservino's Test\n8. The Crucible\n9. Magnet Man\n10. Strength of Stanko\n11. Legs of LeBrun\n12. Mrs. Valley's Raw Power\n100. All\n1000. Nope")
+            while give!=1000 and give!=100:
+                print("Would you like some items sir?\n1. Searcher\n2. Floor one keys\n3. Rafalowski's ID\n4. Eraser\n5. Bruce's broom\n6. Holy Book\n7. Mr. Sanservino's Test\n8. The Crucible\n9. Magnet Man\n10. Strength of Stanko\n11. Legs of LeBrun\n12. Mrs. Valley's Raw Power\n13. Floor two keys\n14. Lighter\n15. Hair spray\n16. Table, the Table Leg\n17. Loaf of bread\n18. Smelly fish (yummy fish)\n19. Yearbook\n20. Mrs. OConnor's Flash Drive\n100. All\n1000. Nope")
                 give=eventchoose(1000)
                 global workout
-                if give==1 or give==100:
-                    inventory.append("Mrs. Gerstein's Searcher of Seeking")
-                    global searcher
-                    searcher=True
-                if give==2 or give==100:
-                    inventory.append("Floor one keys")
-                    global flooronekey
-                    flooronekey=True
-                if give==3 or give==100:
-                    inventory.append("Mr. Rafalowski's ID Card")
-                if give==4 or give==100:
-                    inventory.append("Mr. McMenamin's Lucky Eraser")
-                if give==5 or give==100:
-                    inventory.append("Bruce's broom")
-                if give==6 or give==100:
-                    inventory.append("The Holy Book of Mr. Nowakoski")
-                if give==7 or give==100:
-                    inventory.append("Mr. Sanservino's Test")
-                if give==8 or give==100:
-                    inventory.append("The Crucible")
-                if give==9 or give==100:
-                    inventory.append("The Magnet Man")
-                if give==10:
-                    inventory.append("Strength of Stanko")
-                    workout=1
-                if give==11:
-                    inventory.append("Legs of LeBrun")
-                    workout=2
-                if give==12 or give==100:
-                    inventory.append("Mrs. Valley's Raw Power")
-                    workout=101
+                if give!=100 and give!=1000:
+                    inventory.append(itemdic[give])
+                    if give==10:
+                        workout=1
+                    elif give==11:
+                        workout=2
+                    elif give==12:
+                        workout=101
+                elif give==100:
+                    for x in itemdic:
+                        inventory.append(itemdic[x])
+                        workout=101
+
         else:
             print("Liars have no place in this game. You hadn't even gotten past your character creation, and now you're dead.")
             dead(2)
@@ -1439,6 +1439,8 @@ def textbox(text):
         left=70-leng
     for y in range(left):
         sys.stdout.write(" ")
+    if leng<=35:
+        sys.stdout.write("|\n|                                   ")
     sys.stdout.write("|\n|___________________________________|")
     nex=input()
 def fbr():
@@ -1450,42 +1452,52 @@ _____________________________________
     return eventchoose(3)
 
 def fight():
+    global shortname, bhealth, burn, poison, burned, poisoned, first, pcrit
+    burn=False
+    poison=False
+    roll=random.randint(1,10)
+    crit=0
+    miss=1
+    if roll>=pcrit:
+        crit=2
+    if roll<=2:
+        miss=0
     option=1
     sys.stdout.write("""
 _____________________________________
 |    """)
-    if "Mrs. Valley's Raw Power" in inventory:
+    if itemdic[12] in inventory:
         sys.stdout.write("1. Close Combat   ")
-        one="closecombat"
-    elif "Legs of LeBrun" in inventory:
+        one="Close Combat"
+    elif itemdic[11] in inventory:
         sys.stdout.write("1. Hi-jump Kick   ")
-        one="highjumpkick"
-    elif "Strength of Stanko" in inventory:
+        one="High Jump Kick"
+    elif itemdic[10] in inventory:
         sys.stdout.write("1. Jab            ")
-        one="jab"
+        one="Jab"
     else:
-        sys.stdout.write(f"   ?????            ")
-        one=0
-        option-=1
+        sys.stdout.write("1. Punch            ")
+        one="Punch"
     option+=1
-    if "Table, the Table Leg" in inventory:
+    if itemdic[16] in inventory:
         print(f"{option}. Rock Smash|")
-        two="rocksmash"
-    elif "Bruce's broom" in inventory:
+        two="Rock Smash"
+    elif itemdic[5] in inventory:
         print(f"{option}. Leg Sweep |")
-        two="legsweep"
+        two="Leg Sweep"
     else:
         print(" ?????     |")
         two=0
         option-=1
     option+=1
     sys.stdout.write("|    ")
-    if "Lighter" in inventory and "Hair Spray" in inventory:
+    if itemdic[14] in inventory and itemdic[5] in inventory:
         sys.stdout.write(f"{option}. Flamethrower   ")
-        three="flamethrower"
-    elif "Lighter" in inventory:
+        three="Flamethrower"
+        burn=True
+    elif itemdic[14] in inventory:
         sys.stdout.write(f"{option}. Ember          ")
-        three="ember"
+        three="Ember"
     else:
         sys.stdout.write("   ?????          ")
         three=0
@@ -1493,7 +1505,7 @@ _____________________________________
     option+=1
     if "Chemicals" in inventory:
         sys.stdout.write(f"{option}. Toxic     |")
-        four="toxic"
+        four="Toxic"
     else:
         sys.stdout.write("   ?????     |")
         four=0
@@ -1508,18 +1520,87 @@ _____________________________________
         choice=input()
         return 0
     elif option==2:
-        return moves[eventchoose(1)]
+        move=moves[eventchoose(1)]
     elif option==3:
-        return moves[eventchoose(2)]
+        move=moves[eventchoose(2)]
     elif option==4:
-        return moves[eventchoose(3)]
+        move=moves[eventchoose(3)]
     elif option==5:
-        return moves[eventchoose(4)]
+        move=moves[eventchoose(4)]
+    if move=="Close Combat":
+            dam=(5+crit)*miss
+    if move=="High Jump Kick":
+            dam=(3+crit)*miss
+    if move=="Jab":
+            dam=(2+crit)*miss
+    if move=="Punch":
+            dam=(1+crit)*miss
+    if move=="Rock Smash":
+            dam=(4+crit)*miss
+    if move=="Leg Sweep":
+            dam=(2+crit)*miss
+    if move=="Flamethrower":
+            dam=(3+crit)*miss
+            burn=True
+    if move=="Ember":
+            dam=(1+crit)*miss
+            if roll>6:
+                burn=True
+    if move=="Toxic":
+            dam=(3+crit)*miss
+            poison=True
+    textbox(f"{shortname} used {move}")
+    if crit!=0:
+        textbox("A critical hit!")
+    if miss!=1:
+        textbox(f"{shortname}'s attack missed")
+        burn=False
+        poison=False
+    if miss==1:
+        bdam(dam)
+    if bhealth<=0:
+        pass
+    elif burn==True and burned==False:
+        textbox("Mr. Capodice was burned")
+        burned=True
+    elif poison==True and poisoned==False:
+        textbox("Mr. Capodice was poisoned")
+        poisoned=True
+
+def burne():
+    global burn, burned, bhealth
+    roll=random.randint(1,10)
+    if burned==True:
+        if roll>3 or burn==True:
+            textbox("Mr. Capodice is still burning")
+            textbox("Mr. Capodice took 1 damage from his burn")
+            bhealth-=1
+        else:
+            textbox("Mr. Capodice is no longer burning")
+            burned=False
+    burn=False
+
+def poissone():
+    global poison,poisoned, bhealth
+    roll=random.randint(1,10)
+    if poisoned==True:
+        if roll>3 or poison==True:
+            textbox("Mr. Capodice is still poisoned")
+            textbox("Mr. Capodice took 1 damage from his poison")
+            bhealth-=1
+        else:
+            textbox("Mr. Capodice is no longer poisoned")
+            poisoned=False
+    poison=False
+
 def bagitem(ba):
-    sys.stdout.write("""
+    print("""
             __
          _,/__\,_
-        / ,    , \ \n      / /      \ \ \n      | |      | |
+        / |    | \ \n       / /  __  \ \ \n       | | /__\  | |
+       | | \__/  | |
+       | |       | |
+       \_\_______/_/""")
 
     number=0
     for x in ba:
@@ -1537,24 +1618,182 @@ def bagitem(ba):
             use=input()
         use=int(use)
         if use<=number and use>=1:
-            return inventory[use-1]
+            return ba[use-1]
         elif use==number+1:
-            return "retry"
+            return False
         else:
-            print("You don't have that. Try a.")
+            print("You don't have that.")
+def pdam(dam):
+    global phealth
+    if dam<0:
+        textbox(f"{shortname} healed {dam} damage")
+    else:
+        textbox(f"{shortname} took {dam} damage")
+    phealth-=dam
+def bdam(dam):
+    global bhealth
+    if dam<0:
+        textbox(f"Mr. Capodice healed {dam} damage")
+    else:
+        textbox(f"Mr. Capodice took {dam} damage")
+    bhealth-=dam
 def bag():
-    global tempbag
-    tempbag=inventory
+    global tempbag, pcrit, shortname, bhealth, phealth
+    if phealth>=15:
+        phealth=15
+    if bhealth>=15:
+        bhealth=15
+    roll=random.randint(0,10)
+    deletelist=["Strength of Stanko", "Legs of LeBrun", "Miscellaneous Malign Papers", "Mrs. Valley's Raw Power", "Lighter", "Hair spray", "Floor one keys", "Floor two keys", "Bruce's broom", "Mrs. OConnor's flash drive", "Table, the Table Leg"]
+    for ite in deletelist:
+        if ite in tempbag:
+            tempbag.remove(ite)
+    ituse=bagitem(tempbag)
+    if ituse==False:
+        return False
+    tempbag.remove(ituse)
+    if ituse=="Loaf of Bread":
+        textbox("Used Loaf of Bread")
+        phealth+=6
+    if ituse=="Slightly Smelly Fish (Trout?)":
+        textbox("Ate smelly fish")
+        phealth+=6
+    if ituse=="Mr. Rafalowski's ID Card":
+        textbox(f"{shortname} ninja threw the ID card")
+        if roll>=pcrit:
+            textbox("The card flies true and hits Mr. Capodice in the eye")
+            textbox("A critical hit!")
+            bhealth-=4
+        elif roll>=3:
+            bhealth-=2
+        else:
+            textbox(f"{shortname}'s attack missed!")
+    if ituse=="Mrs. Gerstein's Searcher of Seeking":
+        textbox("Used searcher")
+        textbox("Weak point located")
+        textbox(f"{shortname}'s critical chance increased")
+        pcrit-=1
+    if ituse=="The Holy Book of Mr. Nowakoski":
+        textbox("Used holy book")
+        if roll>=pcrit+1:
+            textbox("A critical hit!")
+            bhealth-=6
+        else:
+            bhealth-=2
+    if ituse=="Mr. Sanservino's Test":
+        textbox("Used evil test")
+        if roll>14-pcrit:
+            textbox("The test lashes out at Mr. Capodice")
+            bhealth-=4
+        else:
+            textbox(f"The test lashes out at {shortname}")
+            phealth-=4
+    if ituse=="Mr. McMenamin's Lucky Eraser":
+        textbox("Used lucky eraser")
+        textbox(f"{shortname}'s critical chance sharply increased")
+        pcrit-=2
+    if ituse=="The Crucible":
+        textbox("Used the crucible")
+        textbox("More weight was added to Mr. Capodice")
+        textbox("The devil gives you precision")
+        textbox("Reverend Hale gives your soul peace")
+        bhealth-=2
+        pcrit-=1
+        phealth+=1
+    if ituse=="Yearbook":
+        textbox(f"{shortname} reminisces about the good times")
+        phealth+=4
+
+def isdead():
+    global phealth, bhealth
+    if phealth<=0:
+        money=random.randint(1,100)
+        textbox(f"{shortname} has no more health left")
+        textbox(f"{shortname} paid out ${money} to Mr. Capodice")
+        textbox(f"{shortname} fainted")
+        dead(2)
+    elif bhealth<=0:
+        print (bhealth)
+        textbox("Mr. Capodice fainted")
+        return True
+    return False
+
+
+
+
+
 
 def bossbattle():
+    global tempbag, phealth, bhealth, pcrit, position, bdif
+    bdif=0
+    pcrit=10
+    tempbag=[]
+    for ite in inventory:
+        tempbag.append(ite)
     phealth=15
     bhealth=15
-    bossart(phealth,bhealth)
+    bossart()
+    ok=True
     textbox("CHAMPION Capodice challenges you toa battle")
-    choice=fbr()
-    if choice==1:
-        fight()
-def bossart(phealth, bhealth):
+    while True:
+        roll=random.randint(1,3)
+        choice=fbr()
+        if choice==1:
+            fight()
+        if choice==2:
+            if bag()==False:
+                ok=False
+        if choice==3:
+            highroll=random.randint(1,10)
+            if highroll>8:
+                textbox("Got away safely")
+                position==22
+                return False
+            else:
+                textbox("Can't escape!")
+        if isdead()==True:
+            textbox(f"{shortname} is victorious!")
+            return True
+        if ok!=False:
+            bossmove()
+            print(bhealth)
+            poissone()
+            burne()
+            if isdead()==True:
+                textbox(f"{shortname} is victorious!")
+                return True
+            if roll==3:
+                bdif+=1
+        bossart()
+
+def bossmove():
+    global invsave, bdif, phealth, bhealth
+    roll=random.randint(1+bdif,10)
+    hit=random.randint(1,10)+bdif
+    if roll==10 and invsave!=[0]:
+        textbox("Mr. Capodice used Delete Save")
+        textbox("Your save files have been deleted!")
+        invsave=[0]
+    elif roll>=8:
+        textbox("Mr. Capodice used Body Slam")
+        if hit>=1:
+            pdam(4+bdif)
+            textbox("Mr. Capodice is hit by the recoil")
+            bdam(1)
+        else:
+            textbox("Mr. Capodice's attack missed!")
+    elif roll>=4:
+        textbox("Mr. Capodice used Earthquake")
+        if hit>=3:
+            textbox(f"Magnitude {(roll-2)*2}!")
+            pdam(roll-3+bdif)
+    else:
+        textbox("Mr. Capodice used Tackle")
+        pdam(2+bdif)
+
+
+def bossart():
+    global shortname, phealth, bhealth
     shortname=""
     cha=1
     for c in name:
