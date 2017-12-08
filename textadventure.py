@@ -862,7 +862,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
 
 
 def option (instruct):                  #the biggest function in my code. It takes the room that you are in and the option passed to it, then tells you what happens. There isn't a great way that I can think of to condense this significantly, so here it is. It's a lot of semi-boring code.
-    global difficulty, itemlist, position, rafid, searcher, popquiz, eraser, floortwokey, table, hairspray, flooronekey, lockpick, records
+    global difficulty, itemlist, position, rafid, searcher, popquiz, eraser, floortwokey, table, hairspray, flooronekey, lockpick, records, terrycad
     if position==0:
         if instruct==1:
             print("You enter the hallway to the north.")
@@ -1384,6 +1384,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             if terrycad==False:
                 print("You pick up Mrs. OConnor's flash drive, wondering what designs she might have worked on while you were doing busywork.")
                 inventory.append("Mrs. OConnor's flash drive")
+                terrycad=True
             else:
                 print("You try to pick up the flash drive, but realize that it is already in your pocket. What an idiot!")              #given the way that my program is written, it is impossible to remove the option of taking an item without reprinting the entire description (one place where classes would be better) so I have the functions check if they already took the item, then insult them if they did.
         return "retry"
