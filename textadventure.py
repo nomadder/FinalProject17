@@ -259,7 +259,7 @@ def encounter():                    #encounters are initiated in certain rooms, 
             print("1. Climb over the desk\n2. Look at the problem")
             choice=eventchoose(2)
             if choice==1:
-                print("You try to climb over the desk. Before you can, Dr. Jiderian materializes in front of you. 'SHOW YOUR WORK!' he yells, and throws a marker at you. It knocks you out cold, and the fall to the ground kills you.")
+                print("You try to climb over the desk. Before you can, Dr. Jidarian materializes in front of you. 'SHOW YOUR WORK!' he yells, and throws a marker at you. It knocks you out cold, and the fall to the ground kills you.")
                 dead(2)
             if choice==2:
                 print(f"You read the problem. It says {a}*{b}+({c}*{d})^{e}. What is your answer? (Pencil and paper only, no calculator!)")
@@ -740,7 +740,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             print("You are in the southern hallway of the second floor. The hallway continues to the east and west. You see Mr. Liu's, Mr. Straut's and Mrs. OConnor's rooms.\n1. Go east\n2. Go west\n3. Enter Mr. Liu's room\n4. Enter Mr. Straut's room\n5. Enter Mrs. OConnor's room\n6. Item")
             position=chose(6)
         if position==22:
-            print("You are in the eastern hallway of the second floor. The hallway continues to the north and south. You see Dr. Fang's and Dr. Jiderian's rooms.\n1. Go north\n2. Go south\n3. Enter Dr. Fang's room\n4. Dr. Jiderian's room\n5. Item")
+            print("You are in the eastern hallway of the second floor. The hallway continues to the north and south. You see Dr. Fang's and Dr. Jidarian's rooms.\n1. Go north\n2. Go south\n3. Enter Dr. Fang's room\n4. Dr. Jidarian's room\n5. Item")
             position=chose(5)
         if position==27:
             print("You are in the northern hallway of the second floor. The hallway continues to the east and west. You see Senora Mejia's and Mrs. Mansfield-Smith's rooms.\n1. Go east\n2. Go west\n3. Enter Senora Mejia's room\n4. Enter Mrs. Mansfield-Smith's room\n5. Item")
@@ -792,7 +792,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
         if position==24:
             if mathevent==False:
                 encounter()
-            print("You are in Dr. Jiderian's room. You feel simultaneously stressed and relaxed. You hope that you don't find another GA.")
+            print("You are in Dr. Jidarian's room. You feel simultaneously stressed and relaxed. You hope that you don't find another GA.")
             things(24)
             print("1. Leave room\n2. Look for another GA\n3. Item")
             if floortwokey==False:
@@ -1313,7 +1313,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             else:
                 print("The door is locked")
         if instruct==4:
-            print("You enter Dr. Jiderian's room")
+            print("You enter Dr. Jidarian's room")
             return 24
         if instruct==5:
             return item()
