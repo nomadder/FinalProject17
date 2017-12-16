@@ -53,10 +53,17 @@ seed=False
 leech=False
 cameras=False
 records=False
-itemdic={1: "Mrs. Gerstein's Searcher of Seeking", 2: "Floor one keys",3: "Mr. Rafalowski's ID Card",4: "Mr. McMenamin's Lucky Eraser", 5: "Bruce's broom",6: "The Holy Book of Mr. Nowakoski",7: "Mr. Sanservino's Test",8: "The Crucible",9: "Magnet Man",10: "Strength of Stanko",11: "Legs of LeBrun",12: "Mrs. Valley's Raw Power",13: "Floor two keys",14: "Lighter",15: "Hair spray",16: "Table, the Table Leg",17: "Loaf of bread",18: "Slightly Smelly Fish (Trout?)",19: "Yearbook",20: "Mrs. OConnor's Flash Drive",21:"God-like Physics Powers",22:"Strange Seeds",23:"Lockpicks",24:"Hazardous Chemicals",25:"Mrs. Kipp's Flash Drive",26:"Car",27:"Car keys"}         #I didn't actually know about dictionaries until the class about them, so I added the dictionary of items so I didn't have to type in the exact name of every item
+itemdic={1: "Mrs. Gerstein's Searcher of Seeking", 2: "Floor one keys",3: "Mr. Rafalowski's ID Card",4: "Mr. McMenamin's Lucky Eraser", 5: "Bruce's broom",6: "The Holy Book of Mr. Nowakoski",7: "Mr. Sanservino's Test",8: "The Crucible",9: "Magnet Man",10: "Strength of Stanko",11: "Legs of LeBrun",12: "Mrs. Valley's Raw Power",13: "Floor two keys",14: "Lighter",15: "Hairspray",16: "Table, the Table Leg",17: "Loaf of bread",18: "Slightly Smelly Fish (Trout?)",19: "Yearbook",20: "Mrs. O'Connor's Flash Drive",21:"God-like Physics Powers",22:"Strange Seeds",23:"Lockpicks",24:"Hazardous Chemicals",25:"Mrs. Kipp's Flash Drive",26:"Car",27:"Car keys"}         #I didn't actually know about dictionaries until the class about them, so I added the dictionary of items so I didn't have to type in the exact name of every item
 itemlist=[position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs, bdif]    #a list of the variables I use, mostly for the save/load function
 inventorysave=[]
-def stress(change):                 #this is called by many functions, and increases stress level by the ammount given
+
+def lock1():                        #if the player doesn't have the floor one key, prints 'locked' next to locked rooms
+    if flooronekey==False:
+        return ' (Locked)'
+def lock2():                        #same as lock1, but for the second floor
+    if floortwokey==False:
+        return ' (Locked)'
+def stress(change):                 #this is called by many functions, and increases stress level by the amount given
     global stresslvl
     stresslvl+=change
     if stresslvl<0:
@@ -123,6 +130,8 @@ def encounter():                    #encounters are initiated in certain rooms, 
                 chan=random.randint(1,3)
                 if chan==3:
                     print("You call upon your gymnastic skills, and manage to dive and dodge through the whirling blades. You see a big red button labeled 'STOP' and slam it.\nThe blades keep whirling. You briefly ponder your options.")
+                    print("1. Run")
+                    eventchoose(1)
                     chan=random.randint(1,3)
                     if chan==3:
                         print("You once again call upon your gymnastic skills, and execute a perfect escape, with not a scratch on you. You decide to never do that again, as your odds of survival are low.")
@@ -160,7 +169,7 @@ def encounter():                    #encounters are initiated in certain rooms, 
             if choice==3:
                 ituse=eventitem()
                 if ituse=="The Holy Book of Mr. Nowakoski":
-                    print("You take the book from your pocket, and ponder how to read it in the darkness. This problem is quickly solved for you by the appearance of a halo over your head.\nAs the vocabulary books on the desk release their semi-obscure words, such as 'adventitious' and 'precept', you intone the holy syllables of 'ghoti' and 'rasterbate'\nobliterating them with the rarity of the words. As the last of the evil words fade, you flip the light switch and close the book, murmurring a thanks to the gods of\nderivational morphology.")
+                    print("You take the book from your pocket, and ponder how to read it in the darkness. This problem is quickly solved for you by the appearance of a halo over your head.\nAs the vocabulary books on the desk release their semi-obscure words, such as 'adventitious' and 'precept', you intone the holy syllables of 'ghoti' and 'rasterbate'\nobliterating them with the rarity of the words. As the last of the evil words fade, you flip the light switch and close the book, murmuring a thanks to the gods of\nderivational morphology.")
                     stress(-4)
                     global vocabwords
                     vocabwords=True
@@ -395,9 +404,9 @@ def eventchoose(number):            #like eventitem, this simply returns the num
                 itsok=False
     return choice
 
-def dead(death):            #initially, this was supposed to have the text that shows whenever you die, but eventualy I switched to putting that in the other functions (wherever there's a way to die. This function's main purpose is to give the player the option to load (if applicable) and if not, shuts the function down 'classily' (forcing pythonanywhere to terminate it)
+def dead(death):            #initially, this was supposed to have the text that shows whenever you die, but eventually I switched to putting that in the other functions (wherever there's a way to die. This function's main purpose is to give the player the option to load (if applicable) and if not, shuts the function down 'classily' (forcing pythonanywhere to terminate it)
     if death==0:
-        print("The voices in your head grow to be unbearable. You sit down in a corner, and glance at the clock. Your glance meets the red 12:00 just as it begins to flash 'BELL'.\nHow did it get that late? Your mind is still reeling as the lights go out. The noises are drowned out by one sinister laugh. A shadow that is somehow darker than\nthe night appears in front of you. You scream, and the shadow grabs you. The last thing that you see is the red 'HELL' on the clock.")          #I was, at the beginning, unsure of where I wanted to go with this game. As a result, there are some elements of both horror and humor, but this death (from stress) is undoubtedly mroe on the horror side. (I promise, I'm really not depressed)
+        print("The voices in your head grow to be unbearable. You sit down in a corner, and glance at the clock. Your glance meets the red 12:00 just as it begins to flash 'BELL'.\nHow did it get that late? Your mind is still reeling as the lights go out. The noises are drowned out by one sinister laugh. A shadow that is somehow darker than\nthe night appears in front of you. You scream, and the shadow grabs you. The last thing that you see is the red 'HELL' on the clock.")          #I was, at the beginning, unsure of where I wanted to go with this game. As a result, there are some elements of both horror and humor, but this death (from stress) is undoubtedly more on the horror side. (I promise, I'm really not depressed)
     if death==1:
         print("The last thing you see is Mr. Rafalowski's face on his ID. His smile seems too wide, as if he finds you humorous. You see nothing after that.")
     print("YOU HAVE DIED")
@@ -454,7 +463,7 @@ def things(room):           #called in rooms where an item starts out. If the it
     if room==26 and yearbook==False:
         print("You see a yearbook in the corner")
     if room==21 and terrycad==False:
-        print("You see a flash drive on Theresa 'Terry' OConnor's desk")
+        print("You see a flash drive on Theresa 'Terry' O'Connor's desk")
     if room==31 and kippcad==False:
         print("You see a flash drive on Mrs. Kipp's desk")
     if room==24 and floortwokey==False:
@@ -590,7 +599,7 @@ def victory(win):           #there aren't many ways to win, but there are some. 
             while True:
                 choice=input("There aren't any more messages after these. Seriously. ")
 
-def chose(number):          #checks to see if an input is an integer in the range given
+def choose(number):          #checks to see if an input is an integer in the range given
     while True:
         choice=input("What do you do? ")
         itsok=False
@@ -615,16 +624,49 @@ def chose(number):          #checks to see if an input is an integer in the rang
         else:
             stress(difficulty)          #whenever you make a choice that moves you, your stress goes up by whatever the value of difficulty is
             return go
+"""
+class Room(object):
+    def __init__(self, golist, rooms, description, position, ite1, ite2, extra1, extra2):
+        self.golist=golist
+        self.description=description
+        self.position=position
+        if rooms!=False:
+            self.rooms=rooms
+        else:
+            self.rooms=[]
+        if ite1!=False:
+            self.ite1=ite1
+        else:
+            self.ite1=[]
+        if ite2!=False:
+            self.ite2=ite2
+        else:
+            self.ite2=[]
+        if extra1!=False:
+            self.extra1=extra1
+        else:
+            self.extra1=[]
+        if extra2!=False:
+            self.extra2=extra2
+        else:
+            self.extra2=[]
 
+
+
+entrance=Room(['north','up','east'],False,"You are in the main lobby of the dark school. You see hallways leading north and east, and stairs leading up.",0,False,False,False,False)
+mainoffice=Room(['leave'], False,'You are in the main office of the school. You see the announcement system.',2,['take id', 'take the id', "take mr.rafalowski's id", "take mr.r's id"],False,['use announcement system', 'make an announcement', 'announcement'],['destroy tapes','break tapes','remove tapes','take tapes', 'take security tapes', 'destroy security tapes'])
+shall1=Room(['east','west'],['auditorium', 'broom closet'],"You are in the southern hallway of the first floor. The hall continues to the east and west. You see the entrance to the auditorium and the broom closet.",1,False,False,False,False)
+broomcloset(['leave'], False, "You are inside the broom closet. It is a bit dark.
+whall1=Room"""
 def whereAmI():             #so the elephant in the room. I could have used classes to do all these rooms. I still might. I actually thought about it for a while, but decided that at the time, printing descriptions for each room seemed both quicker and better than making a class. I am pretty happy about it came out, and for most rooms I think that it is more efficient and versatile. There are some exceptions however.
     global position
     while True:
         if position==0:
-            print("\nYou are in the main lobby of the dark school. You see hallways leading north and east, and stairs leading up.\n1. North Hallway\n2. East Hallway\n3. Stairs Up\n4. Main Office\n5. Item")
-            position=chose(5)
+            print(f"\nYou are in the main lobby of the dark school. You see hallways leading north and east, and stairs leading up.\n1. North Hallway\n2. East Hallway\n3. Stairs Up\n4. Main Office{lock1()}\n5. Item")
+            position=choose(5)
         if position==1:
-            print("\nYou are in the southern hallway of the first floor.\n1. Go east\n2. Go west\n3. Broom Closet\n4. Auditorium\n5. Item")
-            position=chose(6)
+            print(f"\nYou are in the southern hallway of the first floor. The hall continues to the east and west. You see the entrance to the auditorium and the broom closet.\n1. Go east\n2. Go west\n3. Broom Closet{lock1()}\n4. Auditorium{lock1()}\n5. Item")
+            position=choose(6)
         if position==2:
             print("\nYou are in the main office of the school. You see the announcement system.")
             things(2)
@@ -634,49 +676,48 @@ def whereAmI():             #so the elephant in the room. I could have used clas
                 global records
                 if records==False and itemdic[16] in inventory:
                     print("5. Go ham on the security tapes")
-                    position=chose(5)
+                    position=choose(5)
                 else:
-                    position=chose(4)
+                    position=choose(4)
             else:
                 if records==False and itemdic[16] in inventory:
                     print("4. Go ham on the security tapes")
-                    position=chose(4)
+                    position=choose(4)
                 else:
-                    position=chose(3)
+                    position=choose(3)
         if position==3:
             print("\nYou are in the small broom closet.")               #'Did you get the broom closet ending? I love the broom closet ending!' (The Stanley Parable)
             things(3)
             print("1. Leave broom closet\n2. Item")
             if broom==False:
                 print("3. Take Broom")
-                position=chose(3)
+                position=choose(3)
             else:
-                position=chose(2)
+                position=choose(2)
         if position==4:
             print("\nYou are in the dark auditorium. You see a light switch and a podium. There is a closet in the corner.\n1. Leave auditorium\n2. Flip light switch\n3. Give a speech\n4. Open closet\n5. Item")
-            position=chose(5)
+            position=choose(5)
         if position==5:
-            print("\nYou are in the eastern hallway of the first floor. The hallway continues to the north and south. You see Mr. Nowakoski's, Mr. Sanservino's and Mrs. Gerstein's rooms.\n1. Go north\n2. Go south\n3. Enter Mr. Nowakoski's room\n4. Enter Mr. Sanservino's room\n5. Enter Mrs. Gerstein's room\n6. Item")
-            position=chose(6)
+            print(f"\nYou are in the eastern hallway of the first floor. The hallway continues to the north and south. You see Mr. Nowakoski's, Mr. Sanservino's and Mrs. Gerstein's rooms.\n1. Go north\n2. Go south\n3. Enter Mr. Nowakoski's room{lock1()}\n4. Enter Mr. Sanservino's room{lock1()}\n5. Enter Mrs. Gerstein's room\n6. Item")
+            position=choose(6)
         if position==10:
-            print("\nYou are in the northern hallway of the first floor. The hallway continues to the east and west. You see the fitness center.\n1. Go east\n2. Go west\n3. Enter fitness center\n4. Item")
-            position=chose(4)
-            print(position)
+            print(f"\nYou are in the northern hallway of the first floor. The hallway continues to the east and west. You see the fitness center.\n1. Go east\n2. Go west\n3. Enter fitness center{lock1()}\n4. Item")
+            position=choose(4)
         if position==6:
             print("\nYou are in Mrs. Gerstein's room. You see a door leading to the Maker Space.")
             things(6)
-            print("1. Leave room\n2. Enter Maker Space\n3. Item")
+            print(f"1. Leave room\n2. Enter Maker Space{lock1()}\n3. Item")
             if searcher==False:
                 print("4. Take Invention")          #sorry, but I need to use this for a bit. I might return it.
-                position=chose(4)
+                position=choose(4)
             else:
-                position=chose(3)
+                position=choose(3)
         if position==12:
-            print("You are in the western hallway of the first floor. The hallway continues to the north and south. You see Mr. McMenamin's and Ms. Arnold's rooms. There is a window in the eastern wall.\n1. Go north\n2. Go south\n3. Enter Mr. McMenamin's room\n4. Enter Ms. Arnold's room\n5. Look out the window\n6. Item")
-            position=chose(6)
+            print(f"You are in the western hallway of the first floor. The hallway continues to the north and south. You see Mr. McMenamin's and Ms. Arnold's rooms. There is a window in the eastern wall.\n1. Go north\n2. Go south\n3. Enter Mr. McMenamin's room{lock1()}\n4. Enter Ms. Arnold's room\n5. Look out the window\n6. Item")
+            position=choose(6)
         if position==8:
             print("You are in the room of Mr. Nowakoski. You can feel the holiness of the place around you. You see his board of sayings in the back of the room, and his collection of books in the front.\n1. Leave room\n2. Look at the wall\n3. Look at the books\n4. Item")
-            position=chose(4)
+            position=choose(4)
         if position==7:
             print("You have gained entry to the room of Mr. Sanservino. Just being in here chills your blood. You see the presentation podium at the front of the room.")
             things(7)
@@ -684,26 +725,26 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             print("1. Leave classroom\n2. Practice a presentation\n3. Item")
             if popquiz==False:
                 print("4. Take papers")
-                position=chose(4)
+                position=choose(4)
             else:
-                position=chose(3)
+                position=choose(3)
         if position==14:
-            print("You enter Ms. Arnold's room. You see a door leading to Mrs. Pinto's office. There is writing on the whiteboard.\n1. Leave room\n2. Enter office\n3. Look at whiteboard\n4. Item")
-            position=chose(4)
+            print(f"You enter Ms. Arnold's room. You see a door leading to Mrs. Pinto's office. There is writing on the whiteboard.\n1. Leave room\n2. Enter office{lock1()}\n3. Look at whiteboard\n4. Item")
+            position=choose(4)
         if position==13:
             if swordbots==True:
                 print("You enter the makerspace. You see several manufacturing machines. \n1. Leave the makerspace\n2. Item")
                 if itemdic[20] and itemdic[25] in inventory:
-                    print("3. Make whatever is on Mrs. Kipp's flash drive\n4. Make whatever is on Mrs. OCOnnor's flash drive")
-                    position=chose(4)
+                    print("3. Make whatever is on Mrs. Kipp's flash drive\n4. Make whatever is on Mrs. O'Connor's flash drive")
+                    position=choose(4)
                 elif itemdic[25] in inventory:
                     print("3. Make whatever is on Mrs. Kipp's flash drive")
-                    position=chose(3)
+                    position=choose(3)
                 elif itemdic[20] in inventory:
-                    print("3. Make whatever is on Mrs. OConnor's flash drive")
-                    position=chose(3)
+                    print("3. Make whatever is on Mrs. O'Connor's flash drive")
+                    position=choose(3)
                 else:
-                    position=chose(2)
+                    position=choose(2)
             else:
                 encounter()
         if position==15:
@@ -711,10 +752,10 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             things(15)
             print("1. Leave room\n2. Reminisce some more\n3. Item")
             if eraser==True:
-                position=chose(3)
+                position=choose(3)
             else:
                 print("4. Take eraser")
-                position=chose(4)
+                position=choose(4)
         if position==99:
             if vocabwords==False:
                 encounter()
@@ -724,71 +765,71 @@ def whereAmI():             #so the elephant in the room. I could have used clas
                 print("1. Leave office\n2. Item")
                 if crucible==False:
                     print("3. Take 'The Crucible'")
-                    position=chose(3)
+                    position=choose(3)
                 else:
-                    position=chose(2)
+                    position=choose(2)
         if position==11:
             if gymevent==False:
                 encounter()
             else:
                 print("You stand in the gym, surrounded by workout equipment and the smell of sweat.\n1. Leave gym\n2. Item\n3. Get swoll")
-                position=chose(3)
+                position=choose(3)
         if position==17:
-            print("You stand outside the senior lounge. You see hallways leading to the north and to the east.\n1. Go north\n2. Go east\n3. Descend Stairs\n4. Enter senior lounge\n5. Item")
-            position=chose(4)
+            print(f"You stand outside the senior lounge. You see hallways leading to the north and to the east.\n1. Go north\n2. Go east\n3. Descend Stairs\n4. Enter senior lounge{lock2()}\n5. Item")
+            position=choose(4)
         if position==18:
-            print("You are in the southern hallway of the second floor. The hallway continues to the east and west. You see Mr. Liu's, Mr. Straut's and Mrs. OConnor's rooms.\n1. Go east\n2. Go west\n3. Enter Mr. Liu's room\n4. Enter Mr. Straut's room\n5. Enter Mrs. OConnor's room\n6. Item")
-            position=chose(6)
+            print(f"You are in the southern hallway of the second floor. The hallway continues to the east and west. You see Mr. Liu's, Mr. Straut's and Mrs. O'Connor's rooms.\n1. Go east\n2. Go west\n3. Enter Mr. Liu's room{lock2()}\n4. Enter Mr. Straut's room\n5. Enter Mrs. O'Connor's room{lock2()}\n6. Item")
+            position=choose(6)
         if position==22:
-            print("You are in the eastern hallway of the second floor. The hallway continues to the north and south. You see Dr. Fang's and Dr. Jidarian's rooms.\n1. Go north\n2. Go south\n3. Enter Dr. Fang's room\n4. Dr. Jidarian's room\n5. Item")
-            position=chose(5)
+            print(f"You are in the eastern hallway of the second floor. The hallway continues to the north and south. You see Dr. Fang's and Dr. Jidarian's rooms.\n1. Go north\n2. Go south\n3. Enter Dr. Fang's room{lock2()}\n4. Dr. Jidarian's room\n5. Item")
+            position=choose(5)
         if position==27:
-            print("You are in the northern hallway of the second floor. The hallway continues to the east and west. You see Senora Mejia's and Mrs. Mansfield-Smith's rooms.\n1. Go east\n2. Go west\n3. Enter Senora Mejia's room\n4. Enter Mrs. Mansfield-Smith's room\n5. Item")
-            position=chose(5)
+            print(f"You are in the northern hallway of the second floor. The hallway continues to the east and west. You see Senora Mejia's and Mrs. Mansfield-Smith's rooms.\n1. Go east\n2. Go west\n3. Enter Senora Mejia's room\n4. Enter Mrs. Mansfield-Smith's room{lock2()}\n5. Item")
+            position=choose(5)
         if position==29:
-            print("You are in the western hallway of the second floor. The hallway continues to the north and south. You see Mr. Raite's, Mrs. Kipp's and Mr. Merkl's room\n1. Go north\n2. Go south\n3. Enter Mr. Raite's room\n4. Enter Mrs. Kipp's room\n5. Enter Mr. Merkl's room\n6. Item")
-            position=chose(6)
+            print(f"You are in the western hallway of the second floor. The hallway continues to the north and south. You see Mr. Raite's, Mrs. Kipp's and Mr. Merkl's room\n1. Go north\n2. Go south\n3. Enter Mr. Raite's room\n4. Enter Mrs. Kipp's room{lock2()}\n5. Enter Mr. Merkl's room\n6. Item")
+            position=choose(6)
         if position==26:
             print("You are in Senora Mejia's room")         #I never had Sra. Mejia, and have absolutely no idea what her class is like.
             things(26)
             print("1. Leave room\n2. Item")
             if yearbook==False:
                 print("3. Take yearbook")
-                position=chose(3)
+                position=choose(3)
             else:
-                position=chose(2)
+                position=choose(2)
         if position==21:
-            print("You are in Mrs. OConnor's room. Banks of computers light the room, each with a 'spinny' chair in front of it.")
+            print("You are in Mrs. O'Connor's room. Banks of computers light the room, each with a 'spinny' chair in front of it.")
             things(21)
             print("1. Leave room\n2. Spin in a chair\n3. Item")
             if terrycad==False:
                 print("4. Take flash drive")
-                position=chose(4)
+                position=choose(4)
             else:
-                position=chose(3)
+                position=choose(3)
         if position==20:
             print("You are in Mr. Liu's room. You reminisce about his old room, and the daily Rukkus games.")
             things(20)
             print("1. Leave room\n2. Item")
             if table==False:
                 print("3. Investigate Table")           #Table, the Table Leg, was a table leg the preston accidentally ripped from the table, then cradled for the rest of the class. He was a recurring theme during Mr. Liu's class in freshman year
-                position=chose(3)
+                position=choose(3)
             else:
-                position=chose(2)
+                position=choose(2)
         if position==32:
             print("You are in Mr. Raite's room. You see a door leading to a closet with a sign labeled 'DANGER'.")
             things(32)
             print("1. Leave room\n2. Enter chemical storage\n3. Item")
             if lighter==False:
                 print("4. Take lighter")
-                position=chose(4)
+                position=choose(4)
             else:
-                position=chose(3)
+                position=choose(3)
         if position==19:
             print("You are in Mr. Straut's room. While some people liked him, you kind of hated him.")          #Mr. Straut, if you are reading this, I don't hate you.
             things(19)
             print("1. Leave room\n2. Item")
-            position=chose(2)
+            position=choose(2)
         if position==24:
             if mathevent==False:
                 encounter()
@@ -797,9 +838,9 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             print("1. Leave room\n2. Look for another GA\n3. Item")
             if floortwokey==False:
                 print("4. Take keys")
-                position=chose(4)
+                position=choose(4)
             else:
-                position=chose(3)
+                position=choose(3)
         if position==31:
             if kippevent==False:
                 encounter()
@@ -808,9 +849,9 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             print("1. Leave room\n2. Ctrl alt delete\n3. Ctrl+c\n4. Item")
             if kippcad==False:
                 print("5. Take flash drive")
-                position=chose(5)
+                position=choose(5)
             else:
-                position=chose(4)
+                position=choose(4)
         if position==23:
             if fangevent==False:
                 encounter()
@@ -820,41 +861,41 @@ def whereAmI():             #so the elephant in the room. I could have used clas
                 print("1. Leave room (why though?)\n2. Kick Mr. Capodice while he's down\n3. Item")
                 if physbook==False:
                     print("4. Take textbook")
-                    position=chose(4)
+                    position=choose(4)
                 else:
-                    position=chose(3)
+                    position=choose(3)
         if position==30:
             print("You are in a room that has felt empty for too long. Other teachers have come and go, but none will ever replace Bill Merkl. you briefly miss the Vigilante Cowboys.")            #R.I.P. Mr. Merkl
             things(30)
             print("1. Leave room\n2. Try to find Bill Merkl\n3. Item")
             if seed==False:
                 print("4. Take seed packet")
-                position=chose(4)
+                position=choose(4)
             else:
-                position=chose(3)
+                position=choose(3)
         if position==101:
             print("You stand inside the small room (more of a cubicle really) and look at the strange combination of mess and neatness. It looks as if someone has already been going through the grade files, and didn't clean up after themself.")
             things(101)
             print("1. Leave room\n2. Go through files\n3. Item")
             if lockpick==False:
                 print("4. Take set of lockpicks")               #I don't know if Mrs. Mansfield-Smith has a set of lockpicks, but it seemed like a convenient place to put them
-                position=chose(4)
+                position=choose(4)
             else:
-                position=chose(3)
+                position=choose(3)
         if position==98:
             print("You are in the senior lounge. You aren't a senior yet, and get the feeling that you shouldn't be here, but who cares? You see a Gamestation X in the corner.")
             things(98)
             print("1. Leave room\n2. Play some games\n3. Item")
             if magnetman==False:
-                position=chose(4)
+                position=choose(4)
             else:
-                position=chose(3)
+                position=choose(3)
         if position==33:
             if chemevent==False:
                 encounter()
             else:
                 print("You are in the chemical storage, surrounded by buckets and vials of things that could easily kill you. The floor still seems a bit low on the pH scale, but not enough to kill you (hopefully).\n1. Leave room\n2. Item")
-                position=chose(2)
+                position=choose(2)
 
 
 
@@ -862,7 +903,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
 
 
 def option (instruct):                  #the biggest function in my code. It takes the room that you are in and the option passed to it, then tells you what happens. There isn't a great way that I can think of to condense this significantly, so here it is. It's a lot of semi-boring code.
-    global difficulty, itemlist, position, rafid, searcher, popquiz, eraser, floortwokey, table, hairspray, flooronekey, lockpick, records, terrycad
+    global difficulty, itemlist, position, rafid, searcher, popquiz, eraser, floortwokey, table, hairspray, flooronekey, lockpick, records
     if position==0:
         if instruct==1:
             print("You enter the hallway to the north.")
@@ -911,24 +952,27 @@ def option (instruct):                  #the biggest function in my code. It tak
             print("You take Mr. Rafalowski's ID. You can feel its power flow through you.")
             rafid=True
             inventory.append("Mr. Rafalowski's ID Card")
-        elif rafid==True and records==False:
+        elif instruct==4 and rafid==True and records==False:
             print("You go to town on the tapes with Table, the Table Leg. That was very satisfying.")           #to get the true ending, you need to have no evidence
             records=True
             if cameras==False:
                 print("Unfortunately, the cameras are still recording things,")
                 records=False
             return "retry"
-        if instruct==5:
+        elif instruct==4 and rafid==True and table==False:
+            print("You already picked that up.")
+        if instruct==5 and table==True:
             print("You go to town on the tapes with Table, the Table Leg. That was very satisfying.")
             records=True
             if cameras==False:
                 print("Unfortunately, the cameras are still recording things,")
                 records=False
             return "retry"
+        if instruct==5 and table==False:
+            print("You try to destroy the tapes, but you don't have any good way to break them. A nice blunt object would work.")
+            return "retry"
         if instruct==3:
             return item()
-        else:
-            print("You already picked that up")
         return "retry"
     if position==1:
         if instruct==1:
@@ -975,9 +1019,9 @@ def option (instruct):                  #the biggest function in my code. It tak
             if flooronekey==True:
                 print("You open the closet. You see only water bottles and stacks of paper.")
                 if searcher==True and hairspray==False:
-                    print("You use Mrs. Gerstein's searcher (of seeking) and find a can of hair spray. It seems mostly full.")
+                    print("You use Mrs. Gerstein's searcher (of seeking) and find a can of hairspray. It seems mostly full.")
                     hairspray=True
-                    inventory.append("Hair spray")
+                    inventory.append("Hairspray")
                     stress(-1)
                 else:
                     print("You can't see anything important, so you close the closet")
@@ -1065,7 +1109,7 @@ def option (instruct):                  #the biggest function in my code. It tak
         if instruct==5:
             global window
             if stresslvl<5 or window==False:
-                print("You look out the window at the empty parking lot. You resolve to get out of this school to avoid the embarassment you will face in the morning.")
+                print("You look out the window at the empty parking lot. You resolve to get out of this school to avoid the embarrassment you will face in the morning.")
                 if stresslvl<5 and window==False:
                     stress(-1)
                 window=True
@@ -1097,7 +1141,7 @@ def option (instruct):                  #the biggest function in my code. It tak
                 nowbook=True
                 inventory.append("The Holy Book of Mr. Nowakoski")
             else:
-                print("You look over the books remembering when you read some of them. None of the books look even remotely bad, of couse.")
+                print("You look over the books remembering when you read some of them. None of the books look even remotely bad, of course.")
         if instruct==4:
             return item()
         return "retry"
@@ -1128,7 +1172,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             popquiz=True
             difficulty+=0.1                  #a select few things will increase the difficulty of the game. At around a difficulty of 0.8, the game becomes so hard that even I can't win it.
             inventory.append("Mr. Sanservino's Test")
-        else:
+        elif instruct==4 and popquiz==True:
             print("For whatever reason, you are compelled to pick up some more papers. This seems like a pretty bad idea.")
             difficulty+=0.2
             stress(1)
@@ -1147,7 +1191,7 @@ def option (instruct):                  #the biggest function in my code. It tak
         if instruct==3:
             print("You look at the board. All of the writing seems to be in varying shades of red and brown.")
             if keyloc==3:
-                print("You read 'She SellS SeaShellS on the firSt floor'")              #a quick little riddle. The capitalized letter corresponds to where you find the keys on the first floor. It may be a little overly difficult (because kids are wusses these days. They wouldn't last 19 turns in Hitchiker's Guide to the Galaxy)
+                print("You read 'She SellS SeaShellS on the firSt floor'")              #a quick little riddle. The capitalized letter corresponds to where you find the keys on the first floor. It may be a little overly difficult, but mostly because kids are wusses these days. They wouldn't last 19 turns in Hitchhiker's Guide to the Galaxy
             elif keyloc==1:
                 print("You read 'Nora Nelly Needs Nice New Nuggets'")
             elif keyloc==2:
@@ -1165,7 +1209,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             return item()
         if itemdic[20] and itemdic[25] in inventory:
             if instruct==3:
-                print("You plug the flash drive into the 3-D printer. In an incredibly short amount of time, you have a fully built car. You put the car in your pocket.")
+                print("You plug the flash drive into the 3D printer. In an incredibly short amount of time, you have a fully built car. You put the car in your pocket.")
                 inventory.append(itemdic[26])
                 inventory.remove(itemdic[20])
             if instruct==4:
@@ -1173,7 +1217,7 @@ def option (instruct):                  #the biggest function in my code. It tak
                 inventory.append(itemdic[27])
                 inventory.remove(itemdic[25])
         elif itemdic[20] in inventory:
-            print("You plug the flash drive into the 3-D printer. In an incredibly short amount of time, you have a fully built car. You put the car in your pocket.")
+            print("You plug the flash drive into the 3D printer. In an incredibly short amount of time, you have a fully built car. You put the car in your pocket.")
             inventory.append(itemdic[26])
             inventory.remove(itemdic[20])
         elif itemdic[25] in inventory:
@@ -1286,7 +1330,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             return 19
         if instruct==5:
             if floortwokey==True:
-                print("You enter Mrs. OConnor's room")
+                print("You enter Mrs. O'Connor's room")
                 return 21
             else:
                 print("The door is locked")
@@ -1343,7 +1387,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             return 27
         if instruct==2:
             print("You go south")
-            return 18
+            return 17
         if instruct==3:
             print("You enter Mr. Raite's room")
             return 32
@@ -1382,9 +1426,8 @@ def option (instruct):                  #the biggest function in my code. It tak
             return item()
         if instruct==4:
             if terrycad==False:
-                print("You pick up Mrs. OConnor's flash drive, wondering what designs she might have worked on while you were doing busywork.")
-                inventory.append("Mrs. OConnor's flash drive")
-                terrycad=True
+                print("You pick up Mrs. O'Connor's flash drive, wondering what designs she might have worked on while you were doing busywork.")
+                inventory.append("Mrs. O'Connor's flash drive")
             else:
                 print("You try to pick up the flash drive, but realize that it is already in your pocket. What an idiot!")              #given the way that my program is written, it is impossible to remove the option of taking an item without reprinting the entire description (one place where classes would be better) so I have the functions check if they already took the item, then insult them if they did.
         return "retry"
@@ -1419,10 +1462,12 @@ def option (instruct):                  #the biggest function in my code. It tak
         if instruct==3:
             return item()
         if instruct==4:
+            global lighter
             if lighter==False:
                 print("You take the lighter, and give it a few good twirls before putting it in your pocket. You slightly burn yourself in the process.")
                 inventory.append("Lighter")
                 stress(0.2)
+                lighter=True
         return "retry"
     if position==19:
         global papers
@@ -1577,7 +1622,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             return item()
         if instruct==4:
             if lockpick==False:
-                print("You take the set of lockpicks. These are kind of illegal, and you wonder why Mrs. Mansfiel-Smith had them.")
+                print("You take the set of lockpicks. These are kind of illegal, and you wonder why Mrs. Mansfield-Smith had them.")
                 lockpick=True
                 flooronekey=True
                 inventory.append(itemdic[23])
@@ -1622,7 +1667,7 @@ def startup():                  #the first function, that sets up some important
         except ValueError:
             print("That's not the magic number. That's not even a number. You aren't solving this with a mind like that.")
             dead(2)
-        password=int(password)              #turns out its pretty hard to make a function that is unbreakable from the inside. I could have used %, and still might, but I had someone very good trying to break it. s/o to jtan for showing me that things are really hard to tan-proof, but I think I finally succeeded. And I am pretty proud of that fact.
+        password=int(password)              #turns out it's pretty hard to make a function that is unbreakable from the inside. I could have used %, and still might, but I had someone very good trying to break it. s/o to jtan for showing me that things are really hard to tan-proof, but I think I finally succeeded. And I am pretty proud of that fact.
         numb=0
         numbo=3
         numbos=password
@@ -1666,7 +1711,7 @@ def startup():                  #the first function, that sets up some important
             else:
                 print("Probably for the best sir.")             #this lets me get any items I want (for testing purposes) I now see why games have cheat codes. They are really helpful
             while give!=1000 and give!=100:
-                print("Would you like some items sir?\n1. Searcher\n2. Floor one keys\n3. Rafalowski's ID\n4. Eraser\n5. Bruce's broom\n6. Holy Book\n7. Mr. Sanservino's Test\n8. The Crucible\n9. Magnet Man\n10. Strength of Stanko\n11. Legs of LeBrun\n12. Mrs. Valley's Raw Power\n13. Floor two keys\n14. Lighter\n15. Hair spray\n16. Table, the Table Leg\n17. Loaf of bread\n18. Smelly fish (yummy fish)\n19. Yearbook\n20. Mrs. OConnor's Flash Drive\n21. God-like Powers\n22. Strange Seeds\n23. Lockpicks\n24. Hazardous Chemicals\n25. Mrs. Kipp's Flash Drive\n26. Car\n27. Car keys\n100. All\n1000. Nope")
+                print("Would you like some items sir?\n1. Searcher\n2. Floor one keys\n3. Rafalowski's ID\n4. Eraser\n5. Bruce's broom\n6. Holy Book\n7. Mr. Sanservino's Test\n8. The Crucible\n9. Magnet Man\n10. Strength of Stanko\n11. Legs of LeBrun\n12. Mrs. Valley's Raw Power\n13. Floor two keys\n14. Lighter\n15. Hairspray\n16. Table, the Table Leg\n17. Loaf of bread\n18. Smelly fish (yummy fish)\n19. Yearbook\n20. Mrs. O'Connor's Flash Drive\n21. God-like Powers\n22. Strange Seeds\n23. Lockpicks\n24. Hazardous Chemicals\n25. Mrs. Kipp's Flash Drive\n26. Car\n27. Car keys\n100. All\n1000. Nope")
                 give=eventchoose(1000)
                 global workout, flooronekey, floortwokey, lockpick, physbook
                 if give!=100 and give!=1000:
@@ -1742,7 +1787,7 @@ def textbox(text):              #makes a pokemon-style textbox. Why? You'll see.
     sys.stdout.write("|\n|___________________________________|")
     nex=input()
 
-def fbr():              #hm, another pokemon-style thing. Weird coincedence.
+def fbr():              #hm, another pokemon-style thing. Weird coincidence.
     print("""
 _____________________________________
 |    1. Fight          2. Bag       |
@@ -1917,7 +1962,7 @@ def poissone():         #same thing as the burn function
             poisoned=False
     poison=False
 
-def bagitem(ba):            #prints a bag, then a list of useable items
+def bagitem(ba):            #prints a bag, then a list of useble items
     print("""
             __
          _,/__\,_
@@ -1974,7 +2019,7 @@ def bag():      #uses an item, then removes it from your temporary inventory
     if bhealth>=15:
         bhealth=15
     roll=random.randint(0,10)
-    deletelist=["Strength of Stanko", "Legs of LeBrun", "Miscellaneous Malign Papers", "Mrs. Valley's Raw Power", "Lighter", "Hair spray", "Floor one keys", "Floor two keys", "Bruce's broom", "Mrs. OConnor's flash drive", "Table, the Table Leg",itemdic[22],itemdic[23],itemdic[24],itemdic[25],itemdic[26],itemdic[27]]
+    deletelist=["Strength of Stanko", "Legs of LeBrun", "Miscellaneous Malign Papers", "Mrs. Valley's Raw Power", "Lighter", "Hairspray", "Floor one keys", "Floor two keys", "Bruce's broom", "Mrs. O'Connor's flash drive", "Table, the Table Leg",itemdic[22],itemdic[23],itemdic[24],itemdic[25],itemdic[26],itemdic[27]]
     for ite in deletelist:
         if ite in tempbag:
             tempbag.remove(ite)
