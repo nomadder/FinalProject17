@@ -60,9 +60,13 @@ inventorysave=[]
 def lock1():                        #if the player doesn't have the floor one key, prints 'locked' next to locked rooms
     if flooronekey==False:
         return ' (Locked)'
+    else:
+        return ''
 def lock2():                        #same as lock1, but for the second floor
     if floortwokey==False:
         return ' (Locked)'
+    else:
+        return ''
 def stress(change):                 #this is called by many functions, and increases stress level by the amount given
     global stresslvl
     stresslvl+=change
@@ -75,7 +79,7 @@ def stress(change):                 #this is called by many functions, and incre
     if stresslvl>=15 and stresslvl-change<15 and stresslvl<20:
         print("You begin to panic. The school seems hostile.")
     if stresslvl>=20 and stresslvl-change<20 and stresslvl<25:
-        print("You begin to hear things around you. Whispers. Depression. Homework being assigned.. There seems to be a constant shadow at the edge of your vision.")
+        print("You begin to hear things around you. Whispers. Depression. Homework being assigned. There seems to be a constant shadow at the edge of your vision.")
     if stresslvl>=24.4 and stresslvl-change<24.4 and stresslvl<25:
         print("You are on the very brink of madness")
     if stresslvl>=25:
