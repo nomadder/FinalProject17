@@ -57,12 +57,16 @@ itemdic={1: "Mrs. Gerstein's Searcher of Seeking", 2: "Floor one keys",3: "Mr. R
 itemlist=[position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs, bdif]    #a list of the variables I use, mostly for the save/load function
 inventorysave=[]
 
-def lock1():
+def lock1():                        #if the player doesn't have the floor one key, prints 'locked' next to locked rooms
     if flooronekey==False:
         return ' (Locked)'
-def lock2():
+    else:
+        return ''
+def lock2():                        #same as lock1, but for the second floor
     if floortwokey==False:
         return ' (Locked)'
+    else:
+        return ''
 def stress(change):                 #this is called by many functions, and increases stress level by the amount given
     global stresslvl
     stresslvl+=change
@@ -75,7 +79,7 @@ def stress(change):                 #this is called by many functions, and incre
     if stresslvl>=15 and stresslvl-change<15 and stresslvl<20:
         print("You begin to panic. The school seems hostile.")
     if stresslvl>=20 and stresslvl-change<20 and stresslvl<25:
-        print("You begin to hear things around you. Whispers. Depression. Homework being assigned.. There seems to be a constant shadow at the edge of your vision.")
+        print("You begin to hear things around you. Whispers. Depression. Homework being assigned. There seems to be a constant shadow at the edge of your vision.")
     if stresslvl>=24.4 and stresslvl-change<24.4 and stresslvl<25:
         print("You are on the very brink of madness")
     if stresslvl>=25:
@@ -130,6 +134,8 @@ def encounter():                    #encounters are initiated in certain rooms, 
                 chan=random.randint(1,3)
                 if chan==3:
                     print("You call upon your gymnastic skills, and manage to dive and dodge through the whirling blades. You see a big red button labeled 'STOP' and slam it.\nThe blades keep whirling. You briefly ponder your options.")
+                    print("1. Run")
+                    eventchoose(1)
                     chan=random.randint(1,3)
                     if chan==3:
                         print("You once again call upon your gymnastic skills, and execute a perfect escape, with not a scratch on you. You decide to never do that again, as your odds of survival are low.")
