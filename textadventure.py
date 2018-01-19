@@ -103,22 +103,17 @@ def save():                         #makes a list of all the values of variables
     global invsave
     global inventorysave
     itemlist=[position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, gymevent, workout, studentathlete, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs, floortwokey, hairspray, physbook, bdif]
-    invsave=[]
+    invsave=itemlist
     inventorysave=[]
-    for x in itemlist:
-        invsave.append(x)           #adds all parameters to temporary list
-    for y in inventory:
-        inventorysave.append(y)     #makes a temporary inventory list
-
+    for i in inventory:             #for some weird reason (that I have a few guesses for) I cannot just make inventorysave=inventory, but adding everything works
+        inventorysave.append(i)
 
 def load():
     global inventory, itemlist, invsave, inventorysave      #a pretty straightforward function
     print("Loading...")
     global position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, gymevent, workout, studentathlete, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs, floortwokey, hairspray, physbook, bdif
-    for it in itemlist:             #sets parameters to previously saved list
-        pos=itemlist.index(it)
-        it=invsave[pos]
-    inventory=inventorysave         #sets inventory to saved inventory
+    position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, gymevent, workout, studentathlete, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs, floortwokey, hairspray, physbook, bdif=invsave
+    inventory=inventorysave         #sets inventory to saved inventory                          ^it's messy, but I did it once I was done making variables, so it shouldn't need changing
     whereAmI()                      #calls the main function
 
 def encounter():                    #encounters are initiated in certain rooms, and usually require a specific set of items to complete. It is pretty easy to die, but you get to save if you survive
