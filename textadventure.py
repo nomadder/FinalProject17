@@ -664,7 +664,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             print(f"\nYou are in the main lobby of the dark school. You see hallways leading north and east, and stairs leading up.\n1. North Hallway\n2. East Hallway\n3. Stairs Up\n4. Main Office{lock1()}\n5. Item")
             position=choose(5)
         if position==1:
-            print(f"\nYou are in the southern hallway of the first floor. The hall continues to the east and west. You see the entrance to the auditorium and the broom closet.\n1. Go east\n2. Go west\n3. Broom Closet{lock1()}\n4. Auditorium{lock1()}\n5. Item")
+            print(f"\nYou are in the southern hallway of the first floor. The hall continues to the east and west. You see the entrance to the auditorium and the broom closet.\n1. Go east\n2. Go west\n3. Broom Closet{lock1()}\n4. Auditorium\n5. Item")
             position=choose(6)
         if position==2:
             print("\nYou are in the main office of the school. You see the announcement system.")
@@ -1210,19 +1210,19 @@ def option (instruct):                  #the biggest function in my code. It tak
             if instruct==3:
                 print("You plug the flash drive into the 3D printer. In an incredibly short amount of time, you have a fully built car. You put the car in your pocket.")
                 inventory.append(itemdic[26])
-                inventory.remove(itemdic[20])
+                inventory.remove(itemdic[25])
             if instruct==4:
                 print("You put the flash drive into the laser cutter, and it creates (somehow) a set of electronic car keys. You really have no idea how that happened, but it did. With a bit of shoving, you manage to fit the keys in your pocket.")
                 inventory.append(itemdic[27])
-                inventory.remove(itemdic[25])
-        elif itemdic[20] in inventory:
+                inventory.remove(itemdic[20])
+        elif itemdic[25] in inventory:
             print("You plug the flash drive into the 3D printer. In an incredibly short amount of time, you have a fully built car. You put the car in your pocket.")
             inventory.append(itemdic[26])
-            inventory.remove(itemdic[20])
-        elif itemdic[25] in inventory:
+            inventory.remove(itemdic[25])
+        elif itemdic[20] in inventory:
             print("You put the flash drive into the laser cutter, and it creates (somehow) a set of electronic car keys. You really have no idea how that happened, but it did. With a bit of shoving, you manage to fit the keys in your pocket.")
             inventory.append(itemdic[27])
-            inventory.remove(itemdic[25])
+            inventory.remove(itemdic[20])
         if itemdic[26] and itemdic[27] and itemdic[21] in inventory:
             print("With a large object and complete control over the laws of physics, you ponder your options")
         return "retry"
@@ -1545,13 +1545,12 @@ def option (instruct):                  #the biggest function in my code. It tak
             print("You press ctrl, alt, and delete on one of the computers. Nothing happens. You contemplate pressing them at the same time, but decide against it")
         if instruct==3:
             yn=input("...you do know what ctrl+c does, right? It's not 'copy' in the context of python. Are you sure? Y/N: ")
-            if yn=="y" or "Y":
+            if yn=="y" or yn=="Y":
                 yn=input("You should definitely look up what that command does in Python before doing it, because it's pretty common knowledge. Are you sure you're sure? Y/N: ")
-                if yn=="y" or "Y":
+                if yn=="y" or yn=="Y":
                     okthen=input("Well if you say so")
                     exit()
-            if yn!="y" or "Y":
-                print("That's the right choice")
+            print("That's the right choice")
         if instruct==4:
             return item()
         global kippcad
