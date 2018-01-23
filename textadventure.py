@@ -902,7 +902,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
                 print("You are in the chemical storage, surrounded by buckets and vials of things that could easily kill you. The floor still seems a bit low on the pH scale, but not enough to kill you (hopefully).\n1. Leave room\n2. Item")
                 position=choose(2)
         if position==122:
-            print("You are in Mrs. Linnett's office. The news is still fresh on your mind, and hurts to think about. She did so much for everyone, and never got any thanks for much of it. She was always happy to talk, no matter how busy she was. She was a friend to everyone, and even went against the administration if it meant making people happy. She loved her job.\n1. Leave room\n2. Pay respects\n3. Item")
+            print("You are in Ms. Linnett's office. The news is still fresh on your mind, and hurts to think about. She did so much for everyone, and never got any thanks for much of it. She was always happy to talk, no matter how busy she was. She was a friend to everyone, and even went against the administration if it meant making people happy. She loved her job.\n1. Leave room\n2. Pay respects\n3. Item")
             position=choose(3)
 
 
@@ -1679,7 +1679,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             if wemissyou==4:
                 print("You remember her laugh and her smile.")
             if wemissyou==5:
-                print("We miss you, Mrs. Linnett.")
+                print("We miss you, Ms. Linnett.")
             return "retry"
         if instruct==3:
             return item()
