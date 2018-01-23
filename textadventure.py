@@ -482,7 +482,7 @@ def things(room):           #called in rooms where an item starts out. If the it
         print("You see Magnet Man in the corner. You probably should have guessed that the seniors took him.")
 
 def item():             #gets the user to pick an item from their inventory, and checks to see if they can use it here. If not, it prints a pokemon-style error message
-    global inventory, cameras
+    global inventory, cameras, difficulty
     number=0
     for x in inventory:
         number+=1
@@ -559,6 +559,11 @@ def item():             #gets the user to pick an item from their inventory, and
                 else:
                     print(f"You fail to start the car up with {ituse}. Maybe some car keys would work.")
                 return "retry"
+            if itemused==itemdic[19] and position==122:
+                print("You flip through the pages of the yearbook, trying to take the edge of the sadness. You open it to her photograph, and place it on her desk.")
+                difficulty-=0.2
+                inventory.remove(itemdic[19])
+                return "retry"
             else:
                 print(f"Dr. Fang's words echoed... {name}, there is a time and place for everything, but not now.")
                 return "retry"
@@ -626,64 +631,64 @@ def choose(number):          #checks to see if an input is an integer in the ran
 """
 class Room(object):
     def __init__(self, golist, rooms, description, position, ite1, ite2, extra1, extra2):
-        self.golist=golist
-        self.description=description
-        self.position=position
+        self.golist=golist          identifications of what directions you can go to from here
+        self.description=description                the text that appears when you enter the room ie, 'This is the main office'
+        self.position=position                      position number of the room
         if rooms!=False:
-            self.rooms=rooms
+            self.rooms=rooms                        names of rooms you can go to from here (false if there are none)
         else:
             self.rooms=[]
         if ite1!=False:
-            self.ite1=ite1
+            self.ite1=ite1                          name of the first item in this room (false if none)
         else:
             self.ite1=[]
         if ite2!=False:
-            self.ite2=ite2
+            self.ite2=ite2                          second item, if any
         else:
             self.ite2=[]
         if extra1!=False:
-            self.extra1=extra1
+            self.extra1=extra1                      things to do in this room, ie. spin in chairs (false if none)
         else:
             self.extra1=[]
         if extra2!=False:
-            self.extra2=extra2
+            self.extra2=extra2                      same as previous
         else:
             self.extra2=[]
 
 
 
 entrance=Room(['north','up','east'],False,"You are in the main lobby of the dark school. You see hallways leading north and east, and stairs leading up.",0,False,False,False,False)
-mainoffice=Room(['leave'], False,'You are in the main office of the school. You see the announcement system.',2,['take id', 'take the id', "take mr.rafalowski's id", "take mr.r's id"],False,['use announcement system', 'make an announcement', 'announcement'],['destroy tapes','break tapes','remove tapes','take tapes', 'take security tapes', 'destroy security tapes'])
+mainoffice=Room(['leave'], False,'You are in the main office of the school. You see the announcement system.',2,['take id', 'take the id', "take mr.rafalowski's id", "take mr.r's id"],False,['use announcement system', 'make an announcement', 'announcement'],['destroy tapes','break tapes','remove tapes','take tapes', 'take security tapes', 'destroy security tapes'])             there would have to be one of these for each room, and frankly that sounds like a heck of a lot of work, so thank you for letting me just do an example. Also, the list of commands would get really long to accomodate all user inputs
 shall1=Room(['east','west'],['auditorium', 'broom closet'],"You are in the southern hallway of the first floor. The hall continues to the east and west. You see the entrance to the auditorium and the broom closet.",1,False,False,False,False)
-broomcloset(['leave'], False, "You are inside the broom closet. It is a bit dark.
-whall1=Room"""
+"""
+
 def whereAmI():             #so the elephant in the room. I could have used classes to do all these rooms. I still might. I actually thought about it for a while, but decided that at the time, printing descriptions for each room seemed both quicker and better than making a class. I am pretty happy about it came out, and for most rooms I think that it is more efficient and versatile. There are some exceptions however.
     global position
     while True:
-        if position==0:
+        if position==0:         #each room has a position identifier. I should have shared the map with you along with my flor chart
             print(f"\nYou are in the main lobby of the dark school. You see hallways leading north and east, and stairs leading up.\n1. North Hallway\n2. East Hallway\n3. Stairs Up\n4. Main Office{lock1()}\n5. Item")
-            position=choose(5)
+            position=choose(5)              #the choose function will sooner or later return a value corresponding to your new position, but the game only returns to this function when the player moves
         if position==1:
             print(f"\nYou are in the southern hallway of the first floor. The hall continues to the east and west. You see the entrance to the auditorium and the broom closet.\n1. Go east\n2. Go west\n3. Broom Closet{lock1()}\n4. Auditorium\n5. Item")
             position=choose(6)
         if position==2:
             print("\nYou are in the main office of the school. You see the announcement system.")
             things(2)
-            print("1. Leave office\n2. Use announcement system\n3. Item")
+            print("1. Leave office\n2. Use announcement system\n3. Enter Guidance Office\n4. Item")
             if rafid==False:
-                print("4. Take ID")
+                print("5. Take ID")
                 global records
-                if records==False and itemdic[16] in inventory:
+                if records==False:
+                    print("6. Go ham on the security tapes")
+                    position=choose(6)
+                else:
+                    position=choose(5)
+            else:
+                if records==False:
                     print("5. Go ham on the security tapes")
                     position=choose(5)
                 else:
                     position=choose(4)
-            else:
-                if records==False and itemdic[16] in inventory:
-                    print("4. Go ham on the security tapes")
-                    position=choose(4)
-                else:
-                    position=choose(3)
         if position==3:
             print("\nYou are in the small broom closet.")               #'Did you get the broom closet ending? I love the broom closet ending!' (The Stanley Parable)
             things(3)
@@ -733,7 +738,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
         if position==13:
             if swordbots==True:
                 print("You enter the makerspace. You see several manufacturing machines. \n1. Leave the makerspace\n2. Item")
-                if itemdic[20] and itemdic[25] in inventory:
+                if itemdic[20] in inventory and itemdic[25] in inventory:
                     print("3. Make whatever is on Mrs. Kipp's flash drive\n4. Make whatever is on Mrs. O'Connor's flash drive")
                     position=choose(4)
                 elif itemdic[25] in inventory:
@@ -780,7 +785,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             print(f"You are in the southern hallway of the second floor. The hallway continues to the east and west. You see Mr. Liu's, Mr. Straut's and Mrs. O'Connor's rooms.\n1. Go east\n2. Go west\n3. Enter Mr. Liu's room{lock2()}\n4. Enter Mr. Straut's room\n5. Enter Mrs. O'Connor's room{lock2()}\n6. Item")
             position=choose(6)
         if position==22:
-            print(f"You are in the eastern hallway of the second floor. The hallway continues to the north and south. You see Dr. Fang's and Dr. Jidarian's rooms.\n1. Go north\n2. Go south\n3. Enter Dr. Fang's room{lock2()}\n4. Dr. Jidarian's room\n5. Item")
+            print(f"You are in the eastern hallway of the second floor. The hallway continues to the north and south. You see Dr. Fang's and Dr. Jidarian's rooms.\n1. Go north\n2. Go south\n3. Enter Dr. Fang's room{lock2()}\n4. Enter Dr. Jidarian's room\n5. Item")
             position=choose(5)
         if position==27:
             print(f"You are in the northern hallway of the second floor. The hallway continues to the east and west. You see Senora Mejia's and Mrs. Mansfield-Smith's rooms.\n1. Go east\n2. Go west\n3. Enter Senora Mejia's room\n4. Enter Mrs. Mansfield-Smith's room{lock2()}\n5. Item")
@@ -789,7 +794,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             print(f"You are in the western hallway of the second floor. The hallway continues to the north and south. You see Mr. Raite's, Mrs. Kipp's and Mr. Merkl's room\n1. Go north\n2. Go south\n3. Enter Mr. Raite's room\n4. Enter Mrs. Kipp's room{lock2()}\n5. Enter Mr. Merkl's room\n6. Item")
             position=choose(6)
         if position==26:
-            print("You are in Senora Mejia's room")         #I never had Sra. Mejia, and have absolutely no idea what her class is like.
+            print("You are in Senora Mejia's room.")         #I never had Sra. Mejia, and have absolutely no idea what her class is like.
             things(26)
             print("1. Leave room\n2. Item")
             if yearbook==False:
@@ -811,7 +816,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             things(20)
             print("1. Leave room\n2. Item")
             if table==False:
-                print("3. Investigate Table")           #Table, the Table Leg, was a table leg the preston accidentally ripped from the table, then cradled for the rest of the class. He was a recurring theme during Mr. Liu's class in freshman year
+                print("3. Investigate Table")           #Table, the Table Leg, was a table leg that Preston accidentally ripped from the table, then cradled for the rest of the class. He was a recurring theme during Mr. Liu's class in freshman year
                 position=choose(3)
             else:
                 position=choose(2)
@@ -825,7 +830,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             else:
                 position=choose(3)
         if position==19:
-            print("You are in Mr. Straut's room. While some people liked him, you kind of hated him.")          #Mr. Straut, if you are reading this, I don't hate you.
+            print("You are in Mr. Straut's room. While you liked him enough, his room seems so vulnerable to a little mindless mayhem.")          #Sorry Mr. Straut
             things(19)
             print("1. Leave room\n2. Item")
             position=choose(2)
@@ -834,7 +839,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
                 encounter()
             print("You are in Dr. Jidarian's room. You feel simultaneously stressed and relaxed. You hope that you don't find another GA.")
             things(24)
-            print("1. Leave room\n2. Look for another GA\n3. Item")
+            print("1. Leave room\n2. Look for another GA (but why?)\n3. Item")
             if floortwokey==False:
                 print("4. Take keys")
                 position=choose(4)
@@ -886,6 +891,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             things(98)
             print("1. Leave room\n2. Play some games\n3. Item")
             if magnetman==False:
+                print("4. Take Magnet Man")
                 position=choose(4)
             else:
                 position=choose(3)
@@ -895,6 +901,9 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             else:
                 print("You are in the chemical storage, surrounded by buckets and vials of things that could easily kill you. The floor still seems a bit low on the pH scale, but not enough to kill you (hopefully).\n1. Leave room\n2. Item")
                 position=choose(2)
+        if position==122:
+            print("You are in Mrs. Linnett's office. The news is still fresh on your mind, and hurts to think about. She did so much for everyone, and never got any thanks for much of it. She was always happy to talk, no matter how busy she was. She was a friend to everyone, and even went against the administration if it meant making people happy. She loved her job.\n1. Leave room\n2. Pay respects\n3. Item")
+            position=choose(3)
 
 
 
@@ -902,7 +911,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
 
 
 def option (instruct):                  #the biggest function in my code. It takes the room that you are in and the option passed to it, then tells you what happens. There isn't a great way that I can think of to condense this significantly, so here it is. It's a lot of semi-boring code.
-    global difficulty, itemlist, position, rafid, searcher, popquiz, eraser, floortwokey, table, hairspray, flooronekey, lockpick, records
+    global difficulty, itemlist, position, rafid, searcher, popquiz, eraser, floortwokey, table, hairspray, flooronekey, lockpick, records          #I'm pretty sure that I use global variables too much, but my understanding of them was always slightly shaky, and I feel like it's better to unneccessarily global something than to have your game not work because you didn't
     if position==0:
         if instruct==1:
             print("You enter the hallway to the north.")
@@ -947,31 +956,34 @@ def option (instruct):                  #the biggest function in my code. It tak
                     print("You only get a glimpse of the figure bearing down on you. It is too large to be human and too fast to stop.")            #an example of a potential stress-reliever. On average, they are a bad idea.
                     dead(1)
             patrys+=1
-        if instruct==4 and rafid==False:
+        if instruct==5 and rafid==False:
             print("You take Mr. Rafalowski's ID. You can feel its power flow through you.")
             rafid=True
             inventory.append("Mr. Rafalowski's ID Card")
-        elif instruct==4 and rafid==True and records==False:
+        elif instruct==5 and rafid==True and records==False:
             print("You go to town on the tapes with Table, the Table Leg. That was very satisfying.")           #to get the true ending, you need to have no evidence
             records=True
             if cameras==False:
                 print("Unfortunately, the cameras are still recording things,")
                 records=False
             return "retry"
-        elif instruct==4 and rafid==True and table==False:
+        elif instruct==5 and rafid==True and table==False:
             print("You already picked that up.")
-        if instruct==5 and table==True:
+        if instruct==6 and table==True:
             print("You go to town on the tapes with Table, the Table Leg. That was very satisfying.")
             records=True
             if cameras==False:
                 print("Unfortunately, the cameras are still recording things,")
                 records=False
             return "retry"
-        if instruct==5 and table==False:
+        if instruct==6 and table==False:
             print("You try to destroy the tapes, but you don't have any good way to break them. A nice blunt object would work.")
             return "retry"
-        if instruct==3:
+        if instruct==4:
             return item()
+        if instruct==3:
+            print("You enter the guidance office.")
+            return 122
         return "retry"
     if position==1:
         if instruct==1:
@@ -1140,7 +1152,7 @@ def option (instruct):                  #the biggest function in my code. It tak
                 nowbook=True
                 inventory.append("The Holy Book of Mr. Nowakoski")
             else:
-                print("You look over the books remembering when you read some of them. None of the books look even remotely bad, of course.")
+                print("You look over the books remembering when you read some of them. Some that catch your eye are, The Once And Future King, Snow Crash, and the timeless classic, Dogzilla. None of the books look even remotely bad, of course.")
         if instruct==4:
             return item()
         return "retry"
@@ -1192,11 +1204,11 @@ def option (instruct):                  #the biggest function in my code. It tak
             if keyloc==3:
                 print("You read 'She SellS SeaShellS on the firSt floor'")              #a quick little riddle. The capitalized letter corresponds to where you find the keys on the first floor. It may be a little overly difficult, but mostly because kids are wusses these days. They wouldn't last 19 turns in Hitchhiker's Guide to the Galaxy
             elif keyloc==1:
-                print("You read 'Nora Nelly Needs Nice New Nuggets'")
+                print("You read 'No oNe expects the spaNish iNquisitioN!'")
             elif keyloc==2:
                 print("You read 'EliE Eats Eggs with Elk chEEsE'")
             else:
-                print("You read 'We Want Worse Weather With Wild Winds'")
+                print("You read 'Where Were you, When the Waluigis Woke?'")
         if instruct==4:
             return item()
         return "retry"
@@ -1206,7 +1218,9 @@ def option (instruct):                  #the biggest function in my code. It tak
             return 6
         if instruct==2:
             return item()
-        if itemdic[20] and itemdic[25] in inventory:
+        if (instruct==3 or instruct==4) and itemdic[20] not in inventory and itemdic[25] not in inventory:
+            print("You already did that. Pay attention.")
+        if itemdic[20] in inventory and itemdic[25] in inventory:
             if instruct==3:
                 print("You plug the flash drive into the 3D printer. In an incredibly short amount of time, you have a fully built car. You put the car in your pocket.")
                 inventory.append(itemdic[26])
@@ -1223,7 +1237,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             print("You put the flash drive into the laser cutter, and it creates (somehow) a set of electronic car keys. You really have no idea how that happened, but it did. With a bit of shoving, you manage to fit the keys in your pocket.")
             inventory.append(itemdic[27])
             inventory.remove(itemdic[20])
-        if itemdic[26] and itemdic[27] and itemdic[21] in inventory:
+        if itemdic[26] in inventory and itemdic[27] in inventory and itemdic[21] in inventory:
             print("With a large object and complete control over the laws of physics, you ponder your options")
         return "retry"
     if position==15:
@@ -1636,13 +1650,39 @@ def option (instruct):                  #the biggest function in my code. It tak
             return "retry"
         if instruct==3:
             return item()
+        if instruct==4:
+            if magnetman==False:
+                inventory.append(itemdic[9])
+                magnetman=True
+                print("You barely manage to pick up Magnet Man, quickly shoving him in your pocket before you collapse.")
+            else:
+                print("You try to pick up Magnet Man, but realize that you already did. You are a fool.")
+            return "retry"
     if position==33:
         if instruct==1:
             print("You leave the room.")
             return 32
         if instruct==2:
             return item()
-
+    if position==122:
+        if instruct==1:
+            print("You leave the room, giving a sad glance backwards as you do so.")
+            return 2
+        if instruct==2:                     #I wish I could have said goodbye, but this is what I can do.
+            wemissyou=random.randint(1,5)
+            if wemissyou==1:
+                print("You sit in one of the chairs, remembering your talks with her.")
+            if wemissyou==2:
+                print("You look at the posters on the walls. She had all the common ones, but some you still haven't seen anywhere else.")
+            if wemissyou==3:
+                print("You hang your head sadly.")
+            if wemissyou==4:
+                print("You remember her laugh and her smile.")
+            if wemissyou==5:
+                print("We miss you, Mrs. Linnett.")
+            return "retry"
+        if instruct==3:
+            return item()
 
 
 
@@ -1699,7 +1739,11 @@ def startup():                  #the first function, that sets up some important
         if numbos==133913151502626336183088446999206024774305557443382677357415561148792266425305710134211432673444656435441655751384220364525154532523876134105510523144703101160132721487776112642158663622061954147464428321511189405321149379629009361340742971022602761825097477626524272903566145920349000041223676324121470044839099731330039273198311834819276927366125563222052683832292873332813645869072554394072381509460213476336202818476375040740037462601564624995038157200659444574672135543143518531027914473735732049036894590960502068934136904804038776841256146071517228119961693182272763652049986750811443973737042788218200059265492336612798355175929797640857476425165819851572410181057163999361929147649820884649383708741894804240190204720728172373632496280150691064980493598448500436241271884783040672832387531198281384842741510350396028595354864694500260647767203585647744959572424771827032496865842586006414956492010436058620405682736957013752687834619598549859187808329654813808412719568353307308485997989037155512569309828326726881699733782702938340583374116110922732645183954071269211160778729739712814522497500232904528780619667760495850960755318716984195402564525850722093474405754415664765879516040383348404236322128555987294169188820107820547911472984747453194477657657205529363080582299986857414425272184140607235492056820078222838564882105170139151868117985835057772255661963834632582172699486495567927174209779858202907886941670941232260068711898987387883087735772024134709800846178248145402305685512638600048002086808937397478609986148817369347099321635844061435051649134668222949412582143409326893966480389500563703249403542366933926781162836322669604687940450625913083632710040889119917196862183036812155443531260293206996876038685858571043779319087942517430246400717873429014578965228911466003364467545153779595847440311271807026072098420882636564775158740986013487244589506491392721146116796034719407711921205558089171582982982489292145405477210309400472120662793454977992128546351642998931628447562230377166861062776912749380765617727415043191683436168425234872198780373107715768346902357342148463236373439759649892476205574975587582735570304752727427941578681887522195883177390974775959449270576308326361087400549642796335239355722491134361026936412625051971368106455772931085408979372372919890462485224727149307873386715024790256076254806302524836584206079154813914140202080665686873081538780440452142979216134120794823640672170218921470948099089995069845176124392705642598690541041923813547834463114381436459196673742498435863563956952031727167834134391939387331420961141209882271910707010772445737507537044954343458142991410037530243571370202316869990391499906824561599873132980994758503196792714557335239399409627616277286633037052239557735898515224057927710214894986495040917761996894697391567138933268343558504039887750633714351548660918302518032568875877958830426369578247009762790459132288647208809827720069061413632882883304850319598314871311525766259903340485321475034362138938054226729953664363073623312295569963577418244860221084866997227006380686031893378776342997378117493596825007154936867020751972178431897504564447985954508515757879376487956977058633091162193917310917088380428743734768028769026395310728473041686049926572801556984140008373528444836692434683795436754334730656584456601926704016958858455140939528454887415087549248761680661528852351304046526710648635625713765754775702287339930226844574124224524685717071499842826577660395585617141994013696385693696824474306895260566481879235874634120826438161636970740406246483269632967187004685801027209638124288169188310291784823322914880593104060730847882402816151437063688304400696558867681980200119515293719090366575508295774499115709345204541244218303122253427486024788534595488410086958565653763111610756434744630479741667869797978329820186616888556115508908776754748808801671298338565900894866857345125574652947116364580690809035729649287242331751505923546530150328933561945205071735837597543358325093527990431910933009049817676516125661131348117868928691625081390135323059688767411827502621105841335604674161167940118634963360620403344244994990467559307511095629120784630374337213110508036950032374484882914027027589111569325445154992791452961130311024144885789500134783737974353294904610039128449672932159771529682373438294301773782463502654167297193868363114852070193683021927178518548511324535756042724954855009825720463142253780781708593732900407663779518928001482232210661853200467543481119114233874340404108348961458584130191749478323207731636039059334653621845826407282568064010692416892401948256205458357708564584530478328422601324831092888438934986750311656126763244725230276751349232652927402068698178753166247372028764099652714548894450370691444321177080226061051142146888855338944795639066378580576100040857822563170039513824784106558905153487014197226569418909323669790038030123244764046423311032339352327445490944121223551043446650700692051017180042118448901674912726822210031675474545859503083536865947090304858818732097800261545865111234249275980296245588310846278056609877140259664104637736099966450671314362739570424992975871030876020282357196462643972994606533658475873273402432116690616188922396855665480460942054183181702718056968667093751239428739472373119670694809252781961781735402195794654659114837461296913000225192375537808486878608031727353204935756428165189168025265133952526190160569817638761393032775635258322769248807205359901036212419063630139226550472790512349797446426877768955819540337950283647786492080218803949825714339247928025290637954885689954237252784243286333885598592973945140163155552069922159282219387247339915452853120475927598160340647633350666887051796403824686505821372128529842023777142870672573029116749186687712502010103667340749396363055446780168797233499190986932465877689494131499681294166903353776021100533626420242218342747105009876030154326723448604612355344014568663296508949436201379963123017360420516088057949197530986060298023333177435807947635212300148008692893294061190366912473971122566697936349860749711877990530189438604563750057878934321995172271416361984515005948683431059184001383947449062584618862903208252068647227466111588081520963658805023726991844859694748859411604264764497228499754014308641564624086542835694712513812202406724338823411284811196578119038935185695522709517302301072172011185712889486370801924347269488922588671323065184704813782440929771421934211475632184045133542134752254153905853452269135435283333560847341764993484692117263166952983379910812218109550577719051020109866324238252255225585075361969407269574374124283326586107683101972818346345547212093357863501894635107330621482303487710622062514931050312619005947604645230986293793165976178033959330316436064648232032295947476413724865912406976334031860923470129228570449541680977150671370719857874291060077805029805824515189689495803389023226239931309624580775355613585191791045405617634263596357742356451829986242841902953923914257905803310290865689861588125913522187490813174232716741521764345770618247577732335315530430279540944320023143225479057902301054997166577729299626713574422175554180166434857462330511963514912875989500542793469328300205808934782173158826933783838079755876498188619802264510207802575704485456586211354131212819778549329655391543024753839286444746473366917829283913851626477759266468700715188915640250898753468901669208755620481415300090467364398451280323523785307444362016169696405767801733900478399264210094964856444563504716572553532934351830307127733842289731835001117863342864958782113324899966388357524066834903610312304952525130696286403630418812695987833583972020193898086009579741491256183688131421986326080078529105183536210207146490070647416784186581640027141399441745179521582978544876077688110358626116005671296462695634670135926911700534369993961564049309966092626070778476646693312256900175002284388037747513023120183754628098263604471123231139157569963245219921900971589389761869888651323696180091635017277628909915240936626366330015537182856945620100674777317343963495008078671790579233601494288138767380569019941176726126178505491976353006545823123784432033936096553267759227104166135639569837099554712077892007812506011482334620220968404323403671288675041409390047115978784673706310906566168589563614647101543862093561386906340088932609109804137830195903841389970406157399812424261837412997468806652280760258071098023377155831430831062965784063555970590792485745421348897170346371316420332954790335843149309819257145318716644150948884182946507835853746640116358298858273305713160137009892088288202531056379714318878351742017186161245938787457236207535561855005620466451594896415180588332089989748249703534707387359873898234475818036160242250362694892902134145958526045601127418497925867554418632141460167468511904862241156741719697778997653435083565882520963447347555137617233957943509116846426230286901216136274394934171094170075127957561312276169886125300202851253230133916525542881050207689050588381861640110403689592350225672716952005449636260303783794197944533534330649811702163525494605231667780840749525738600182529343179755446052295271738240836401646323746734765055651206678814471105056413154673437450780666593258124296383860272136822618821929918380273715056854588273071672328161113657061731912959082204259090186984471201886199885519752369093966742021486498684985621601665881072858942239491290452365820513759818182237255325852210174355110416652378060261467667888169028919665659854625122522644938009870530756207128055696106358141018223429680460853385463654249255879881718217889029143099215709538418249976012229362204698792631880927203556867298648101744135168249550840046727148196228012413635360046340471336555383281262482691152960067483796455290607522735175958751154709258516894668367337361582583938837445119177281635266179114515438256878532510102115077042919478548625964630572354891670116732607303682981849116167214937197275690718319089001520011765788458582821126164065657028669185829061367122590300377837293571984976937320934352357633991860494214209803183886113245747438583716198671751861865271666481364852685224260875733503118786511768701340625458664758106231809037135696173528989636861874492682233290710802286849889715151163071331913838644350455303159219735755127239346513531860585719219129041997532918021557677389026275205433769482689805991033709391167674894127401558534508919773855967270618866706032131564219385822803656644887845704306344403575031396222954690093436977272398751729571732453596869193168823075793950210956828355028295390375428056281072499086460009317096822665067251741960479587913258846325170660952697628289665618455257527795872801453550748748902172969600705134215353311603413272599214335683355968672144273509049453348496964291596787381821256717699744115107100758945951637785934971152603866634781119083349069335993697713318805023145882478890201873514084805690465979538878178487643202651069705183653563377228357915844179013869123874619254138042799470526323357322120740273410752613026760008112313455593037883122660862447319575328167587221210799192241604897061089556278918231084464953796155313486109984591309657110455656600972912481710738797522259873140603573117168457311828061133060988283605011860019938164898373589984243633950438750003623498952301880041260542777188817575037011837894344449357120732477900991353470981112978979015642871470713420600997897140606290247184965881480193898669806956552842118571786306768224313814269163957734204444283534416977503216421473322507507361807553445954216206545543201182260554158799136968726256502506183238716433057594358097999517661105815182051309304711876730241266776260304712655910305739522493883868802256010821419984437935488294285579189669199949724496584992720640999123242386632886260359760015650985590945128424567684800510436576259948576206845891700147837380246596170454802594721327610712871776681836176948008491494386258585136653133475123762038274651733049630018986688255719613841608852509365692951453346989871443342762197600107571570521045268711445227358482739062279527742756317944871378359124226922674559514614476007892268691526060043676617472488924523381755587636961130343359031476308668395704525422909620434125653466519783512233797173019081313249015624641457095554617923321475194108359877553967637159761803062725783418127048651705524077401797449607608856438654754049294379628222123656679552606778098852990190058162236302435004569724761933538298795910452867491074246687316468507233562475817780377501626842553709706708034785577417292530182283373922847973388761811045687385982972343799561894893954754969499425499996622751051863810704801309191356943481472398202799356971233367008181061158790742757263874774416502864256403192755737774987085756919791965872982911263131977935646795410541897890083999563917643935679360598805189392012603088375375778156029468479118247918244795673326759478862676152405480471479173816914694578677327608149513797511753310273126186568275293738678125372909384396939576029643149104587427951120657840875647896059560637137224993013319973130246179791308352050113821160518641530680367840678383315428661274591675370965708396070045150039229776775059914461048927966634489026960158620811774102902342930054045637974006408714906293314621210835652936303492213089811120318199879436355960469516282910447732968518258336785413652333400843326090828226895840877146007408396257422122504057776878252120186771952321602934110356895189902705147845375303503274416255037382577012088879079946702500084853430852028524375107905905924979615571248695388157433304009449716552010466141272613876980411878775351556245174094749240705391690965305391167729382426050496951259142447553804088366775405637286631595588876715844795506092401321861753766735209087847379687847715936414410514126609182309366207857773798832106660374530709493357115156810852005923104605839866043015238475935479079673659400997179666757484202607656300674537797297364368682525708389029694269969348089307734768224822633450487379269546537677623588036406572721774536759802005982576037656735159518501815363031355025459757653054084966924829674689016140741217325003442734982735476594562596083026201727704658017236480595886890184406518325506981626403542988342021174430244016160317508678038629163151623497991773833959434448518809368796686519893568917248455532900912550000939368493150817612923819011518171645666645150469853071229736551308675389205170186962151584470559798308265544133865501824605372702337257412869949071252449531226491401565155205113184476452907439946058345925342296664013397024055355147143016400430621232476646556715705246567247064969516035456255170707526933160735841484952206473705085359893092138085936847670958102300978122093110110417843042830958751185096572218256411157531418389072283643926707794126701983549738829489353819485479834304412768753066338206034280840961867328106002938179404352018060743450701527435307437279276302266181845557070549345213953809834798422555827031927040537209934925924970248872138162095995072571212348281560865460931933591293480587852220520057942058466131740067094678784842014973559927260427822132805746090809688526518945259944666079829818831735188937317552996535818809582402585481560849916280376834569505437202947120958383221218255267699359044915259985622671782380790664362804987651389614936357896366451637144072405679071835484574536412723316275997011084878515364627436871494292614551031738026983439734711040513763141497330049964384999029590562727503324051227961112096558478760751736506064870015037675647406361399219522457246417745564033241558199616873156525307482296862186875081904936566789753118812573213676113214986316856485493327000672628366562467958825541138012890991952287570689134217856871925298814270733743006616295614163844726674421167095149683299205720607808333869973801505097357062470091628378393996347714828557221524087506882134553193571665490517222953643689305810487904565496093474711310449655719059749910651581328788668543003677437084487167133563358781506374877205855553526697745657562682227962795096316693105612072742036006117412759954487120300564854838123546000402703606947143278305554507054939983515401422289287451390135310836951464102542349684860514179192403351997756419329848887604153197926964762931388103979926871545218193760644486609390601341435778343751003872575671090777348105240762655953150063004298796975448435844066317935420037642015907920931873945183552936287512907801197264244422761706616466055097464898557380551734165560841107328099103539200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000:  #if you use this password, then shame on you. This is for me.
             for x in range(100):                    #^the ridiculously large number that the result of the function has to be. I don't think a human can break this with pencil and paper.
                 print()
-            difficulty=float(input("Great to see you then, sir. Set the difficulty as you see fit: "))
+            difficulty=input("Great to see you then, sir. Set the difficulty as you see fit: ")
+            if difficulty=="":
+                difficulty=0
+            else:
+                difficulty=float(difficulty)
             give=True
             stuath=input("Are you a student athlete sir? Y/N: ")
             if stuath=="y" or stuath=="Y":
@@ -1765,7 +1809,7 @@ def startup():                  #the first function, that sets up some important
 
 
 
-def textbox(text):              #makes a pokemon-style textbox. Why? You'll see.
+def textbox(text):              #makes a pokemon-style textbox. Why? Reasons.
     leng=len(text)
     brek=0
     sys.stdout.write("_____________________________________\n|")
@@ -1808,7 +1852,10 @@ def fight():                #determines a move-set based on items in the player'
     sys.stdout.write("""
 _____________________________________
 |    """)
-    if itemdic[12] in inventory:
+    if itemdic[21] in inventory:                    #depending on what items are in the player's inventory, your moveset will change. One of the more tedious things to code, but so worth it.
+        sys.stdout.write("1. Spatial Rend   ")
+        one="Spatial Rend"
+    elif itemdic[12] in inventory:
         sys.stdout.write("1. Close Combat   ")
         one="Close Combat"
     elif itemdic[11] in inventory:
@@ -1877,6 +1924,8 @@ _____________________________________
         move=moves[eventchoose(3)]
     elif option==5:
         move=moves[eventchoose(4)]
+    if move=="Spatial Rend":
+        dam=15*miss
     if move=="Close Combat":
         dam=(5+crit)*miss
     if move=="High Jump Kick":
@@ -1908,7 +1957,10 @@ _____________________________________
         pdam(-2-crit)
     if crit!=0:
         textbox("A critical hit!")
-    textbox(f"{shortname} used {move}")
+    if move=="Spatial Rend":
+        textbox(f"{shortname} deconstructed the very  essence of Mr. Capodice")
+    else:
+        textbox(f"{shortname} used {move}")
     if miss!=1:
         textbox(f"{shortname}'s attack missed")
         burn=False
@@ -1923,10 +1975,12 @@ _____________________________________
     elif poison==True and poisoned==False:
         textbox("Mr. Capodice was poisoned")
         poisoned=True
+
+
 def leeched():
     global leech
     if leech==True:
-        textbox("Mr. Capodice is drained by the leech seed")
+        textbox("Mr. Capodice is drained by the     leech seed")
         bdam(1)
         pdam(-1)
 
@@ -1940,7 +1994,7 @@ def burne():            #does damage if he is burned, then potentially removes t
     if burned==True:
         if roll>3 or burn==True:
             textbox("Mr. Capodice is still burning")
-            textbox("Mr. Capodice took 1 damage from his burn")
+            textbox("Mr. Capodice took 1 damage from hisburn")
             bhealth-=1
         else:
             textbox("Mr. Capodice is no longer burning")
@@ -1953,21 +2007,21 @@ def poissone():         #same thing as the burn function
     if poisoned==True:
         if roll>3 or poison==True:
             textbox("Mr. Capodice is still poisoned")
-            textbox("Mr. Capodice took 1 damage from his poison")
+            textbox("Mr. Capodice took 1 damage from hispoison")
             bhealth-=1
         else:
             textbox("Mr. Capodice is no longer poisoned")
             poisoned=False
     poison=False
 
-def bagitem(ba):            #prints a bag, then a list of useble items
+def bagitem(ba):            #prints a bag, then a list of useable items
     print("""
             __
          _,/__\,_
         / |    | \ \n       / /  __  \ \ \n       | | /__\  | |
-       | | \__/  | |
-       | |       | |
-       \_\_______/_/""")
+       | | \__/ | |
+       | |      | |
+       \_\______/_/""")
 
     number=0
     for x in ba:
@@ -1992,23 +2046,23 @@ def bagitem(ba):            #prints a bag, then a list of useble items
             print("You don't have that.")
 
 
-def pdam(dam):      #prints 'you took (number) damage,' then does the damage
+def pdam(dam):      #prints 'you took (number) damage,' (in a textbox) then does the damage
     global phealth
     if dam<0:
-        textbox(f"{shortname} healed {-dam} damage")
+        textbox(f"{shortname} recovered {-dam} health")
     else:
         textbox(f"{shortname} took {dam} damage")
     phealth-=dam
 
-def bdam(dam):      #same thing as pdam
+def bdam(dam):      #same thing as pdam, but for Mr. Capodice
     global bhealth
     if dam<0:
-        textbox(f"Mr. Capodice healed {-dam} damage")
+        textbox(f"Mr. Capodice recovered {-dam} health")
     else:
         textbox(f"Mr. Capodice took {dam} damage")
     bhealth-=dam
 
-def bag():      #uses an item, then removes it from your temporary inventory
+def bag():      #uses an item, then removes it from your temporary inventory. The temporary inventory is one created at the start of the fight that contains all useable items in your bag.
     global tempbag, pcrit, shortname, bhealth, phealth
     bh=0
     ph=0
@@ -2017,7 +2071,7 @@ def bag():      #uses an item, then removes it from your temporary inventory
     if bhealth>=15:
         bhealth=15
     roll=random.randint(0,10)
-    deletelist=["Strength of Stanko", "Legs of LeBrun", "Miscellaneous Malign Papers", "Mrs. Valley's Raw Power", "Lighter", "Hairspray", "Floor one keys", "Floor two keys", "Bruce's broom", "Mrs. O'Connor's flash drive", "Table, the Table Leg",itemdic[22],itemdic[23],itemdic[24],itemdic[25],itemdic[26],itemdic[27]]
+    deletelist=["Strength of Stanko", "Legs of LeBrun", "Miscellaneous Malign Papers", "Mrs. Valley's Raw Power", "Lighter", "Hairspray", "Floor one keys", "Floor two keys", "Bruce's broom", "Mrs. O'Connor's flash drive", "Table, the Table Leg",itemdic[22],itemdic[23],itemdic[24],itemdic[25],itemdic[26],itemdic[27], itemdic[21], itemdic[20]]       #temporary inventory is a copy of your inventory, but with any of these things removed from it
     for ite in deletelist:
         if ite in tempbag:
             tempbag.remove(ite)
@@ -2026,10 +2080,10 @@ def bag():      #uses an item, then removes it from your temporary inventory
         return False
     tempbag.remove(ituse)
     if ituse==itemdic[17]:
-        textbox("Used Loaf of Bread")
+        textbox(f"{shortname} used Loaf of Bread")
         ph=-6
     if ituse==itemdic[18]:
-        textbox("Ate smelly fish")
+        textbox(f"{shortname} ate the smelly fish")
         ph=-6
     if ituse==itemdic[3]:
         textbox(f"{shortname} ninja threw the ID card")
@@ -2042,19 +2096,19 @@ def bag():      #uses an item, then removes it from your temporary inventory
         else:
             textbox(f"{shortname}'s attack missed!")
     if ituse=="Mrs. Gerstein's Searcher of Seeking":
-        textbox("Used searcher")
+        textbox(f"{shortname} used searcher")
         textbox("Weak point located")
-        textbox(f"{shortname}'s critical chance increased")
+        textbox(f"{shortname}'s critical chance       increased")
         pcrit-=2
     if ituse=="The Holy Book of Mr. Nowakoski":
-        textbox("Used holy book")
-        if roll>=pcrit+1:
+        textbox(f"{shortname} used holy book")
+        if roll>=pcrit:
             textbox("A critical hit!")
             bh=6
         else:
             bh=2
     if ituse=="Mr. Sanservino's Test":
-        textbox("Used evil test")
+        textbox(f"{shortname} used evil test")
         if roll>14-pcrit:
             textbox("The test lashes out at Mr. Capodice")
             bh=4
@@ -2067,15 +2121,19 @@ def bag():      #uses an item, then removes it from your temporary inventory
         pcrit-=4
     if ituse=="The Crucible":
         textbox("Used the crucible")
-        textbox("More weight was added to Mr. Capodice")
-        textbox("The devil gives you          precision")
-        textbox("Reverend Hale gives your soul peace")
+        textbox("More weight was added to           Mr. Capodice")
+        textbox("The devil gives you precision")
+        textbox("Reverend Hale gives your soul      peace")
         bh=2
         pcrit-=1
         ph=-2
     if ituse=="Yearbook":
-        textbox(f"{shortname} reminisces about the good times")
+        textbox(f"{shortname} reminisces about the    good times")
         ph=-4
+    if ituse=="Magnet Man":
+        textbox(f"{shortname} summoned Magnet Man")
+        textbox("Magnet Man repeatedly stabs       Mr. Capodice with his sword")
+        bh=4
     if bh!=0:
         bdam(bh)
     if ph!=(0):
@@ -2098,9 +2156,9 @@ def isdead():
 
 
 
-def bossbattle():               #definitely my best function. Prints an ASCII pokemon battle against Mr. Capodice. I really like how it turned out, but there are probably some bugs that I haven't found yet
-    global tempbag, phealth, bhealth, pcrit, position, bdif, burned, poisoned, leech
-    pcrit=10
+def bossbattle():               #definitely my best function. Prints an ASCII pokemon battle against Mr. Capodice. I really like how it turned out, but there are probably some bugs that I haven't found yet (and no one ever gets far enough to test it for me :()
+    global tempbag, phealth, bhealth, pcrit, position, bdif, burned, poisoned, leech, lvl
+    pcrit=9
     tempbag=[]
     for ite in inventory:
         tempbag.append(ite)
@@ -2109,10 +2167,36 @@ def bossbattle():               #definitely my best function. Prints an ASCII po
     burned=False
     poisoned=False
     leech=False
-    bossart()
     ok=True
-    textbox("CHAMPION Capodice challenges you toa battle")
+    level=1                         #calculates an approximate level. Isn't a great estimate per se, but it's functional and scales with progression decently
+    good=[itemdic[5],itemdic[6],itemdic[8],itemdic[11],itemdic[14],itemdic[17],itemdic[18],itemdic[22],itemdic[24]]
+    meh=[itemdic[1],itemdic[3],itemdic[4],itemdic[7],itemdic[10]]
+    for thing in inventory:
+        if thing==itemdic[12]:
+            level+=15
+        if thing==itemdic[16]:
+            level+=9
+        if thing in meh:
+            level+=3
+        if thing in good:
+            level+=6
+    if itemdic[22] in inventory and itemdic[24] in inventory:
+        level+=7
+    if itemdic[14] in inventory and itemdic[15] in inventory:
+        level+=10
+    if yearbook==True:
+        level+=4
+    if itemdic[21] in inventory and level<101:
+        level=101
+    lvl=str(level)
+    if level<10:
+        lvl.append("  ")
+    elif level<100:
+        lvl.append(" ")
+    bossart()
+    textbox("CHAMPION Capodice challenges you toa battle ")
     while True:
+        ok=True
         roll=random.randint(1,3)
         choice=fbr()
         if choice==1:
@@ -2176,12 +2260,13 @@ def bossmove():             #Mr. Capodice's random move list. He will use a rand
         textbox("Mr. Capodice used Earthquake")
         if hit>=3:
             textbox(f"Magnitude {(roll-2)*2}!")
-            pdam(roll-3+bdif)
+            pdam(roll-2+bdif)
         else:
             textbox("Mr. Capodice's attack missed.")
     else:
-        textbox("Mr. Capodice used Tackle")
-        pdam(2+bdif)
+        textbox("Mr. Capodice used Giga Drain")
+        pdam(3+bdif)
+        bdam(-2-bdif)
 
 
 def bossart():          #prints a beautiful ascii rendition of the pokemon fight. I like it, even though I'm not too great at ascii art
@@ -2197,7 +2282,7 @@ def bossart():          #prints a beautiful ascii rendition of the pokemon fight
     print("""
   _____________________
  | MR. CAPODICE   Lv100|""")
-    sys.stdout.write(" |   HP ")
+    sys.stdout.write(" |   HP ")            #this part and the similar looking one below print a number of |'s equal to your health, then fill in the missing health with spaces
     pblank=15-phealth
     bblank=15-bhealth
     for x in range(bhealth):
@@ -2220,17 +2305,17 @@ def bossart():          #prints a beautiful ascii rendition of the pokemon fight
             ----------|__,             ,        |___|    |___|         ,
          ------------/|                ,                               ,
        ,------------,,,~ ,             ,                               ,
-     ,   ,,,,,,,,,,,,,    ,             ',                           ,'
-   ,     ,,,,,,,,,,,,,     ,               ,                       ,
-  ,      ,,,,,,,,,,,,        ,               '- , _ _ _ _ _ _ , -'
+     ,   ,,,,,,,,,,,,,     ,            ',                           ,'
+   ,     ,,,,,,,,,,,,,       ,             ,                       ,
+  ,      ,,,,,,,,,,,,         ,              '- , _ _ _ _ _ _ , -'
  ,    ---           ---       ,
  ,   |IWANNABETHEVERYBE|      ,
  ,   |STLIKENOONEEVERWA|     ,              ______________________
   ,  |STOCATCHTHEMISMYR|    ,              | """)
-    sys.stdout.write(f"{shortname}       ")
+    sys.stdout.write(f"{shortname}      ")
     for b in range(blanks):
         sys.stdout.write(" ")
-    print("Lv1 |")
+    print(f"Lv{lvl}|")
     sys.stdout.write("""   , |EALTESTTOTRAINTHE|   ,               |    HP """)
     for x in range(phealth):
         sys.stdout.write("|")
