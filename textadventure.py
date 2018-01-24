@@ -211,7 +211,7 @@ def encounter():                    #encounters are initiated in certain rooms, 
                     if choice==1:
                         prayer=random.randint(1,10)
                         if prayer==10:
-                            print("By some miracle, q god actually seems to hear your prayer, and intervenes. As the jock raises his fists a pile of bread and fish falls on to him from out of thin air. After a few minutes of praising the gods of magnet, you take a loaf and a fish, as proof that miracles are real.")
+                            print("By some miracle, q god actually seems to hear your prayer, and intervenes. As the jock raises his fists a pile of bread and fish falls onto him from out of thin air. After a few minutes of praising the gods of magnet, you take a loaf and a fish, as proof that miracles are real.")
                             inventory.append("Loaf of Bread", "Slightly Smelly Fish (Trout?)")
                         else:
                             print("The gods are deaf to your pleas for mercy, and the jock kills you with a swift blow to the head, then goes back to working out.")
@@ -848,14 +848,15 @@ def whereAmI():             #so the elephant in the room. I could have used clas
         if position==31:
             if kippevent==False:
                 encounter()
-            print("You are in Mrs. Kipp's room. Rows of monitors blink to life as you look around. You wonder why ctrl+alt+delete is a command.")
-            things(31)
-            print("1. Leave room\n2. Ctrl alt delete\n3. Ctrl+c\n4. Item")
-            if kippcad==False:
-                print("5. Take flash drive")
-                position=choose(5)
             else:
-                position=choose(4)
+                print("You are in Mrs. Kipp's room. Rows of monitors blink to life as you look around. You wonder why ctrl+alt+delete is a command.")
+                things(31)
+                print("1. Leave room\n2. Ctrl alt delete\n3. Ctrl+c\n4. Item")
+                if kippcad==False:
+                    print("5. Take flash drive")
+                    position=choose(5)
+                else:
+                    position=choose(4)
         if position==23:
             if fangevent==False:
                 encounter()
@@ -1411,7 +1412,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             else:
                 print("The door is locked.")
         if instruct==5:
-            if flooronekey==True:
+            if floortwokey==True:
                 print("You enter Mr. Merkl's room.")
                 return 30
             else:
@@ -1432,7 +1433,7 @@ def option (instruct):                  #the biggest function in my code. It tak
                 print("You fall out of the chair, and hit your head. You get up, fairly dizzy, and quite disoriented.")
                 stress(1)
             if spinner==10:
-                print("You spin too fast and knock a computer on to the floor. It shatters, spraying shards of plastic and glass everywhere. Your legs are now bleeding, and you are going to have to pay some hefty fines.")
+                print("You spin too fast and knock a computer onto the floor. It shatters, spraying shards of plastic and glass everywhere. Your legs are now bleeding, and you are going to have to pay some hefty fines.")
                 stress(3)
                 difficulty+=0.2
         if instruct==3:
