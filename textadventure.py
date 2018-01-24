@@ -81,7 +81,7 @@ def stress(change):                 #this is called by many functions, and incre
     if stresslvl>=20 and stresslvl-change<20 and stresslvl<25:
         print("You begin to hear things around you. Whispers. Depression. Homework being assigned. There seems to be a constant shadow at the edge of your vision.")
     if stresslvl>=24.4 and stresslvl-change<24.4 and stresslvl<25:
-        print("You are on the very brink of madness")
+        print("You are on the very brink of madness.")
     if stresslvl>=25:
         dead(0)
     if stresslvl<5 and stresslvl-change>=5:
@@ -460,18 +460,18 @@ def things(room):           #called in rooms where an item starts out. If the it
     if room==99 and crucible==False:
         print("You see 'The Crucible' on the desk.")
     if room==26 and yearbook==False:
-        print("You see a yearbook in the corner")
+        print("You see a yearbook in the corner.")
     if room==21 and terrycad==False:
-        print("You see a flash drive on Theresa 'Terry' O'Connor's desk")
+        print("You see a flash drive on Theresa 'Terry' O'Connor's desk.")
     if room==31 and kippcad==False:
-        print("You see a flash drive on Mrs. Kipp's desk")
+        print("You see a flash drive on Mrs. Kipp's desk.")
     if room==24 and floortwokey==False:
         print("You see a set of keys on Dr. J's desk.")
     if room==19:
         if papers==False:
-            print("You see a stack of flammable papers on the desk")
+            print("You see a stack of flammable papers on the desk.")
         if mathprobs==False:
-            print("You see problems on the board, clearly labeled 'DNE'")
+            print("You see problems on the board, clearly labeled 'DNE'.")
     if room==23 and physbook==False:
         print("You see, one textbook that seems to stand out from the rest.")
     if room==30 and seed==False:
@@ -512,7 +512,7 @@ def item():             #gets the user to pick an item from their inventory, and
                     flooronekey=True
                     return "retry"
                 else:
-                    print("You find nothing")
+                    print("You find nothing.")
                     return "retry"
             if itemused=="Mr. Sanservino's Test":
                 if stresslvl<20:
@@ -532,7 +532,7 @@ def item():             #gets the user to pick an item from their inventory, and
                     print("You throw Mr. Rafalowski's ID card at the security cameras with all of your might and skill. It ricochets around the floor, and manages to break every single camera in the school. You admire your handiwork briefly, before remembering that the recordings still exist.")
                     cameras=True
                 else:
-                    print("You throw the ID at the camera, but lack the strength to do much more than scratch it a little bit. Maybe you should get more 'swoll'")
+                    print("You throw the ID at the camera, but lack the strength to do much more than scratch it a little bit. Maybe you should get more 'swoll'.")
                 return "retry"
             if itemused==itemdic[26] and position==0:
                 print("You take the car out of your pocket, and put it on the floor, pointed directly at the main doors.")
@@ -559,7 +559,7 @@ def item():             #gets the user to pick an item from their inventory, and
                 else:
                     print(f"You fail to start the car up with {ituse}. Maybe some car keys would work.")
                 return "retry"
-            if itemused==itemdic[19] and position==122:
+            if itemused==itemdic[19] and position==12218:
                 print("You flip through the pages of the yearbook, trying to take the edge of the sadness. You open it to her photograph, and place it on her desk.")
                 difficulty-=0.2
                 inventory.remove(itemdic[19])
@@ -581,7 +581,7 @@ def victory(win):           #there aren't many ways to win, but there are some. 
         while True:
             choice=input("What do you do? ")
     elif win==2:
-        print("Victory, except with some hefty fines")
+        print("Victory, except with some hefty fines.")
         jack=input()
         print("With a car, a dramatic exit, and some bad events in the near future, the only question is:")
         while True:
@@ -830,7 +830,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             else:
                 position=choose(3)
         if position==19:
-            print("You are in Mr. Straut's room. While you liked him enough, his room seems so vulnerable to a little mindless mayhem.")          #Sorry Mr. Straut
+            print("You are in Mr. Straut's room. While you liked him well enough, his room seems so vulnerable to a little mindless mayhem.")          #Sorry Mr. Straut
             things(19)
             print("1. Leave room\n2. Item")
             position=choose(2)
@@ -901,7 +901,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             else:
                 print("You are in the chemical storage, surrounded by buckets and vials of things that could easily kill you. The floor still seems a bit low on the pH scale, but not enough to kill you (hopefully).\n1. Leave room\n2. Item")
                 position=choose(2)
-        if position==122:
+        if position==12218:
             print("You are in Ms. Linnett's office. The news is still fresh on your mind, and hurts to think about. She did so much for everyone, and never got any thanks for much of it. She was always happy to talk, no matter how busy she was. She was a friend to everyone, and even went against the administration if it meant making people happy. She loved her job.\n1. Leave room\n2. Pay respects\n3. Item")
             position=choose(3)
 
@@ -920,11 +920,11 @@ def option (instruct):                  #the biggest function in my code. It tak
             print("You enter the hallway to the east.")
             return 1
         if instruct==3:
-            print("You climb the stairs")
+            print("You climb the stairs.")
             return 17
         if instruct==4:
             if flooronekey==True:
-                print("You enter the main office")
+                print("You enter the main office.")
                 return 2
             else:
                 print("The door is locked.")
@@ -964,7 +964,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             print("You go to town on the tapes with Table, the Table Leg. That was very satisfying.")           #to get the true ending, you need to have no evidence
             records=True
             if cameras==False:
-                print("Unfortunately, the cameras are still recording things,")
+                print("Unfortunately, the cameras are still recording things.")
                 records=False
             return "retry"
         elif instruct==5 and rafid==True and table==False:
@@ -973,7 +973,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             print("You go to town on the tapes with Table, the Table Leg. That was very satisfying.")
             records=True
             if cameras==False:
-                print("Unfortunately, the cameras are still recording things,")
+                print("Unfortunately, the cameras are still recording things.")
                 records=False
             return "retry"
         if instruct==6 and table==False:
@@ -983,7 +983,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             return item()
         if instruct==3:
             print("You enter the guidance office.")
-            return 122
+            return 12218
         return "retry"
     if position==1:
         if instruct==1:
@@ -996,7 +996,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             print("You enter the broom closet.")
             return 3
         elif instruct==3:
-            print("The door is locked")
+            print("The door is locked.")
         if instruct==4:
             print("You enter the auditorium.")
             return 4
@@ -1015,7 +1015,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             broom=True
             inventory.append("Bruce's broom")
         else:
-            print("You already picked up the broom")
+            print("You already picked up the broom.")
         return "retry"
     if position==4:
         if instruct==1:
@@ -1035,55 +1035,55 @@ def option (instruct):                  #the biggest function in my code. It tak
                     inventory.append("Hairspray")
                     stress(-1)
                 else:
-                    print("You can't see anything important, so you close the closet")
+                    print("You can't see anything important, so you close the closet.")
             else:
-                print("The door is locked")
+                print("The door is locked.")
         elif instruct==5:
             return item()
         return "retry"
     if position==5:
         if instruct==1:
-            print("You walk north")
+            print("You walk north.")
             return 10
         if instruct==2:
-            print("You walk south")
+            print("You walk south.")
             return 1
         if instruct==3:
             if flooronekey==True:
-                print("You enter Mr. Nowakoski's room")
+                print("You enter Mr. Nowakoski's room.")
                 return 8
             else:
-                print("The door is locked")
+                print("The door is locked.")
         if instruct==4:
             if flooronekey==True:
-                print("You enter Mr. Sanservino's room")
+                print("You enter Mr. Sanservino's room.")
                 return 7
             else:
-                print("The door is locked")
+                print("The door is locked.")
         if instruct==5:
-            print("You enter Mrs. Gerstein's room")
+            print("You enter Mrs. Gerstein's room.")
             return 6
         if instruct==6:
             return item()
         return "retry"
     if position==6:
         if instruct==1:
-            print("You leave the room")
+            print("You leave the room.")
             return 5
         if instruct==2:
             if flooronekey==True:
-                print("You enter the Maker Space")
+                print("You enter the Maker Space.")
                 return 13
             else:
-                print("The door is locked")
+                print("The door is locked.")
         if instruct==3:
             return item()
         if instruct==4 and searcher==False:
-            print("You take the invention. Upon closer inspection, you discern that it can be used to locate hidden things")
+            print("You take the invention. Upon closer inspection, you discern that it can be used to locate hidden things.")
             inventory.append("Mrs. Gerstein's Searcher of Seeking")
             searcher=True
         else:
-            print("You already picked up the invention")
+            print("You already picked up the invention.")
         return "retry"
     if position==10:
         if instruct==1:
@@ -1094,28 +1094,28 @@ def option (instruct):                  #the biggest function in my code. It tak
             return 12
         if instruct==3:
             if flooronekey==True:
-                print("You enter the fitness center")
+                print("You enter the fitness center.")
                 return 11
             else:
-                print("The door is locked")
+                print("The door is locked.")
         if instruct==4:
             return item()
         return "retry"
     if position==12:
         if instruct==1:
-            print("You go north")
+            print("You go north.")
             return 10
         if instruct==2:
-            print("You go south")
+            print("You go south.")
             return 0
         if instruct==3:
             if flooronekey==True:
-                print("You enter Mr. McMenamin's room")
+                print("You enter Mr. McMenamin's room.")
                 return 15
             else:
-                print("The door is locked")
+                print("The door is locked.")
         if instruct==4:
-            print("You enter Ms. Arnold's room")
+            print("You enter Ms. Arnold's room.")
             return 14
         if instruct==5:
             global window
@@ -1138,12 +1138,12 @@ def option (instruct):                  #the biggest function in my code. It tak
         return "retry"
     if position==8:
         if instruct==1:
-            print("You leave the room")
+            print("You leave the room.")
             return 5
         if instruct==2:
             print("You look at the board, and see some funny things that Mr. Nowakoski has put up.")
             funny=random.randint(1,8)
-            funlist={1:"You can't run through a campground. You can only ran, because it's past tents.",2:"I stayed up all night trying to find where the sun went. Then it dawned on me.",3:"Double negatives are a big no-no",4:"Autocorrect has become my worst enema.",5:"Here's a riddle...Voldemort.",6:"Honestly, everyone should just leave writing to the prose",7:"What makes 'Civil Disobedience' such a great essay? Thoreau editing.",8:"You were reading and then you saw a bird? Cool story, Poe."}          #prints a bunch of literary jokes (sorry about the enema one, but it was funny)
+            funlist={1:"You can't run through a campground. You can only ran, because it's past tents.",2:"I stayed up all night trying to find where the sun went. Then it dawned on me.",3:"Double negatives are a big no-no",4:"Autocorrect has become my worst enema.",5:"Here's a riddle...Voldemort.",6:"Honestly, everyone should just leave writing to the prose.",7:"What makes 'Civil Disobedience' such a great essay? Thoreau editing.",8:"You were reading and then you saw a bird? Cool story, Poe."}          #prints a bunch of literary jokes (sorry about the enema one, but it was funny)
             print(funlist[funny])
         if instruct==3:
             global nowbook
@@ -1158,10 +1158,10 @@ def option (instruct):                  #the biggest function in my code. It tak
         return "retry"
     if position==7:
         if instruct==1:
-            print("You leave the room")
+            print("You leave the room.")
             return 5
         if instruct==2:
-            print("You practice for a presentation")
+            print("You practice for a presentation.")
             stress(0.5)
             present=random.randint(1,8)
             if present<=3:
@@ -1191,22 +1191,22 @@ def option (instruct):                  #the biggest function in my code. It tak
         return "retry"
     if position==14:
         if instruct==1:
-            print("You leave the room")
+            print("You leave the room.")
             return 12
         if instruct==2:
             if flooronekey==True:
-                print("You open the door and enter Mrs. Pinto's office")
+                print("You open the door and enter Mrs. Pinto's office.")
                 return 99
             else:
-                print("The door is locked")
+                print("The door is locked.")
         if instruct==3:
             print("You look at the board. All of the writing seems to be in varying shades of red and brown.")
             if keyloc==3:
-                print("You read 'She SellS SeaShellS on the firSt floor'")              #a quick little riddle. The capitalized letter corresponds to where you find the keys on the first floor. It may be a little overly difficult, but mostly because kids are wusses these days. They wouldn't last 19 turns in Hitchhiker's Guide to the Galaxy
+                print("You read 'She SellS SeaShellS on the firSt floor.'")              #a quick little riddle. The capitalized letter corresponds to where you find the keys on the first floor. It may be a little overly difficult, but mostly because kids are wusses these days. They wouldn't last 19 turns in Hitchhiker's Guide to the Galaxy
             elif keyloc==1:
                 print("You read 'No oNe expects the spaNish iNquisitioN!'")
             elif keyloc==2:
-                print("You read 'EliE Eats Eggs with Elk chEEsE'")
+                print("You read 'EliE Eats Eggs with Elk chEEsE.'")
             else:
                 print("You read 'Where Were you, When the Waluigis Woke?'")
         if instruct==4:
@@ -1214,7 +1214,7 @@ def option (instruct):                  #the biggest function in my code. It tak
         return "retry"
     if position==13:
         if instruct==1:
-            print("You leave the makerspace")
+            print("You leave the makerspace.")
             return 6
         if instruct==2:
             return item()
@@ -1238,11 +1238,11 @@ def option (instruct):                  #the biggest function in my code. It tak
             inventory.append(itemdic[27])
             inventory.remove(itemdic[20])
         if itemdic[26] in inventory and itemdic[27] in inventory and itemdic[21] in inventory:
-            print("With a large object and complete control over the laws of physics, you ponder your options")
+            print("With a large object and complete control over the laws of physics, you ponder your options.")
         return "retry"
     if position==15:
         if instruct==1:
-            print("You leave the classroom")
+            print("You leave the classroom.")
             return 12
         if instruct==2:
             chance=random.randint(1,20)
@@ -1263,7 +1263,7 @@ def option (instruct):                  #the biggest function in my code. It tak
                 inventory.append("Mr. McMenamin's Lucky Eraser")
                 print("You pick up the eraser, and feel the stuff of miracles in your hand.")
             else:
-                print("You already picked up the eraser")
+                print("You already picked up the eraser.")
         return "retry"
     if position==99:
         if instruct==1:
@@ -1280,16 +1280,16 @@ def option (instruct):                  #the biggest function in my code. It tak
     if position==11:
         global workout
         if instruct==1:
-            print("You leave the gym")
+            print("You leave the gym.")
             return 10
         if instruct==2:
             return item()
         if instruct==3 and workout==0:
-            print("You pump iron for several minutes, and thereby become 'swoll' as Mr. Stanko")
+            print("You pump iron for several minutes, and thereby become 'swoll' as Mr. Stanko.")
             inventory.append("Strength of Stanko")
             workout=1
         elif instruct==3 and workout==1:
-            print("You continue to work out, and eventually become as strong as Mrs. Lebrun")
+            print("You continue to work out, and eventually become as strong as Mrs. Lebrun.")
             inventory.append("Legs of LeBrun")
             inventory.remove("Strength of Stanko")
             workout=2
@@ -1310,123 +1310,123 @@ def option (instruct):                  #the biggest function in my code. It tak
         return "retry"
     if position==17:
         if instruct==1:
-            print("You go north")
+            print("You go north.")
             return 29
         if instruct==2:
-            print("You go east")
+            print("You go east.")
             return 18
         if instruct==3:
-            print("You go down the stairs")
+            print("You go down the stairs.")
             return 0
         if instruct==4:
             if floortwokey==True:
                 print("You enter the senior lounge.")
                 return 98
             else:
-                print("The door is locked")
+                print("The door is locked.")
         return "retry"
     if position==18:
         if instruct==1:
-            print("You go east")
+            print("You go east.")
             return 22
         if instruct==2:
-            print("You go west")
+            print("You go west.")
             return 17
         if instruct==3:
             if floortwokey==True:
-                print("You enter Mr. Liu's room")
+                print("You enter Mr. Liu's room.")
                 return 20
             else:
-                print("THe door is locked")
+                print("THe door is locked.")
         if instruct==4:
-            print("You enter Mr. Straut's room")
+            print("You enter Mr. Straut's room.")
             return 19
         if instruct==5:
             if floortwokey==True:
-                print("You enter Mrs. O'Connor's room")
+                print("You enter Mrs. O'Connor's room.")
                 return 21
             else:
-                print("The door is locked")
+                print("The door is locked.")
         if instruct==6:
             return item()
         return "retry"
     if position==22:
         if instruct==1:
-            print("You go north")
+            print("You go north.")
             return 27
         if instruct==2:
-            print("You go south")
+            print("You go south.")
             return 18
         if instruct==3:
             if floortwokey==True and fangevent==True:
-                print("You enter Dr. Fang's room")
+                print("You enter Dr. Fang's room.")
                 return 23
             elif floortwokey==False:
-                print("The door is locked")
+                print("The door is locked.")
                 return "retry"
             elif fangevent==False:
-                print("You put your hand on the handle")
+                print("You put your hand on the handle.")
                 return 23
             else:
-                print("The door is locked")
+                print("The door is locked.")
         if instruct==4:
-            print("You enter Dr. Jidarian's room")
+            print("You enter Dr. Jidarian's room.")
             return 24
         if instruct==5:
             return item()
         return "retry"
     if position==27:
         if instruct==1:
-            print("You go east")
+            print("You go east.")
             return 22
         if instruct==2:
-            print("You go west")
+            print("You go west.")
             return 29
         if instruct==3:
-            print("You enter Senora Mejia's classroom")
+            print("You enter Senora Mejia's classroom.")
             return 26
         if instruct==4:
             if floortwokey==True:
-                print("You enter Mrs. Mansfield-Smith's Office")
+                print("You enter Mrs. Mansfield-Smith's Office.")
                 return 101
             else:
-                print("The door is locked")
+                print("The door is locked.")
         if instruct==5:
             return item()
         return "retry"
     if position==29:
         if instruct==1:
-            print("You go north")
+            print("You go north.")
             return 27
         if instruct==2:
-            print("You go south")
+            print("You go south.")
             return 17
         if instruct==3:
-            print("You enter Mr. Raite's room")
+            print("You enter Mr. Raite's room.")
             return 32
         if instruct==4:
             if floortwokey==True:
-                print("You enter Mrs. Kipp's room")
+                print("You enter Mrs. Kipp's room.")
                 return 31
             else:
-                print("The door is locked")
+                print("The door is locked.")
         if instruct==5:
             if flooronekey==True:
-                print("You enter Mr. Merkl's room")
+                print("You enter Mr. Merkl's room.")
                 return 30
             else:
-                print("The door is locked")
+                print("The door is locked.")
         if instruct==6:
             return item()
         return "retry"
     if position==21:
         if instruct==1:
-            print("You leave the room")
+            print("You leave the room.")
             return 18
         if instruct==2:
             spinner=random.randint(1,10)
             for x in range(0,spinner):
-                print("You spin in the chair")
+                print("You spin in the chair.")
                 stress(-0.1)
             if spinner==9:
                 print("You fall out of the chair, and hit your head. You get up, fairly dizzy, and quite disoriented.")
@@ -1446,7 +1446,7 @@ def option (instruct):                  #the biggest function in my code. It tak
         return "retry"
     if position==20:
         if instruct==1:
-            print("You leave the room")
+            print("You leave the room.")
             return 18
         if instruct==2:
             return item()
@@ -1464,7 +1464,7 @@ def option (instruct):                  #the biggest function in my code. It tak
         return "retry"
     if position==32:
         if instruct==1:
-            print("You leave the room")
+            print("You leave the room.")
             return 29
         if instruct==2:
             if lockpick==True:
@@ -1491,7 +1491,7 @@ def option (instruct):                  #the biggest function in my code. It tak
         if instruct==2:
             ituse=eventitem()
             if ituse=="Lighter" and papers==False:
-                print("You take out your lighter and touch it to Mr. Straut's papers, laughing maniacally as they go up in smoke. You feel much better")
+                print("You take out your lighter and touch it to Mr. Straut's papers, laughing maniacally as they go up in smoke. You feel much better.")
                 stress(-4)
                 papers=True
             elif ituse=="Mr. McMenamin's Lucky Eraser" and mathprobs==False:
@@ -1499,7 +1499,7 @@ def option (instruct):                  #the biggest function in my code. It tak
                 stress(-2.5)
                 mathprobs=True
             else:
-                print("You don't know how to use that right now")
+                print("You don't know how to use that right now.")
         return "retry"
     if position==24:
         if instruct==1:
@@ -1525,27 +1525,27 @@ def option (instruct):                  #the biggest function in my code. It tak
                     print("You thought that you were prepared, but you were wrong. Dr. J's 'easy test' just killed your soul.")
                     stress(4)
             else:
-                print("You find nothing, and are slightly relieved")
+                print("You find nothing, and are slightly relieved.")
         if instruct==3:
             return item()
         if instruct==4:
             if floortwokey==False:
                 print("You take the keys, wondering why Dr. J had them.")
-                inventory.append("Floor two keys")
+                inventory.append("Floor two keys.")
                 floortwokey=True
             else:
                 print("You try to take the keys, but realize that you already have them. You feel stupid.")
         return "retry"
     if position==26:
         if instruct==1:
-            print("You leave the room")
+            print("You leave the room.")
             return 27
         if instruct==2:
             return item()
         if instruct==3:
             global yearbook
             if yearbook==False:
-                print("You take the yearbook")
+                print("You take the yearbook.")
                 inventory.append("Yearbook")
                 yearbook=True
             else:
@@ -1553,18 +1553,18 @@ def option (instruct):                  #the biggest function in my code. It tak
         return "retry"
     if position==31:
         if instruct==1:
-            print("You leave the room")
+            print("You leave the room.")
             return 29
         if instruct==2:
-            print("You press ctrl, alt, and delete on one of the computers. Nothing happens. You contemplate pressing them at the same time, but decide against it")
+            print("You press ctrl, alt, and delete on one of the computers. Nothing happens. You contemplate pressing them at the same time, but decide against it.")
         if instruct==3:
             yn=input("...you do know what ctrl+c does, right? It's not 'copy' in the context of python. Are you sure? Y/N: ")
             if yn=="y" or yn=="Y":
                 yn=input("You should definitely look up what that command does in Python before doing it, because it's pretty common knowledge. Are you sure you're sure? Y/N: ")
                 if yn=="y" or yn=="Y":
-                    okthen=input("Well if you say so")
+                    okthen=input("Well if you say so.")
                     exit()
-            print("That's the right choice")
+            print("That's the right choice.")
         if instruct==4:
             return item()
         global kippcad
@@ -1574,12 +1574,12 @@ def option (instruct):                  #the biggest function in my code. It tak
                 inventory.append(itemdic[25])
                 kippcad=True
             else:
-                print("You already took that. You hooligan.")
+                print("You already took that. You hooligan.")           #wayward souls reference. 8th grade was a good year.
         return "retry"
     if position==23:
         global physbook
         if instruct==1:
-            print("You leave the room, feeling sad as you go")
+            print("You leave the room, feeling sad as you go.")
             return 22
         if instruct==2:
             print("You kick Mr. Capodice's unconscious form.")
@@ -1603,14 +1603,14 @@ def option (instruct):                  #the biggest function in my code. It tak
                 inventory.append(itemdic[21])
                 physbook=True
                 if itemdic[26] and itemdic[27] and itemdic[21] in inventory:
-                    print("With a large object and complete control over the laws of physics, you ponder your options")
+                    print("With a large object and complete control over the laws of physics, you ponder your options.")
             else:
                 print("You already are a living god. You have no need of additional powers.")
             return "retry"
     if position==30:
         global seed
         if instruct==1:
-            print("You leave the room")
+            print("You leave the room.")
             return 29
         if instruct==2:
             print("You search for Mr. Merkl and his posse, and find him at https://www.youtube.com/watch?v=6YolmeWsPqE")            #a link to bill merkl
@@ -1626,10 +1626,10 @@ def option (instruct):                  #the biggest function in my code. It tak
         return "retry"
     if position==101:
         if instruct==1:
-            print("You leave the room")
+            print("You leave the room.")
             return 27
         if instruct==2:
-            print("You look at the most recent changes. It looks like a 'DArtis' has been changing his grades. Shameful")           #hi, it's me. Easter egg
+            print("You look at the most recent changes. It looks like a 'DArtis' has been changing his grades. Shameful.")           #hi, it's me, the easter egg
         if instruct==3:
             return item()
         if instruct==4:
@@ -1643,7 +1643,7 @@ def option (instruct):                  #the biggest function in my code. It tak
         return "retry"
     if position==98:
         if instruct==1:
-            print("You leave the room")
+            print("You leave the room.")
             return 17
         if instruct==2:
             print("You play some generic games, such as Supreme Breaker Siblings 11, NBA 2k28k4, and MST 3K.")              #Super Smash bros, some basketball game, and a great show (kudos if you've seen it and are under 20 years old)
@@ -1664,7 +1664,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             return 32
         if instruct==2:
             return item()
-    if position==122:
+    if position==12218:
         if instruct==1:
             print("You leave the room, giving a sad glance backwards as you do so.")
             return 2
@@ -1691,7 +1691,7 @@ def option (instruct):                  #the biggest function in my code. It tak
 
 def startup():                  #the first function, that sets up some important things (name, difficulty, cheat codes)
     global difficulty, studentathlete, physbook, workout
-    print("Let's play a game")
+    print("Let's play a game.")
     print("Are you a boy or a girl?\n1. Yes\n2. Dog-person\n3. Cat-person\n4. Lycanthrope-american")
     eventchoose(4)
     print("Hm. Interesting.")
@@ -2097,7 +2097,7 @@ def bag():      #uses an item, then removes it from your temporary inventory. Th
             textbox(f"{shortname}'s attack missed!")
     if ituse=="Mrs. Gerstein's Searcher of Seeking":
         textbox(f"{shortname} used searcher")
-        textbox("Weak point located")
+        textbox(f"{shortname} located a weak point!")
         textbox(f"{shortname}'s critical chance       increased")
         pcrit-=2
     if ituse=="The Holy Book of Mr. Nowakoski":
@@ -2207,7 +2207,7 @@ def bossbattle():               #definitely my best function. Prints an ASCII po
         if choice==3:
             highroll=random.randint(1,10)
             if highroll>8:
-                textbox("Got away safely")
+                textbox("Got away safely!")
                 position==22
                 return False
             else:
@@ -2255,14 +2255,14 @@ def bossmove():             #Mr. Capodice's random move list. He will use a rand
             textbox("Mr. Capodice is hit by the recoil")
             bdam(1)
         else:
-            textbox("Mr. Capodice's attack missed")
+            textbox("Mr. Capodice's attack missed!")
     elif roll>=4:
         textbox("Mr. Capodice used Earthquake")
         if hit>=3:
             textbox(f"Magnitude {(roll-2)*2}!")
             pdam(roll-2+bdif)
         else:
-            textbox("Mr. Capodice's attack missed.")
+            textbox("Mr. Capodice's attack missed!")
     else:
         textbox("Mr. Capodice used Giga Drain")
         pdam(3+bdif)
