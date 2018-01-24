@@ -2191,9 +2191,9 @@ def bossbattle():               #definitely my best function. Prints an ASCII po
         level=101
     lvl=str(level)
     if level<10:
-        lvl.append("  ")
+        lvl+="  "
     elif level<100:
-        lvl.append(" ")
+        lvl+=" "
     bossart()
     textbox("CHAMPION Capodice challenges you toa battle ")
     while True:
