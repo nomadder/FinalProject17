@@ -1975,7 +1975,7 @@ _____________________________________
         dam=(3+crit)*miss
         poison=True
     if move=="Leech Seed":
-        dam=(3+crit)*miss
+        dam=(2+crit)*miss
         if miss!=0:
             leech=True
     if move=="Mega Drain":
@@ -1994,7 +1994,7 @@ _____________________________________
     if miss==1:
         bdam(dam)
         if leech==True:
-            pdam(-2-crit)
+            pdam(-1-crit)
     if bhealth<=0:
         pass
     elif burn==True and burned==False:
