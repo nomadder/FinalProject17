@@ -411,6 +411,7 @@ def dead(death):            #initially, this was supposed to have the text that 
     print("YOU HAVE DIED")
     if invsave[0]==0:
         jack=input()        #this is just so they have a chance to read everything before the text is forced offscreen
+        sys.stdout.write("\033[1;30;42m")
         while True:         #prints until terminated
             x=random.randint(1,5)
             if x==1:
@@ -427,6 +428,7 @@ def dead(death):            #initially, this was supposed to have the text that 
     else:
         jack=input("Reload last save? Y/N: ")
         if jack=="n" or jack=="N":
+            sys.stdout.write("\033[1;30;42m")
             while True:
                 x=random.randint(1,5)
                 if x==1:
@@ -482,16 +484,16 @@ def things(room):           #called in rooms where an item starts out. If the it
         print("You see Magnet Man in the corner. You probably should have guessed that the seniors took him.")
 
 def item():             #gets the user to pick an item from their inventory, and checks to see if they can use it here. If not, it prints a pokemon-style error message
-    global inventory, cameras, difficulty
+    global inventory, cameras, difficulty, records
     number=0
     for x in inventory:
         number+=1
         number=str(number)
         print (number+". "+str(x))
         number=int(number)
-    print(f"{number+1}. Cancel")
+    print(f"{number+1}. Examine\n{number+2}. Cancel")
     while True:
-        global flooronekey
+        global flooronekey, records
         use=input("Which item do you use? ")
         try:
             int(use)
@@ -514,7 +516,7 @@ def item():             #gets the user to pick an item from their inventory, and
                 else:
                     print("You find nothing.")
                     return "retry"
-            if itemused=="Mr. Sanservino's Test":
+            elif itemused=="Mr. Sanservino's Test":
                 if stresslvl<20:
                     print("You aren't insane enough to use that yet. You do not fully understand the powers that you are toying with.")
                     return "retry"
@@ -527,14 +529,14 @@ def item():             #gets the user to pick an item from their inventory, and
                         else:
                             print("In your state of insanity, you determine that reading Mr. Sanservino's test is a good choice. You are horribly wrong. As you read it, the shadows reach from\nevery corner towards you, and the voices in your head begin to scream. After that, there is only darkness.")
                             dead(2)
-            if itemused==itemdic[3] and cameras==False:
+            elif itemused==itemdic[3] and cameras==False:
                 if itemdic[12] in inventory:
                     print("You throw Mr. Rafalowski's ID card at the security cameras with all of your might and skill. It ricochets around the floor, and manages to break every single camera in the school. You admire your handiwork briefly, before remembering that the recordings still exist.")
                     cameras=True
                 else:
                     print("You throw the ID at the camera, but lack the strength to do much more than scratch it a little bit. Maybe you should get more 'swoll'.")
                 return "retry"
-            if itemused==itemdic[26] and position==0:
+            elif itemused==itemdic[26] and position==0:
                 print("You take the car out of your pocket, and put it on the floor, pointed directly at the main doors.")
                 ituse=eventitem()
                 if ituse==itemdic[27]:
@@ -559,15 +561,92 @@ def item():             #gets the user to pick an item from their inventory, and
                 else:
                     print(f"You fail to start the car up with {ituse}. Maybe some car keys would work.")
                 return "retry"
-            if itemused==itemdic[19] and position==12218:
+            elif itemused==itemdic[19] and position==12218:
                 print("You flip through the pages of the yearbook, trying to take the edge of the sadness. You open it to her photograph, and place it on her desk.")
                 difficulty-=0.2
                 inventory.remove(itemdic[19])
+                return "retry"
+            elif itemused==itemdic[16] and position==2:
+                print("You go to town on the tapes with Table, the Table Leg. That was very satisfying.")
+                records=True
+                if cameras==False:
+                    print("Unfortunately, the cameras are still recording things, and you'll need to destroy the new tapes.")
+                    records=False
+                return "retry"
+            elif itemused==itemdic[20]:
+                print("You put the flash drive into the laser cutter, and it creates (somehow) a set of electronic car keys. You really have no idea how that happened, but it did. With a bit of shoving, you manage to fit the keys in your pocket.")
+                inventory.append(itemdic[27])
+                inventory.remove(itemdic[20])
+                return "retry"
+            elif itemused==itemdic[25]:
+                print("You plug the flash drive into the 3D printer. In an incredibly short amount of time, you have a fully built car. You put the car in your pocket.")
+                inventory.append(itemdic[26])
+                inventory.remove(itemdic[25])
                 return "retry"
             else:
                 print(f"Dr. Fang's words echoed... {name}, there is a time and place for everything, but not now.")
                 return "retry"
         elif use==number+1:
+            lookat=eventitem()
+            if lookat==itemdic[1]:
+                if flooronekey==False:
+                    print("The invention looks like it might be used to find things that aren't immediately visible. Right now, you could use them to find some keys.")
+                else:
+                    print("The invention has served its primary purpose, but you plan to keep it around for when you inevitably lose all the cool stuff you found tonight.")
+            if lookat==itemdic[2]:
+                print("A simple ring of keys. They only work on doors on the first floor, but that should be enough for now.")
+            if lookat==itemdic[3]:
+                print("The ID card of the principal. Beside identity theft, this can also be used for the simple pleasure of throwing at things.")
+            if lookat==itemdic[4]:
+                print("Mr. McMenamin claimed that his eraser isn't lucky, but you've definitely seen weird things happening around it (constant billion throws, salads appearing on light fixtures, etc.)")
+            if lookat==itemdic[5]:
+                print("Bruce keeps his tools in top shape. It's so sturdy that you feel like you could fence with it.")
+            if lookat==itemdic[6]:
+                print("This book contains more wisdom than the rest of the world combined. Flipping through it, you see a lot of really obscure vocabulary, along with 'yams' a lot.")
+            if lookat==itemdic[7]:
+                print("You failed this test horribly, yet still did better than expected. In Mr. Sanservino's words, 'Another perfect test.'")
+            if lookat==itemdic[8]:
+                print("More weight")
+            if lookat==itemdic[9]:
+                print("Every school needs a mascot. A face to cheer on or a shoulder to stand on.")
+            if lookat==itemdic[10]:
+                print("You are strong.")
+            if lookat==itemdic[11]:
+                print("You are \x1B[3mStronk\x1B[23m.")
+            if lookat==itemdic[12]:
+                print("You are so \x1B[3mStronk\x1B[23m that you can basically do anything now.")
+            if lookat==itemdic[13]:
+                print("Some Key")
+            if lookat==itemdic[14]:
+                print("Fyre, Fyre, burning bright.")
+            if lookat==itemdic[15]:
+                print("What could you use this for? You don't need the aesthetic, and aerosols pollute the environment.")
+            if lookat==itemdic[16]:
+                print("You reminisce about Mr. Liu's class.")
+            if lookat==itemdic[17]:
+                print("It's a MIRACLE!")
+            if lookat==itemdic[18]:
+                print("Double your fish? Eh? Eh?")
+            if lookat==itemdic[19]:
+                print("Good times, good times.")
+            if lookat==itemdic[20]:
+                print("You should find a way to make what's on here.")
+            if lookat==itemdic[21]:
+                print("By the power of Fang, I have the power!")
+            if lookat==itemdic[22]:
+                print("Definitely not magic beans.")
+            if lookat==itemdic[23]:
+                print("Illegal, but functional.")
+            if lookat==itemdic[24]:
+                print("Tide pods got nothing on this.")
+            if lookat==itemdic[25]:
+                print("There's probably some cool stuff on this, but you don't have a USB port. Seriously.")
+            if lookat==itemdic[26]:
+                print("Ramming speed, Ensign Chekov.")
+            if lookat==itemdic[27]:
+                print("Definitely a dream come true.")
+            return "retry"
+        elif use==number+2:
             return "retry"
         else:
             print("Invalid Command. Try again.")
@@ -677,18 +756,9 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             print("1. Leave office\n2. Use announcement system\n3. Enter Guidance Office\n4. Item")
             if rafid==False:
                 print("5. Take ID")
-                global records
-                if records==False:
-                    print("6. Go ham on the security tapes")
-                    position=choose(6)
-                else:
-                    position=choose(5)
+                position=choose(5)
             else:
-                if records==False:
-                    print("5. Go ham on the security tapes")
-                    position=choose(5)
-                else:
-                    position=choose(4)
+                position=choose(4)
         if position==3:
             print("\nYou are in the small broom closet.")               #'Did you get the broom closet ending? I love the broom closet ending!' (The Stanley Parable)
             things(3)
@@ -738,17 +808,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
         if position==13:
             if swordbots==True:
                 print("You enter the makerspace. You see several manufacturing machines. \n1. Leave the makerspace\n2. Item")
-                if itemdic[20] in inventory and itemdic[25] in inventory:
-                    print("3. Make whatever is on Mrs. Kipp's flash drive\n4. Make whatever is on Mrs. O'Connor's flash drive")
-                    position=choose(4)
-                elif itemdic[25] in inventory:
-                    print("3. Make whatever is on Mrs. Kipp's flash drive")
-                    position=choose(3)
-                elif itemdic[20] in inventory:
-                    print("3. Make whatever is on Mrs. O'Connor's flash drive")
-                    position=choose(3)
-                else:
-                    position=choose(2)
+                position=choose(2)
             else:
                 encounter()
         if position==15:
@@ -912,7 +972,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
 
 
 def option (instruct):                  #the biggest function in my code. It takes the room that you are in and the option passed to it, then tells you what happens. There isn't a great way that I can think of to condense this significantly, so here it is. It's a lot of semi-boring code.
-    global difficulty, itemlist, position, rafid, searcher, popquiz, eraser, floortwokey, table, hairspray, flooronekey, lockpick, records          #I'm pretty sure that I use global variables too much, but my understanding of them was always slightly shaky, and I feel like it's better to unneccessarily global something than to have your game not work because you didn't
+    global difficulty, itemlist, position, rafid, searcher, popquiz, eraser, floortwokey, table, hairspray, flooronekey, lockpick, records, magnetman, terrycad          #I'm pretty sure that I use global variables too much, but my understanding of them was always slightly shaky, and I feel like it's better to unneccessarily global something than to have your game not work because you didn't
     if position==0:
         if instruct==1:
             print("You enter the hallway to the north.")
@@ -961,25 +1021,8 @@ def option (instruct):                  #the biggest function in my code. It tak
             print("You take Mr. Rafalowski's ID. You can feel its power flow through you.")
             rafid=True
             inventory.append("Mr. Rafalowski's ID Card")
-        elif instruct==5 and rafid==True and records==False:
-            print("You go to town on the tapes with Table, the Table Leg. That was very satisfying.")           #to get the true ending, you need to have no evidence
-            records=True
-            if cameras==False:
-                print("Unfortunately, the cameras are still recording things.")
-                records=False
-            return "retry"
-        elif instruct==5 and rafid==True and table==False:
-            print("You already picked that up.")
-        if instruct==6 and table==True:
-            print("You go to town on the tapes with Table, the Table Leg. That was very satisfying.")
-            records=True
-            if cameras==False:
-                print("Unfortunately, the cameras are still recording things.")
-                records=False
-            return "retry"
-        if instruct==6 and table==False:
-            print("You try to destroy the tapes, but you don't have any good way to break them. A nice blunt object would work.")
-            return "retry"
+        if instruct==5 and rafid==True:
+            print("There's only one ID card. Even Mr. R had to give up his from last year.")
         if instruct==4:
             return item()
         if instruct==3:
@@ -1219,28 +1262,6 @@ def option (instruct):                  #the biggest function in my code. It tak
             return 6
         if instruct==2:
             return item()
-        if (instruct==3 or instruct==4) and itemdic[20] not in inventory and itemdic[25] not in inventory:
-            print("You already did that. Pay attention.")
-        if itemdic[20] in inventory and itemdic[25] in inventory:
-            if instruct==3:
-                print("You plug the flash drive into the 3D printer. In an incredibly short amount of time, you have a fully built car. You put the car in your pocket.")
-                inventory.append(itemdic[26])
-                inventory.remove(itemdic[25])
-            if instruct==4:
-                print("You put the flash drive into the laser cutter, and it creates (somehow) a set of electronic car keys. You really have no idea how that happened, but it did. With a bit of shoving, you manage to fit the keys in your pocket.")
-                inventory.append(itemdic[27])
-                inventory.remove(itemdic[20])
-        elif itemdic[25] in inventory:
-            print("You plug the flash drive into the 3D printer. In an incredibly short amount of time, you have a fully built car. You put the car in your pocket.")
-            inventory.append(itemdic[26])
-            inventory.remove(itemdic[25])
-        elif itemdic[20] in inventory:
-            print("You put the flash drive into the laser cutter, and it creates (somehow) a set of electronic car keys. You really have no idea how that happened, but it did. With a bit of shoving, you manage to fit the keys in your pocket.")
-            inventory.append(itemdic[27])
-            inventory.remove(itemdic[20])
-        if itemdic[26] in inventory and itemdic[27] in inventory and itemdic[21] in inventory:
-            print("With a large object and complete control over the laws of physics, you ponder your options.")
-        return "retry"
     if position==15:
         if instruct==1:
             print("You leave the classroom.")
@@ -1442,6 +1463,7 @@ def option (instruct):                  #the biggest function in my code. It tak
             if terrycad==False:
                 print("You pick up Mrs. O'Connor's flash drive, wondering what designs she might have worked on while you were doing busywork.")
                 inventory.append("Mrs. O'Connor's flash drive")
+                terrycad=True
             else:
                 print("You try to pick up the flash drive, but realize that it is already in your pocket. What an idiot!")              #given the way that my program is written, it is impossible to remove the option of taking an item without reprinting the entire description (one place where classes would be better) so I have the functions check if they already took the item, then insult them if they did.
         return "retry"
@@ -1482,6 +1504,8 @@ def option (instruct):                  #the biggest function in my code. It tak
                 inventory.append("Lighter")
                 stress(0.2)
                 lighter=True
+            else:
+                print("You take out the lighter and burn a few things. Something about fire makes you feel better about life.")
         return "retry"
     if position==19:
         global papers
@@ -1692,7 +1716,7 @@ def option (instruct):                  #the biggest function in my code. It tak
 
 def startup():                  #the first function, that sets up some important things (name, difficulty, cheat codes)
     global difficulty, studentathlete, physbook, workout
-    print("Let's play a game.")
+    print("Let's play: 'Magnet Text Adventure'!\npewpewdie\nRecommended for you\n")
     print("Are you a boy or a girl?\n1. Yes\n2. Dog-person\n3. Cat-person\n4. Lycanthrope-american")
     eventchoose(4)
     print("Hm. Interesting.")
@@ -1813,7 +1837,7 @@ def startup():                  #the first function, that sets up some important
 def textbox(text):              #makes a pokemon-style textbox. Why? Reasons.
     leng=len(text)
     brek=0
-    sys.stdout.write("_____________________________________\n|")
+    sys.stdout.write("\033[0;30;47m_____________________________________\n|")
     for x in text:
         sys.stdout.write(x)
         brek+=1
@@ -1827,21 +1851,22 @@ def textbox(text):              #makes a pokemon-style textbox. Why? Reasons.
         sys.stdout.write(" ")
     if leng<=35:
         sys.stdout.write("|\n|                                   ")
-    sys.stdout.write("|\n|___________________________________|")
+    sys.stdout.write("|\n|___________________________________|\033[1;m")
     nex=input()
 
 def fbr():              #hm, another pokemon-style thing. Weird coincidence.
-    print("""
+    print("""\033[0;30;47m
 _____________________________________
 |    1. Fight          2. Bag       |
 |       POKeMON        3. Run       |
-|___________________________________|""")
+|___________________________________|\033[1;m""")
     return eventchoose(3)
 
 def fight():                #determines a move-set based on items in the player's inventory, prints the moveset with numbers next to them, accepts the input of what move is used, then uses the move
     global shortname, bhealth, burn, poison, burned, poisoned, first, pcrit, leech
     burn=False
     poison=False
+    leech=False
     roll=random.randint(1,10)
     crit=0
     miss=1
@@ -1850,7 +1875,7 @@ def fight():                #determines a move-set based on items in the player'
     if roll<=2:
         miss=0
     option=1
-    sys.stdout.write("""
+    sys.stdout.write("""\033[0;30;47m
 _____________________________________
 |    """)
     if itemdic[21] in inventory:                    #depending on what items are in the player's inventory, your moveset will change. One of the more tedious things to code, but so worth it.
@@ -1866,7 +1891,7 @@ _____________________________________
         sys.stdout.write("1. Jab            ")
         one="Jab"
     else:
-        sys.stdout.write("1. Punch            ")
+        sys.stdout.write("1. Punch          ")
         one="Punch"
     option+=1
     if itemdic[16] in inventory:
@@ -1876,7 +1901,7 @@ _____________________________________
         print(f"{option}. Leg Sweep |")
         two="Leg Sweep"
     else:
-        print(" ?????     |")
+        print("   ?????     |")
         two=0
         option-=1
     option+=1
@@ -1908,7 +1933,7 @@ _____________________________________
         sys.stdout.write("   ?????     |")
         four=0
     print("""
-|___________________________________|""")
+|___________________________________|\033[1;m""")
     zero=1
     moves=[zero,one,two,three,four]
     for x in moves:
@@ -1954,8 +1979,8 @@ _____________________________________
         if miss!=0:
             leech=True
     if move=="Mega Drain":
-        bdam(3+crit)
-        pdam(-2-crit)
+        dam=(3+crit)*miss
+        leech=True
     if crit!=0:
         textbox("A critical hit!")
     if move=="Spatial Rend":
@@ -1968,6 +1993,8 @@ _____________________________________
         poison=False
     if miss==1:
         bdam(dam)
+        if leech==True:
+            pdam(-2-crit)
     if bhealth<=0:
         pass
     elif burn==True and burned==False:
@@ -2017,12 +2044,12 @@ def poissone():         #same thing as the burn function
 
 def bagitem(ba):            #prints a bag, then a list of useable items
     print("""
-            __
-         _,/__\,_
-        / |    | \ \n       / /  __  \ \ \n       | | /__\  | |
-       | | \__/ | |
-       | |      | |
-       \_\______/_/""")
+            \033[1;43m__\033[1;m
+         \033[1;43m_,/__\,_\033[1;m
+        \033[1;43m/ |    | \\\033[1;m \n       \033[1;43m/ /  \033[1;30;43m__\033[1;37;43m  \ \\\033[1;m \n       \033[1;43m| | \033[1;30;41m/__\\\033[1;37;43m | |\033[1;m
+       \033[1;43m| | \033[1;30;47m\__/\033[1;37;43m | |\033[1;m
+       \033[1;43m| |      | |\033[1;m
+       \033[1;43m\_\______/_/\033[1;m""")
 
     number=0
     for x in ba:
@@ -2072,7 +2099,7 @@ def bag():      #uses an item, then removes it from your temporary inventory. Th
     if bhealth>=15:
         bhealth=15
     roll=random.randint(0,10)
-    deletelist=["Strength of Stanko", "Legs of LeBrun", "Miscellaneous Malign Papers", "Mrs. Valley's Raw Power", "Lighter", "Hairspray", "Floor one keys", "Floor two keys", "Bruce's broom", "Mrs. O'Connor's flash drive", "Table, the Table Leg",itemdic[22],itemdic[23],itemdic[24],itemdic[25],itemdic[26],itemdic[27], itemdic[21], itemdic[20]]       #temporary inventory is a copy of your inventory, but with any of these things removed from it
+    deletelist=["Strength of Stanko", "Legs of LeBrun", "Miscellaneous Malign Papers", "Mrs. Valley's Raw Power", "Lighter", "Hairspray", "Floor one keys", "Bruce's broom", "Mrs. O'Connor's flash drive", "Table, the Table Leg",itemdic[22],itemdic[23],itemdic[24],itemdic[25],itemdic[26],itemdic[27], itemdic[21], itemdic[20], itemdic[13]]       #temporary inventory is a copy of your inventory, but with any of these things removed from it
     for ite in deletelist:
         if ite in tempbag:
             tempbag.remove(ite)
@@ -2281,50 +2308,65 @@ def bossart():          #prints a beautiful ascii rendition of the pokemon fight
     blanks=10-len(shortname)
 
     print("""
-  _____________________
- | MR. CAPODICE   Lv100|""")
+\033[0;30;47m___________________________________________________________________________
+  _____________________                                                   |
+ \033[1;47m| MR. CAPODICE   Lv100|                                                  |""")
     sys.stdout.write(" |   HP ")            #this part and the similar looking one below print a number of |'s equal to your health, then fill in the missing health with spaces
     pblank=15-phealth
     bblank=15-bhealth
+    if bhealth>=10:
+        sys.stdout.write("\033[1;32m")
+    elif bhealth>=5:
+        sys.stdout.write("\033[1;33m")
+    else:
+        sys.stdout.write("\033[1;31;47m")
     for x in range(bhealth):
         sys.stdout.write("|")
     for y in range(bblank):
-        sys.stdout.write(" ")
-    sys.stdout.write("""|
- |_____________________|                             ____
-                                                    /.  .\ \n                                                    \ mm /
-                                                  ---    ---
-                                                | |   ||   | |
-                                                | |   ||   | |
-                                                | |   ||   | |
-                                                \ |   \/   | /
-                                               , -|--------| - ,
-                                           , '    |   /\   |     ' ,
-                                         ,        |  /  \  |         ,
-                                        ,         | |    | |          ,
-               ,_----                  ,         _| |    | |_          ,
-            ----------|__,             ,        |___|    |___|         ,
-         ------------/|                ,                               ,
-       ,------------,,,~ ,             ,                               ,
-     ,   ,,,,,,,,,,,,,     ,            ',                           ,'
-   ,     ,,,,,,,,,,,,,       ,             ,                       ,
-  ,      ,,,,,,,,,,,,         ,              '- , _ _ _ _ _ _ , -'
- ,    ---           ---       ,
- ,   |IWANNABETHEVERYBE|      ,
- ,   |STLIKENOONEEVERWA|     ,              ______________________
-  ,  |STOCATCHTHEMISMYR|    ,              | """)
+        sys.stdout.write("\033[1;47m ")
+    sys.stdout.write("""\033[1;m\033[1;47m\033[0;30;47m|                                                  |
+ |_____________________|                             ____                 |
+                                                    \033[1;30;43m/\033[0;31;43m.  .\033[0;30;43m\\\033[0;30;47m                |\n                                                    \033[1;30;43m\ mm /\033[0;30;47m                |
+                                                  \033[1;m---    ---\033[1;47m\033[0;30;47m              |
+                                                \033[1;m| |   \033[1;31;40m||\033[1;m   | |\033[1;47m\033[0;30;47m            |
+                                                \033[1;m| |   \033[1;31;40m||\033[1;m   | |\033[1;47m\033[0;30;47m            |
+                                                \033[1;m| |   \033[1;31;40m||\033[1;m   | |\033[1;47m\033[0;30;47m            |
+                                                \033[1;m\ |   \033[1;31;40m\/\033[1;m   | /\033[1;47m\033[0;30;47m            |
+                                               \033[0;30;42m, -\033[1;m|--------|\033[1;42m \033[0;30;42m- ,\033[0;30;47m          |
+                                           \033[0;30;42m, '    \033[1;m|   /\   |\033[0;30;42m   ^ ' ,\033[0;30;47m      |
+                                         \033[0;30;42m,   ^    \033[1;m|  /\033[0;37;42m  \033[1;m\  |\033[0;30;42m         ,\033[0;30;47m    |
+                                        \033[0;30;42m,         \033[1;m| |\033[0;37;42m    \033[1;m| |\033[0;30;42m          ,\033[0;30;47m   |
+               \033[0;30;41m,_----\033[0;30;47m                  \033[0;30;42m,         \033[1;m_| |\033[0;37;42m    \033[1;m| |_\033[0;30;42m          ,\033[0;30;47m  |
+            \033[0;30;41m----------|__\033[0;30;47m             \033[0;30;42m,   ^     \033[1;m|___|\033[0;37;42m    \033[1;m|___|\033[0;30;42m         ,\033[0;30;47m  |
+         \033[0;30;41m------------/|\033[0;30;47m                \033[0;30;42m,                       ^       ,\033[0;30;47m  |
+       \033[0;30;42m,\033[0;30;41m------------,,,\033[0;30;42m~ ,\033[0;30;47m             \033[0;30;42m,                  ^            ,\033[0;30;47m  |
+     \033[0;30;42m,   \033[0;30;40m,,,,,,,,,,,,,\033[0;30;42m  ^  ,\033[0;30;47m            \033[0;30;42m',                      ^    ,'\033[0;30;47m   |
+   \033[0;30;42m,  ^  \033[0;30;40m,,,,,,,,,,,,,\033[0;30;42m       ,\033[0;30;47m             \033[0;30;42m,     ^       ^         ,\033[0;30;47m      |
+  \033[0;30;42m,      \033[0;30;40m,,,,,,,,,,,,\033[0;30;42m         ,\033[0;30;47m              \033[0;30;42m'- , _ _ _ _ _ _ , -'\033[0;30;47m        |
+ \033[0;30;42m,    \033[0;30;41m---           ---\033[0;30;42m    ^  ,\033[0;30;47m                                           |
+ \033[0;30;42m,^  \033[0;30;41m|IWANNABETHEVERYBE|\033[0;30;42m      ,\033[0;30;47m                                           |
+ \033[0;30;42m,   \033[0;30;41m|STLIKENOONEEVERWA|\033[0;30;42m     ,\033[0;30;47m              ______________________        |
+  \033[0;30;42m,  \033[0;30;41m|STOCATCHTHEMISMYR|\033[0;30;42m ^  ,\033[0;30;47m              | """)
     sys.stdout.write(f"{shortname}      ")
     for b in range(blanks):
         sys.stdout.write(" ")
-    print(f"Lv{lvl}|")
-    sys.stdout.write("""   , |EALTESTTOTRAINTHE|   ,               |    HP """)
+    print(f"Lv{lvl}|       |")
+    sys.stdout.write("""   \033[0;30;42m, \033[0;30;41m|EALTESTTOTRAINTHE|\033[0;30;42m   ,\033[0;30;47m               |    HP """)
+    if phealth>=10:
+        sys.stdout.write("\033[1;32m")
+    elif phealth>=5:
+        sys.stdout.write("\033[1;33m")
+    else:
+        sys.stdout.write("\033[1;31;47m")
     for x in range(phealth):
         sys.stdout.write("|")
     for y in range(pblank):
         sys.stdout.write(" ")
-    print("""|
-     ,MISMYCAUSEPOKEMON! '                 |______________________|
-       ' - , _ _ _ ,  '""")
+    sys.stdout.write("\033[0;30;47m")
+    print("""|       |
+     \033[0;30;42m,\033[0;30;41mMISMYCAUSEPOKEMON!\033[0;30;42m '\033[0;30;47m                 |______________________|       |
+       \033[0;30;42m' - , _ _ _ , - ' \033[0;30;47m                                                 |""")
+    print("__________________________________________________________________________|")
 startup()
 
 
