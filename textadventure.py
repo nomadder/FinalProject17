@@ -573,12 +573,12 @@ def item():             #gets the user to pick an item from their inventory, and
                     print("Unfortunately, the cameras are still recording things, and you'll need to destroy the new tapes.")
                     records=False
                 return "retry"
-            elif itemused==itemdic[20]:
+            elif itemused==itemdic[20] and position==13:
                 print("You put the flash drive into the laser cutter, and it creates (somehow) a set of electronic car keys. You really have no idea how that happened, but it did. With a bit of shoving, you manage to fit the keys in your pocket.")
                 inventory.append(itemdic[27])
                 inventory.remove(itemdic[20])
                 return "retry"
-            elif itemused==itemdic[25]:
+            elif itemused==itemdic[25] and position==13:
                 print("You plug the flash drive into the 3D printer. In an incredibly short amount of time, you have a fully built car. You put the car in your pocket.")
                 inventory.append(itemdic[26])
                 inventory.remove(itemdic[25])
