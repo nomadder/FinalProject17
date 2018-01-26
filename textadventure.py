@@ -53,7 +53,7 @@ seed=False
 leech=False
 cameras=False
 records=False
-itemdic={1: "Mrs. Gerstein's Searcher of Seeking", 2: "Floor one keys",3: "Mr. Rafalowski's ID Card",4: "Mr. McMenamin's Lucky Eraser", 5: "Bruce's broom",6: "The Holy Book of Mr. Nowakoski",7: "Mr. Sanservino's Test",8: "The Crucible",9: "Magnet Man",10: "Strength of Stanko",11: "Legs of LeBrun",12: "Mrs. Valley's Raw Power",13: "Floor two keys",14: "Lighter",15: "Hairspray",16: "Table, the Table Leg",17: "Loaf of bread",18: "Slightly Smelly Fish (Trout?)",19: "Yearbook",20: "Mrs. O'Connor's Flash Drive",21:"God-like Physics Powers",22:"Strange Seeds",23:"Lockpicks",24:"Hazardous Chemicals",25:"Mrs. Kipp's Flash Drive",26:"Car",27:"Car keys"}         #I didn't actually know about dictionaries until the class about them, so I added the dictionary of items so I didn't have to type in the exact name of every item
+itemdic={1: "Mrs. Gerstein's Searcher of Seeking", 2: "Floor one keys",3: "Mr. Rafalowski's ID Card",4: "Mr. McMenamin's Lucky Eraser", 5: "Bruce's broom",6: "The Holy Book of Mr. Nowakoski",7: "Mr. Sanservino's Test",8: "The Crucible",9: "Magnet Man",10: "Strength of Stanko",11: "Legs of LeBrun",12: "Mrs. Valley's Raw Power",13: "Floor two keys",14: "Lighter",15: "Hairspray",16: "Table, the Table Leg",17: "Loaf of bread",18: "Slightly Smelly Fish (Trout?)",19: "Yearbook",20: "Mrs. O'Connor's flash drive",21:"God-like Physics Powers",22:"Strange Seeds",23:"Lockpicks",24:"Hazardous Chemicals",25:"Mrs. Kipp's Flash Drive",26:"Car",27:"Car keys"}         #I didn't actually know about dictionaries until the class about them, so I added the dictionary of items so I didn't have to type in the exact name of every item
 itemlist=[position, window, rafid, sounds, patrys, stresslvl, broom, flooronekey, searcher, magnetman, nowboard, nowbook, popquiz, eraser, swordbots, vocabwords, crucible, difficulty, floortwokey, name, fangevent, yearbook, terrycad, kippcad, kippevent, table, lockpick, lighter, papers, mathprobs, bdif]    #a list of the variables I use, mostly for the save/load function
 inventorysave=[]
 
@@ -573,7 +573,7 @@ def item():             #gets the user to pick an item from their inventory, and
                     print("Unfortunately, the cameras are still recording things, and you'll need to destroy the new tapes.")
                     records=False
                 return "retry"
-            elif itemused==itemdic[20] and position==13:
+            if itemused==itemdic[20] and position==13:
                 print("You put the flash drive into the laser cutter, and it creates (somehow) a set of electronic car keys. You really have no idea how that happened, but it did. With a bit of shoving, you manage to fit the keys in your pocket.")
                 inventory.append(itemdic[27])
                 inventory.remove(itemdic[20])
@@ -851,7 +851,7 @@ def whereAmI():             #so the elephant in the room. I could have used clas
             print(f"You are in the northern hallway of the second floor. The hallway continues to the east and west. You see Senora Mejia's and Mrs. Mansfield-Smith's rooms.\n1. Go east\n2. Go west\n3. Enter Senora Mejia's room\n4. Enter Mrs. Mansfield-Smith's room{lock2()}\n5. Item")
             position=choose(5)
         if position==29:
-            print(f"You are in the western hallway of the second floor. The hallway continues to the north and south. You see Mr. Raite's, Mrs. Kipp's and Mr. Merkl's room\n1. Go north\n2. Go south\n3. Enter Mr. Raite's room\n4. Enter Mrs. Kipp's room{lock2()}\n5. Enter Mr. Merkl's room\n6. Item")
+            print(f"You are in the western hallway of the second floor. The hallway continues to the north and south. You see Mr. Raite's, Mrs. Kipp's and Mr. Merkl's room\n1. Go north\n2. Go south\n3. Enter Mr. Raite's room\n4. Enter Mrs. Kipp's room{lock2()}\n5. Enter Mr. Merkl's room{lock2()}\n6. Item")
             position=choose(6)
         if position==26:
             print("You are in Senora Mejia's room.")         #I never had Sra. Mejia, and have absolutely no idea what her class is like.
