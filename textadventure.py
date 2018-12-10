@@ -202,7 +202,7 @@ def encounter():                    #encounters are initiated in certain rooms, 
                             print(f"You take {ituse} from your pocket, but it doesn't have any effect on the jock. You die a painful death.")
                             dead(2)
                         elif ituse=="retry":
-                            print("Deciding to take nothing out of your pocket is not a great plan here.")
+                            print("Deciding to take nothing out of your pocket is not a great plan here. The jock swings once and your head splits like a melon.")
                             dead(2)
                         else:
                             pass
@@ -211,7 +211,7 @@ def encounter():                    #encounters are initiated in certain rooms, 
                     if choice==1:
                         prayer=random.randint(1,10)
                         if prayer==10:
-                            print("By some miracle, q god actually seems to hear your prayer, and intervenes. As the jock raises his fists a pile of bread and fish falls onto him from out of thin air. After a few minutes of praising the gods of magnet, you take a loaf and a fish, as proof that miracles are real.")
+                            print("By some miracle, a god actually seems to hear your prayer, and intervenes. As the jock raises his fists a pile of bread and fish falls onto him from out of thin air. After a few minutes of praising the gods of magnet, you take a loaf and a fish, as proof that miracles are real.")
                             inventory.append("Loaf of Bread", "Slightly Smelly Fish (Trout?)")
                         else:
                             print("The gods are deaf to your pleas for mercy, and the jock kills you with a swift blow to the head, then goes back to working out.")
@@ -324,7 +324,7 @@ def encounter():                    #encounters are initiated in certain rooms, 
             if choice==2:
                 print("""You enter the room\n\nYou see before you Mr. Capodice himself. Upon seeing you, he laughs. "You cannot possibly defeat me," he laughs. The door slams behind you, and from somewhere, POKeMON music starts to play.""")
                 tho=input("Fight!")
-                if bossbattle()==False:     #I'm quite proud of how the bossbattle function turned out, but more on that later (near the end). Also, I do not hate Mr. Capodice (I've never really met him) but who else am I supposed to have to fight in a school?
+                if bossbattle()==False:     #I'm quite proud of how the bossbattle function turned out, but more on that later (near the end). Also, I do not per se hate Mr. Capodice, but who else am I supposed to have to fight in a school?
                     position=22
                 else:
                     global fangevent
@@ -678,7 +678,7 @@ def victory(win):           #there aren't many ways to win, but there are some. 
             print("With a car, godlike powers, a bag full of tricks, and the knowledge that you got out even as a student athlete, you ponder your options. Your best bet seems to be telling the creator that you got to this point (bring some screenshots for proof).")
             for x in range(100):
                 jack=input("VICTORY! ")
-            print("Thank you for playing this game through to the end! I hope that you enjoyed it as much (or more) than I did, and if you are Mrs. Gerstein...I really really hope that you enjoyed it. Thanks for playing!")
+            print("Thank you for playing this game through to the end! I hope that you enjoyed it as much as (or more than) I did, and if you are Mrs. Gerstein...I really really hope that you enjoyed it. Thanks for playing!")
             while True:
                 choice=input("There aren't any more messages after these. Seriously. ")
 
@@ -708,6 +708,7 @@ def choose(number):          #checks to see if an input is an integer in the ran
             stress(difficulty)          #whenever you make a choice that moves you, your stress goes up by whatever the value of difficulty is
             return go
 """
+A quick and abortive attempt to change all rooms to a single class.
 class Room(object):
     def __init__(self, golist, rooms, description, position, ite1, ite2, extra1, extra2):
         self.golist=golist          identifications of what directions you can go to from here
@@ -741,7 +742,7 @@ mainoffice=Room(['leave'], False,'You are in the main office of the school. You 
 shall1=Room(['east','west'],['auditorium', 'broom closet'],"You are in the southern hallway of the first floor. The hall continues to the east and west. You see the entrance to the auditorium and the broom closet.",1,False,False,False,False)
 """
 
-def whereAmI():             #so the elephant in the room. I could have used classes to do all these rooms. I still might. I actually thought about it for a while, but decided that at the time, printing descriptions for each room seemed both quicker and better than making a class. I am pretty happy about it came out, and for most rooms I think that it is more efficient and versatile. There are some exceptions however.
+def whereAmI():             #so the elephant in the room. I could have used classes to do all these rooms. I still might. I actually thought about it for a while, but decided that at the time, printing descriptions for each room seemed both quicker and better than making a class. I am pretty happy about how it came out, and for most rooms I think that it is more efficient and versatile. There are some exceptions however.
     global position
     while True:
         if position==0:         #each room has a position identifier. I should have shared the map with you along with my flor chart
